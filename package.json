@@ -1,0 +1,17 @@
+{
+  "name": "narubet-law-classroom",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "npm --prefix client ci && npm --prefix client run build",
+    "dev:api": "npm --prefix server run dev",
+    "dev:web": "npm --prefix client run dev"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.0"
+  }
+}
