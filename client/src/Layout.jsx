@@ -45,6 +45,7 @@ export default function Layout() {
       <aside className={`sidebar ${open ? "open" : ""}`} aria-label="เมนูหลัก">
         <NavLink to={isTeacher ? "/teacher" : "/"} className="brand">
           <img src="/logo.png" alt="" width="38" height="38" />
+          <img className="school-emblem" src="/emblem.png" alt="ตราโรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี" width="38" height="38" onError={(e) => (e.currentTarget.style.display = "none")} />
           <div>
             <strong>ห้องเรียนกฎหมายครูนฤเบศ</strong>
             <span>สังคมศึกษา 6 · ส33102</span>

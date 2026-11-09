@@ -29,7 +29,11 @@ export default function AuthPage({ mode }) {
     <div className="auth-page">
       <ThemeToggle className="auth-theme" />
       <section className="auth-side">
-        <img src="/logo.png" alt="" width="64" height="64" />
+        <div className="auth-logos">
+          <img src="/logo.png" alt="" width="64" height="64" />
+          <img className="school-emblem" src="/emblem.png" alt="ตราโรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี" width="64" height="64" onError={(e) => (e.currentTarget.style.display = "none")} />
+        </div>
+        <p className="school-name">โรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี</p>
         <h1>ห้องเรียนกฎหมายของครูนฤเบศ</h1>
         <p>สังคมศึกษา 6 · กฎหมายที่ประชาชนควรรู้ (ม.6)</p>
       </section>

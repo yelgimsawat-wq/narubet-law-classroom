@@ -13,14 +13,14 @@ export function Radar({ unitScores, max = 5 }) {
         <linearGradient id="radar-fill" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#34CBFF" stopOpacity="0.3" />
           <stop offset="50%" stopColor="#F398CA" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#FF986F" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.28" />
         </linearGradient>
       </defs>
       {[0.2, 0.4, 0.6, 0.8, 1].map((l) => (
         <polygon key={l} points={angles.map((a) => pt(a, R * l)).join(" ")} style={{ fill: l === 1 ? "var(--surface-2)" : "none", stroke: "var(--line-strong)" }} />
       ))}
       {angles.map((a, i) => <line key={i} x1={cx} y1={cy} x2={pt(a, R).split(",")[0]} y2={pt(a, R).split(",")[1]} style={{ stroke: "var(--line-strong)" }} />)}
-      <polygon points={angles.map((a, i) => pt(a, R * val(i))).join(" ")} fill="url(#radar-fill)" stroke="#A855F7" strokeWidth="2.2" strokeLinejoin="round" />
+      <polygon points={angles.map((a, i) => pt(a, R * val(i))).join(" ")} fill="url(#radar-fill)" stroke="#EC4899" strokeWidth="2.2" strokeLinejoin="round" />
       {angles.map((a, i) => {
         const [x, y] = pt(a, R * val(i)).split(",");
         return <circle key={i} cx={x} cy={y} r="4.5" strokeWidth="2" style={{ fill: "var(--ink)", stroke: "var(--surface)" }} />;
