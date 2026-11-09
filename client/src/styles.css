@@ -797,3 +797,4 @@ a { color: var(--primary-ink); }
 .auth-logos { display: flex; align-items: center; gap: 14px; }
 .auth-side .school-name { font-weight: 700; color: #BE185D; margin-top: 10px; }
 [data-theme="dark"] .auth-side .school-name { color: #F9A8D4; }
+.auth-side img.school-emblem { width: 96px; height: 96px; } /* detailed crest needs more room than the 64px logo */
