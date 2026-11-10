@@ -436,6 +436,163 @@ export const complianceCard = `
     </div>
   `;
 
+export const UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS = {
+  apiEndpoint: "https://justicechannel.org/wp-json/wp/v2/posts/2627",
+  ebookApiEndpoint: "https://justicechannel.org/wp-json/wp/v2/e-book/13181",
+  articleUrl: "https://justicechannel.org/read/property-offense-law",
+  ebookUrl: "https://justicechannel.org/e-book/law-infographics-book-offences-against-property2023",
+  pdfUrl: "https://justicechannel.org/wp-content/uploads/2023/12/Offences-Against-Property2025.pdf",
+  coverImageUrl: "https://justicechannel.org/wp-content/uploads/2023/09/cover-a6-1536x865.png-1024x577.webp",
+  overviewImageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/00a.png",
+  sourceName: "สำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (Justice Channel · OJA)",
+  items: [
+    {
+      id: "overview",
+      code: "ป.อ. ภาค 2 ลักษณะ 12",
+      title: "ภาพรวมความผิดเกี่ยวกับทรัพย์ (มาตรา 334–365)",
+      category: "taking",
+      groupLabel: "ภาพรวมโครงสร้าง",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/00a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "แบ่งตามลักษณะการได้ไปหรือกระทำต่อทรัพย์: แย่งการครอบครอง (ลัก-วิ่ง-ชิง-ปล้น), ข่มขู่หรือหลอกลวงให้ส่งมอบ (กรรโชก-รีด-ฉ้อโกง), เบียดบังทรัพย์ที่ครอบครองอยู่ก่อน (ยักยอก), รับของโจร และทำให้เสียทรัพย์",
+      penalty: "มีทั้งความผิดอาญาแผ่นดิน (ยอมความไม่ได้ เช่น ลัก-วิ่ง-ชิง-ปล้น-กรรโชก-รีด-รับของโจร) และความผิดอันยอมความได้ (เช่น ฉ้อโกงทั่วไป ยักยอก ทำให้เสียทรัพย์)",
+      compoundable: false
+    },
+    {
+      id: "theft",
+      code: "มาตรา 334–335",
+      title: "1. ความผิดฐานลักทรัพย์ (Theft)",
+      category: "taking",
+      groupLabel: "กลุ่มแย่งการครอบครอง",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/01a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "เอาทรัพย์ของผู้อื่น หรือที่ผู้อื่นเป็นเจ้าของรวมอยู่ด้วยไปโดยทุจริต (แย่งการครอบครองโดยเจ้าของไม่ยินยอมและพาทรัพย์เคลื่อนที่ไป)",
+      penalty: "จำคุกไม่เกิน 3 ปี และปรับไม่เกิน 60,000 บาท (เหตุฉกรรจ์ ม.335 เช่น ในเวลากลางคืน/ในเคหสถาน จำคุก 1–5 ปี)",
+      compoundable: false
+    },
+    {
+      id: "snatching",
+      code: "มาตรา 336",
+      title: "2. ความผิดฐานวิ่งราวทรัพย์ (Snatching)",
+      category: "taking",
+      groupLabel: "กลุ่มแย่งการครอบครอง",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/02a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ลักทรัพย์โดยฉกฉวยเอาซึ่งหน้า (กระทำต่อหน้าให้เจ้าของรู้ตัวขณะฉกฉวยไป โดยไม่ได้ใช้กำลังทำร้ายหรือขู่เข็ญ)",
+      penalty: "จำคุกไม่เกิน 5 ปี และปรับไม่เกิน 100,000 บาท",
+      compoundable: false
+    },
+    {
+      id: "robbery",
+      code: "มาตรา 339",
+      title: "3. ความผิดฐานชิงทรัพย์ (Robbery)",
+      category: "taking",
+      groupLabel: "กลุ่มแย่งการครอบครอง",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/03a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ลักทรัพย์โดยใช้กำลังประทุษร้าย หรือขู่เข็ญว่าในทันใดนั้นจะใช้กำลังประทุษร้าย เพื่อให้ความสะดวกแก่การลักทรัพย์ พาทรัพย์นั้นไป หรือให้พ้นจากการจับกุม (กระทำ 1–2 คน)",
+      penalty: "จำคุก 5–10 ปี และปรับ 100,000–200,000 บาท",
+      compoundable: false
+    },
+    {
+      id: "gang-robbery",
+      code: "มาตรา 340",
+      title: "4. ความผิดฐานปล้นทรัพย์ (Gang Robbery)",
+      category: "taking",
+      groupLabel: "กลุ่มแย่งการครอบครอง",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/04a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ชิงทรัพย์โดยร่วมกันกระทำความผิดตั้งแต่ 3 คนขึ้นไป (ต้องเป็นตัวการร่วมกันใช้กำลังประทุษร้ายหรือขู่เข็ญเพื่อลักทรัพย์)",
+      penalty: "จำคุก 10–15 ปี และปรับ 200,000–300,000 บาท (หากมีอาวุธติดตัวไปด้วย จำคุก 12–20 ปี)",
+      compoundable: false
+    },
+    {
+      id: "extortion",
+      code: "มาตรา 337",
+      title: "5. ความผิดฐานกรรโชกทรัพย์ (Extortion)",
+      category: "coercion",
+      groupLabel: "กลุ่มข่มขู่หรือหลอกลวงให้ส่งมอบ",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/05a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ข่มขืนใจผู้อื่นให้ยอมให้หรือยอมจะให้ตนหรือผู้อื่นได้ประโยชน์ในลักษณะที่เป็นทรัพย์สิน โดยใช้กำลังประทุษร้าย หรือขู่เข็ญว่าจะทำอันตรายต่อชีวิต ร่างกาย เสรีภาพ ชื่อเสียง หรือทรัพย์สิน",
+      penalty: "จำคุกไม่เกิน 5 ปี และปรับไม่เกิน 100,000 บาท",
+      compoundable: false
+    },
+    {
+      id: "blackmail",
+      code: "มาตรา 338",
+      title: "6. ความผิดฐานรีดเอาทรัพย์ (Blackmail)",
+      category: "coercion",
+      groupLabel: "กลุ่มข่มขู่หรือหลอกลวงให้ส่งมอบ",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/08a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ข่มขืนใจผู้อื่นให้ยอมให้ประโยชน์ในลักษณะที่เป็นทรัพย์สิน โดยขู่เข็ญว่าจะเปิดเผยความลับซึ่งการเปิดเผยนั้นจะทำให้ผู้ถูกขู่เข็ญหรือบุคคลที่สามเสียหาย",
+      penalty: "จำคุก 1–10 ปี และปรับ 20,000–200,000 บาท",
+      compoundable: false
+    },
+    {
+      id: "fraud",
+      code: "มาตรา 341, 343",
+      title: "7. ความผิดฐานฉ้อโกง & ฉ้อโกงประชาชน (Fraud)",
+      category: "coercion",
+      groupLabel: "กลุ่มข่มขู่หรือหลอกลวงให้ส่งมอบ",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2026/10/mutelaw-ep3-cover.png",
+      sourceUrl: "https://justicechannel.org/read/lawget/mutelaw-ep3",
+      elements: "โดยทุจริต หลอกลวงผู้อื่นด้วยการแสดงข้อความอันเป็นเท็จ หรือปกปิดข้อความจริงซึ่งควรบอกให้แจ้ง จนผู้ถูกหลอกลวงหลงเชื่อส่งมอบทรัพย์สินให้ (หากหลอกลวงประชาชนทั่วไปเป็นฉ้อโกงประชาชน ม.343 ยอมความไม่ได้)",
+      penalty: "ฉ้อโกง ม.341 จำคุกไม่เกิน 3 ปี / ฉ้อโกงประชาชน ม.343 จำคุกไม่เกิน 5 ปี",
+      compoundable: true
+    },
+    {
+      id: "embezzlement",
+      code: "มาตรา 352",
+      title: "8. ความผิดฐานยักยอกทรัพย์ (Embezzlement)",
+      category: "possession",
+      groupLabel: "กลุ่มครอบครองอยู่ก่อน / ความผิดอื่น",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/06a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ครอบครองทรัพย์ซึ่งเป็นของผู้อื่น หรือซึ่งผู้อื่นเป็นเจ้าของรวมอยู่ด้วย แล้วเบียดบังเอาทรัพย์นั้นเป็นของตนหรือบุคคลที่สามโดยทุจริต (รวมถึงยักยอกทรัพย์หาย/ทรัพย์ตกหล่น ม.352 วรรคสอง)",
+      penalty: "จำคุกไม่เกิน 3 ปี หรือปรับไม่เกิน 60,000 บาท หรือทั้งจำทั้งปรับ (ยอมความได้ ต้องร้องทุกข์ใน 3 เดือน)",
+      compoundable: true
+    },
+    {
+      id: "receiving-stolen",
+      code: "มาตรา 357",
+      title: "9. ความผิดฐานรับของโจร (Receiving Stolen Property)",
+      category: "possession",
+      groupLabel: "กลุ่มครอบครองอยู่ก่อน / ความผิดอื่น",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/07a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ช่วยซ่อนเร้น ช่วยจำหน่าย ช่วยพาเอาไปเสีย ซื้อ รับจำนำ หรือรับไว้โดยประการใด ซึ่งทรัพย์อันได้มาโดยการกระทำความผิดฐานลัก วิ่ง ชิง ปล้น กรรโชก รีด ฉ้อโกง หรือยักยอก",
+      penalty: "จำคุกไม่เกิน 5 ปี หรือปรับไม่เกิน 100,000 บาท หรือทั้งจำทั้งปรับ (ยอมความไม่ได้)",
+      compoundable: false
+    },
+    {
+      id: "mischief",
+      code: "มาตรา 358–360",
+      title: "10. ความผิดฐานทำให้เสียทรัพย์ (Mischief)",
+      category: "possession",
+      groupLabel: "กลุ่มครอบครองอยู่ก่อน / ความผิดอื่น",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/09a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "ทำให้เสียหาย ทำลาย ทำให้เสื่อมค่า หรือทำให้ไร้ประโยชน์ ซึ่งทรัพย์ของผู้อื่นหรือผู้อื่นเป็นเจ้าของรวมอยู่ด้วย (โดยไม่มีเจตนาเอาทรัพย์นั้นไปเป็นของตน)",
+      penalty: "จำคุกไม่เกิน 3 ปี หรือปรับไม่เกิน 60,000 บาท หรือทั้งจำทั้งปรับ (กรณีทั่วไป ม.358 ยอมความได้)",
+      compoundable: true
+    },
+    {
+      id: "trespass",
+      code: "มาตรา 362–365",
+      title: "11. ความผิดฐานบุกรุกอสังหาริมทรัพย์ (Trespass)",
+      category: "possession",
+      groupLabel: "กลุ่มครอบครองอยู่ก่อน / ความผิดอื่น",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2020/11/10a.png",
+      sourceUrl: "https://justicechannel.org/read/property-offense-law",
+      elements: "เข้าไปในอสังหาริมทรัพย์ของผู้อื่นเพื่อถือการครอบครอง หรือเข้าไปกระทำการใดๆ อันเป็นการรบกวนการครอบครองของเขาโดยปกติสุข หรือไล่ให้ออกแล้วไม่ยอมออก",
+      penalty: "จำคุกไม่เกิน 1 ปี หรือปรับไม่เกิน 20,000 บาท (หากมีเหตุฉกรรจ์ ม.365 เช่น ในเวลากลางคืน/มีอาวุธ จำคุกไม่เกิน 5 ปี ยอมความไม่ได้)",
+      compoundable: true
+    }
+  ]
+};
+
 export function getUnitInfographicSvg(unitId) {
   if (unitId === 1) {
     return `
@@ -517,6 +674,26 @@ export function getUnitInfographicSvg(unitId) {
     `;
   }
   if (unitId === 3) {
+    const cardsHtml = UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.items.map((item) => `
+      <div class="legal-box" style="padding:12px; display:flex; flex-direction:column; justify-content:space-between; gap:8px;">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">
+            <span class="seal-badge seal-info num">${item.code}</span>
+            <span class="seal-badge ${item.compoundable ? "seal-pass" : "seal-alert"}">${item.compoundable ? "ยอมความได้" : "อาญาแผ่นดิน"}</span>
+          </div>
+          <a href="${item.imageUrl}" target="_blank" rel="noopener noreferrer" title="คลิกเพื่อเปิดภาพขนาดเต็มจากสำนักงานกิจการยุติธรรม" style="display:block; border-radius:8px; overflow:hidden; border:1px solid var(--line); background:#FFFFFF; margin-bottom:8px;">
+            <img src="${item.imageUrl}" alt="${item.title} (${item.code})" loading="lazy" style="width:100%; height:185px; object-fit:contain; display:block; background:#FFFFFF;" />
+          </a>
+          <strong style="display:block; font-size:0.96rem; margin-bottom:4px;">${item.title}</strong>
+          <p style="font-size:0.85rem; margin:0 0 6px; color:var(--ink-2);">${item.elements}</p>
+        </div>
+        <div style="font-size:0.8rem; border-top:1px dashed var(--line-strong); padding-top:6px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span><strong>ระวางโทษ:</strong> ${item.penalty}</span>
+          <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" style="font-weight:700; white-space:nowrap;">ดูต้นฉบับ OJA ↗</a>
+        </div>
+      </div>
+    `).join("");
+
     return `
       <h4 style="color:var(--crimson-seal); margin-bottom:12px;">1) ภาพประกอบแผนผังโครงสร้างความรับผิดทางอาญา 3 ชั้น & เกณฑ์อายุเด็ก (ป.อ. มาตรา 73–75)</h4>
       <div style="background:#FFFFFF; border:1px solid var(--pastel-green-border); border-radius:10px; padding:16px; margin-bottom:16px;">
@@ -544,14 +721,60 @@ export function getUnitInfographicSvg(unitId) {
           <text x="630" y="128" text-anchor="middle" fill="#14532D" font-family="Sarabun, sans-serif" font-size="12" font-weight="700">• สามีภริยาลักทรัพย์กัน (ม.71 วรรคหนึ่ง)</text>
         </svg>
       </div>
-      <h4 style="color:var(--crimson-seal); margin-bottom:12px;">2) แผนผังสรุปการแยกแยะความผิดเกี่ยวกับทรัพย์ 9 ฐานสำคัญ</h4>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
-        <div class="legal-box"><strong>กลุ่มเอาไปโดยเจ้าของไม่ยินยอม</strong><br>• <strong>ลักทรัพย์ (ม.334):</strong> แอบเอาทรัพย์ผู้อื่นไปโดยทุจริต<br>• <strong>วิ่งราวทรัพย์ (ม.336):</strong> ลักทรัพย์โดยฉกฉวยซึ่งหน้า<br>• <strong>ชิงทรัพย์ (ม.339):</strong> ลักทรัพย์โดยใช้กำลังประทุษร้ายหรือขู่เข็ญ<br>• <strong>ปล้นทรัพย์ (ม.340):</strong> ชิงทรัพย์โดยร่วมกันตั้งแต่ 3 คนขึ้นไป</div>
-        <div class="legal-box"><strong>กลุ่มข่มขู่หรือหลอกลวงให้ส่งมอบ</strong><br>• <strong>กรรโชก (ม.337):</strong> ขู่ว่าจะทำอันตรายต่อชีวิต/ร่างกาย/ทรัพย์สินจนยอมให้<br>• <strong>รีดเอาทรัพย์ (ม.338):</strong> ขู่ว่าจะเปิดเผยความลับมาแลกกับทรัพย์<br>• <strong>ฉ้อโกง (ม.341):</strong> หลอกลวงด้วยข้อความเท็จจนหลงเชื่อส่งมอบทรัพย์ให้</div>
-        <div class="legal-box"><strong>กลุ่มครอบครองอยู่ก่อน / ช่วยจำหน่าย</strong><br>• <strong>ยักยอก (ม.352):</strong> ครอบครองทรัพย์ผู้อื่นอยู่แล้วเบียดบังเอาเป็นของตน<br>• <strong>รับของโจร (ม.357):</strong> ช่วยซ่อนเร้น ช่วยจำหน่าย หรือรับซื้อทรัพย์ที่ได้มาจากความผิด</div>
+
+      <h4 style="color:var(--crimson-seal); margin-bottom:12px;">2) แผนผังภาพประกอบการแยกแยะความผิดต่อทรัพย์ (ประมวลกฎหมายอาญา ภาค 2 ลักษณะ 12 มาตรา 334–365)</h4>
+      <div style="background:#FFFFFF; border:1px solid var(--pastel-blue-border); border-radius:10px; padding:16px; margin-bottom:16px;">
+        <svg viewBox="0 0 760 270" width="100%" height="255" role="img" aria-label="แผนผังตัดสินใจแยกแยะความผิดเกี่ยวกับทรัพย์ 9 ฐานสำคัญ">
+          <rect x="210" y="8" width="340" height="36" rx="8" fill="#FCE7F3" stroke="#F472B6" stroke-width="2"/>
+          <text x="380" y="31" text-anchor="middle" fill="#1E293B" font-family="Prompt, Sarabun, sans-serif" font-size="13.5" font-weight="700">จุดตั้งต้น: ผู้กระทำได้ทรัพย์ไปหรือกระทำต่อทรัพย์ด้วยวิธีใด?</text>
+
+          <line x1="380" y1="44" x2="380" y2="62" stroke="#64748B" stroke-width="2"/>
+          <line x1="130" y1="62" x2="630" y2="62" stroke="#64748B" stroke-width="2"/>
+          <line x1="130" y1="62" x2="130" y2="78" stroke="#64748B" stroke-width="2"/>
+          <line x1="380" y1="62" x2="380" y2="78" stroke="#64748B" stroke-width="2"/>
+          <line x1="630" y1="62" x2="630" y2="78" stroke="#64748B" stroke-width="2"/>
+
+          <rect x="16" y="78" width="228" height="178" rx="10" fill="#E0F2FE" stroke="#38BDF8" stroke-width="2"/>
+          <text x="130" y="101" text-anchor="middle" fill="#0C4A6E" font-family="Prompt, Sarabun, sans-serif" font-size="13" font-weight="700">1. แย่งการครอบครอง (เจ้าของไม่ให้)</text>
+          <text x="28" y="125" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">ลักทรัพย์ (ม.334):</tspan> แอบเอาไปโดยทุจริต</text>
+          <text x="28" y="148" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">วิ่งราวทรัพย์ (ม.336):</tspan> ฉกฉวยเอาซึ่งหน้า</text>
+          <text x="28" y="171" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">ชิงทรัพย์ (ม.339):</tspan> ลัก + ใช้กำลัง/ขู่ทันใด</text>
+          <text x="28" y="194" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">ปล้นทรัพย์ (ม.340):</tspan> ชิงทรัพย์ตั้งแต่ 3 คนขึ้นไป</text>
+          <rect x="28" y="212" width="204" height="30" rx="6" fill="#BAE6FD"/>
+          <text x="130" y="231" text-anchor="middle" fill="#0C4A6E" font-family="Sarabun, sans-serif" font-size="11.5" font-weight="700">ทุกฐานเป็นอาญาแผ่นดิน (ยอมความไม่ได้)</text>
+
+          <rect x="266" y="78" width="228" height="178" rx="10" fill="#FEF3C7" stroke="#FBBF24" stroke-width="2"/>
+          <text x="380" y="101" text-anchor="middle" fill="#78350F" font-family="Prompt, Sarabun, sans-serif" font-size="13" font-weight="700">2. ข่มขู่ / หลอกลวงให้ส่งมอบทรัพย์</text>
+          <text x="278" y="125" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">กรรโชก (ม.337):</tspan> ขู่ทำร้าย/ทำลายทรัพย์</text>
+          <text x="278" y="148" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">รีดเอาทรัพย์ (ม.338):</tspan> ขู่จะเปิดเผยความลับ</text>
+          <text x="278" y="171" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">ฉ้อโกง (ม.341):</tspan> หลอกด้วยความเท็จจนส่งให้</text>
+          <text x="278" y="194" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">ฉ้อโกงประชาชน (ม.343):</tspan> หลอกบุคคลทั่วไป</text>
+          <rect x="278" y="212" width="204" height="30" rx="6" fill="#FDE68A"/>
+          <text x="380" y="231" text-anchor="middle" fill="#78350F" font-family="Sarabun, sans-serif" font-size="11.5" font-weight="700">ฉ้อโกง ม.341 ยอมความได้ · ม.343 ยอมไม่ได้</text>
+
+          <rect x="516" y="78" width="228" height="178" rx="10" fill="#DCFCE7" stroke="#4ADE80" stroke-width="2"/>
+          <text x="630" y="101" text-anchor="middle" fill="#14532D" font-family="Prompt, Sarabun, sans-serif" font-size="13" font-weight="700">3. ครอบครองอยู่ก่อน / ความผิดอื่น</text>
+          <text x="528" y="125" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">ยักยอก (ม.352):</tspan> ครอบครองอยู่แล้วเบียดบัง</text>
+          <text x="528" y="148" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">รับของโจร (ม.357):</tspan> ซื้อ/ซ่อน/ช่วยจำหน่าย</text>
+          <text x="528" y="171" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">ทำให้เสียทรัพย์ (ม.358):</tspan> ทำลายให้เสียหาย</text>
+          <text x="528" y="194" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12">• <tspan font-weight="700">บุกรุก (ม.362):</tspan> รบกวนการครอบครองที่ดิน/บ้าน</text>
+          <rect x="528" y="212" width="204" height="30" rx="6" fill="#BBF7D0"/>
+          <text x="630" y="231" text-anchor="middle" fill="#14532D" font-family="Sarabun, sans-serif" font-size="11.5" font-weight="700">ยักยอก & เสียทรัพย์ ยอมความได้ · ของโจรไม่ได้</text>
+        </svg>
       </div>
-      <p style="margin-top:10px; font-size:0.86rem; color:var(--ink-secondary);">
-        <strong>แหล่งอ้างอิงแผนผัง:</strong> ประมวลกฎหมายอาญา (แก้ไขเพิ่มเติมฉบับที่ 29 พ.ศ. 2565) และคลังความรู้กฎหมายประชาชน สำนักงานอัยการสูงสุด (<code>ago.go.th</code>)
+
+      <h4 style="color:var(--crimson-seal); margin-bottom:12px;">3) ชุดภาพอินโฟกราฟิกความผิดเกี่ยวกับทรัพย์จากแหล่งข้อมูลภายนอก (สำนักงานกิจการยุติธรรม กระทรวงยุติธรรม · Justice Channel)</h4>
+      <p style="margin-bottom:12px; font-size:0.9rem; color:var(--ink-2);">
+        ดึงข้อมูลภาพประกอบและสื่อความรู้กฎหมายประชาชนโดยตรงจาก <strong>สำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (<code>justicechannel.org</code> / <code>oja.go.th</code>)</strong> คลิกที่ภาพเพื่อดูขนาดเต็ม หรือเปิดอ่านหนังสืออิเล็กทรอนิกส์ฉบับเต็ม:
+        <a href="${UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.articleUrl}" target="_blank" rel="noopener noreferrer" style="margin-left:6px; font-weight:700;">บทความความผิดเกี่ยวกับทรัพย์ ↗</a> ·
+        <a href="${UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.ebookUrl}" target="_blank" rel="noopener noreferrer" style="font-weight:700;">E-Book ฉบับเต็ม ↗</a> ·
+        <a href="${UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.pdfUrl}" target="_blank" rel="noopener noreferrer" style="font-weight:700;">ดาวน์โหลด PDF ↗</a>
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(235px, 1fr)); gap:12px;">
+        ${cardsHtml}
+      </div>
+      <p style="margin-top:12px; font-size:0.86rem; color:var(--ink-secondary);">
+        <strong>แหล่งอ้างอิงแผนผังและภาพประกอบ:</strong> ประมวลกฎหมายอาญา (แก้ไขเพิ่มเติมฉบับที่ 29 พ.ศ. 2565), สำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (<code>justicechannel.org</code> / <code>oja.go.th</code>) และสำนักงานอัยการสูงสุด (<code>ago.go.th</code>)
       </p>
     `;
   }

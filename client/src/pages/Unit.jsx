@@ -4,9 +4,199 @@ import { useAuth } from "../auth.jsx";
 import { api } from "../api.js";
 import { Html, Icon, has } from "../ui.jsx";
 import { QuizRunner, shuffle } from "../Quiz.jsx";
-import { complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
+import { UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
 
 const TABS = ["content", "interactive", "media", "pretest", "posttest", "minigame"];
+
+const PROPERTY_OFFENSE_FILTERS = [
+  ["all", "ทั้งหมด (12 ภาพ)"],
+  ["taking", "แย่งการครอบครอง (ลัก·วิ่ง·ชิง·ปล้น)"],
+  ["coercion", "ข่มขู่ / หลอกลวง (กรรโชก·รีด·ฉ้อโกง)"],
+  ["possession", "ครอบครองอยู่ก่อน / อื่นๆ (ยักยอก·รับของโจร·เสียทรัพย์·บุกรุก)"]
+];
+
+export function PropertyOffensesExternalGallery() {
+  const [cat, setCat] = useState("all");
+  const [selected, setSelected] = useState(null);
+  const [extMeta, setExtMeta] = useState({
+    status: "loading",
+    title: "อินโฟกราฟิกความผิดเกี่ยวกับทรัพย์ (ประมวลกฎหมายอาญา มาตรา 334–365)",
+    updatedAt: null
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.apiEndpoint)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((post) => {
+        if (cancelled) return;
+        const rawTitle = post?.title?.rendered?.replace(/<[^>]*>/g, "") || extMeta.title;
+        setExtMeta({
+          status: "live",
+          title: rawTitle,
+          updatedAt: post?.modified ? new Date(post.modified).toLocaleDateString("th-TH", { year: "numeric", month: "short", day: "numeric" }) : null
+        });
+      })
+      .catch(() => {
+        if (!cancelled) setExtMeta((m) => ({ ...m, status: "verified" }));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const items = UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.items.filter(
+    (it) => cat === "all" || it.category === cat
+  );
+
+  return (
+    <div className="property-offense-gallery" style={{ marginTop: 18 }}>
+      <div className="legal-box" style={{ marginBottom: 14 }}>
+        <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
+          <div>
+            <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
+              คลังภาพประกอบความผิดต่อทรัพย์จากแหล่งข้อมูลภายนอก ({extMeta.title})
+            </h4>
+            <p className="small muted" style={{ margin: "4px 0 0" }}>
+              ดึงข้อมูลจาก <strong>{UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.sourceName}</strong>
+              {extMeta.updatedAt ? ` · อัปเดตข้อมูลต้นทาง: ${extMeta.updatedAt}` : ""}
+            </p>
+          </div>
+          <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
+            <span className="seal-badge seal-pass">
+              {extMeta.status === "live" ? "เชื่อมต่อ API Justice Channel สำเร็จ" : "ข้อมูลภาพต้นฉบับ OJA ยืนยันแล้ว"}
+            </span>
+            <a className="btn btn-sm" href={UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.articleUrl} target="_blank" rel="noopener noreferrer">
+              บทความต้นฉบับ ↗
+            </a>
+            <a className="btn btn-sm" href={UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.ebookUrl} target="_blank" rel="noopener noreferrer">
+              E-Book ↗
+            </a>
+            <a className="btn btn-sky btn-sm" href={UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.pdfUrl} target="_blank" rel="noopener noreferrer">
+              ดาวน์โหลด PDF ↗
+            </a>
+          </div>
+        </div>
+
+        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 10 }} role="tablist" aria-label="หมวดหมู่ความผิดต่อทรัพย์">
+          {PROPERTY_OFFENSE_FILTERS.map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={cat === key}
+              className={`btn btn-sm ${cat === key ? "btn-primary" : ""}`}
+              onClick={() => setCat(key)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(245px, 1fr))", gap: 12 }}>
+        {items.map((item) => (
+          <div key={item.id} className="legal-box" style={{ padding: 12, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 8 }}>
+            <div>
+              <div className="row between" style={{ gap: 6, marginBottom: 8 }}>
+                <span className="seal-badge seal-info num">{item.code}</span>
+                <span className={`seal-badge ${item.compoundable ? "seal-pass" : "seal-alert"}`}>
+                  {item.compoundable ? "ยอมความได้" : "อาญาแผ่นดิน"}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelected(item)}
+                title="คลิกเพื่อขยายดูภาพอินโฟกราฟิกขนาดใหญ่"
+                style={{
+                  display: "block",
+                  width: "100%",
+                  padding: 0,
+                  border: "1px solid var(--line)",
+                  borderRadius: 8,
+                  overflow: "hidden",
+                  background: "#FFFFFF",
+                  cursor: "zoom-in",
+                  marginBottom: 8
+                }}
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={`${item.title} (${item.code})`}
+                  loading="lazy"
+                  style={{ width: "100%", height: 190, objectFit: "contain", display: "block", background: "#FFFFFF" }}
+                />
+              </button>
+              <strong style={{ display: "block", fontSize: "0.96rem", marginBottom: 4 }}>{item.title}</strong>
+              <p className="small" style={{ margin: 0, color: "var(--ink-2)" }}>{item.elements}</p>
+            </div>
+            <div className="small" style={{ borderTop: "1px dashed var(--line-strong)", paddingTop: 8, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span><strong>โทษ:</strong> {item.penalty}</span>
+              <div className="row" style={{ gap: 6 }}>
+                <button type="button" className="btn btn-sm" onClick={() => setSelected(item)}>ขยายภาพ</button>
+                <a className="btn btn-sm" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">ที่มา ↗</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {selected && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={selected.title}
+          onClick={() => setSelected(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1000,
+            background: "rgba(9, 9, 11, 0.78)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 16
+          }}
+        >
+          <div
+            className="editorial-panel"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: 860, width: "100%", maxHeight: "92vh", overflowY: "auto", margin: 0 }}
+          >
+            <div className="row between" style={{ marginBottom: 10, gap: 8 }}>
+              <div>
+                <span className="seal-badge seal-info num" style={{ marginRight: 6 }}>{selected.code}</span>
+                <span className={`seal-badge ${selected.compoundable ? "seal-pass" : "seal-alert"}`}>
+                  {selected.compoundable ? "ความผิดอันยอมความได้" : "ความผิดอาญาแผ่นดิน (ยอมความไม่ได้)"}
+                </span>
+                <h3 style={{ marginTop: 6, marginBottom: 0 }}>{selected.title}</h3>
+              </div>
+              <button type="button" className="btn btn-sm" onClick={() => setSelected(null)}>✕ ปิดหน้าต่าง</button>
+            </div>
+            <div style={{ background: "#FFFFFF", border: "1px solid var(--line)", borderRadius: 10, padding: 10, textAlign: "center", marginBottom: 12 }}>
+              <img
+                src={selected.imageUrl}
+                alt={selected.title}
+                style={{ maxWidth: "100%", maxHeight: "62vh", objectFit: "contain", margin: "0 auto", display: "block" }}
+              />
+            </div>
+            <div className="legal-box" style={{ marginBottom: 10 }}>
+              <p style={{ margin: "0 0 6px" }}><strong>องค์ประกอบความผิด:</strong> {selected.elements}</p>
+              <p style={{ margin: 0 }}><strong>อัตราโทษตามกฎหมาย:</strong> {selected.penalty}</p>
+            </div>
+            <div className="row between" style={{ flexWrap: "wrap", gap: 8 }}>
+              <span className="small muted">แหล่งข้อมูลภาพ: {UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.sourceName}</span>
+              <div className="row" style={{ gap: 8 }}>
+                <a className="btn btn-sm" href={selected.imageUrl} target="_blank" rel="noopener noreferrer">เปิดไฟล์ภาพต้นฉบับ ↗</a>
+                <a className="btn btn-primary btn-sm" href={selected.sourceUrl} target="_blank" rel="noopener noreferrer">อ่านบทความต้นทาง OJA ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function UnitVisuals({ unitId }) {
   return (
@@ -65,6 +255,15 @@ function Media({ unit }) {
   return (
     <>
       <UnitVisuals unitId={unit.id} />
+      {Number(unit.id) === 3 && (
+        <div className="unit-section-block">
+          <div className="unit-section-header">
+            <h3>สื่ออินโฟกราฟิกภายนอก: ความผิดเกี่ยวกับทรัพย์ (ป.อ. มาตรา 334–365)</h3>
+            <span className="seal-badge seal-info">สำนักงานกิจการยุติธรรม (OJA)</span>
+          </div>
+          <PropertyOffensesExternalGallery />
+        </div>
+      )}
       {(unit.externalResources || []).map((res, rIdx) => {
         if (res.type === "video" && Array.isArray(res.slides) && res.slides.length) {
           const n = res.slides.length;
@@ -115,6 +314,11 @@ function Media({ unit }) {
               <span className="seal-badge seal-info">{res.source}</span>
             </div>
             <p>{res.summary}</p>
+            {res.imageUrl && (
+              <div style={{ margin: "12px 0", background: "#FFFFFF", border: "1px solid var(--line)", borderRadius: 10, padding: 10, textAlign: "center" }}>
+                <img src={res.imageUrl} alt={res.title} loading="lazy" style={{ maxWidth: "100%", maxHeight: 320, objectFit: "contain", margin: "0 auto" }} />
+              </div>
+            )}
             {res.url && <p style={{ marginTop: 10 }}><a className="btn btn-sm" href={res.url} target="_blank" rel="noopener noreferrer">เปิดแหล่งเรียนรู้ภายนอก ↗</a></p>}
           </div>
         );
@@ -328,6 +532,9 @@ export default function Unit() {
                 <span className="seal-badge seal-info num">{sec.badge}</span>
               </div>
               <Html className="legal-prose" html={sec.content} />
+              {Number(unit.id) === 3 && (sec.id === "u3-s3" || sec.title?.includes("ความผิดต่อทรัพย์")) && (
+                <PropertyOffensesExternalGallery />
+              )}
             </article>
           ))}
           <UnitVisuals unitId={unit.id} />
