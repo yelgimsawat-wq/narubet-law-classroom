@@ -4,7 +4,7 @@ import { useAuth } from "../auth.jsx";
 import { api } from "../api.js";
 import { Html, Icon, has } from "../ui.jsx";
 import { QuizRunner, shuffle } from "../Quiz.jsx";
-import { UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
+import { UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
 
 const TABS = ["content", "interactive", "media", "pretest", "posttest", "minigame"];
 
@@ -198,6 +198,216 @@ export function PropertyOffensesExternalGallery() {
   );
 }
 
+const PDPA_FILTERS = [
+  ["all", "ทั้งหมด (6 ภาพ)"],
+  ["overview", "หลักการ & ข้อมูลอ่อนไหว ม.26"],
+  ["practice", "ข้อควรระวังในชีวิตประจำวัน & โซเชียล"],
+  ["penalty", "บทลงโทษ & อายุความฟ้องคดี"]
+];
+
+export function PdpaExternalGallery() {
+  const [cat, setCat] = useState("all");
+  const [selected, setSelected] = useState(null);
+  const [showRights, setShowRights] = useState(false);
+  const [extMeta, setExtMeta] = useState({
+    status: "loading",
+    title: "พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) ที่ประชาชนควรรู้",
+    updatedAt: null
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(UNIT4_PDPA_EXTERNAL_DATA.apiEndpoint)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((post) => {
+        if (cancelled) return;
+        const rawTitle = post?.title?.rendered?.replace(/<[^>]*>/g, "") || extMeta.title;
+        setExtMeta({
+          status: "live",
+          title: rawTitle,
+          updatedAt: post?.modified
+            ? new Date(post.modified).toLocaleDateString("th-TH", { year: "numeric", month: "short", day: "numeric" })
+            : null
+        });
+      })
+      .catch(() => {
+        if (!cancelled) setExtMeta((m) => ({ ...m, status: "verified" }));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const items = UNIT4_PDPA_EXTERNAL_DATA.items.filter(
+    (it) => cat === "all" || it.category === cat
+  );
+
+  return (
+    <div className="pdpa-external-gallery" style={{ marginTop: 18 }}>
+      <div className="legal-box" style={{ marginBottom: 14 }}>
+        <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
+          <div>
+            <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
+              คลังสื่ออินโฟกราฟิกกฎหมาย PDPA จากแหล่งข้อมูลภายนอก ({extMeta.title})
+            </h4>
+            <p className="small muted" style={{ margin: "4px 0 0" }}>
+              ดึงข้อมูลจาก <strong>{UNIT4_PDPA_EXTERNAL_DATA.sourceName}</strong>
+              {extMeta.updatedAt ? ` · อัปเดตข้อมูลต้นทาง: ${extMeta.updatedAt}` : ""}
+            </p>
+          </div>
+          <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
+            <span className="seal-badge seal-pass">
+              {extMeta.status === "live" ? "เชื่อมต่อ API Justice Channel สำเร็จ" : "ข้อมูลต้นฉบับ สคส. & OJA ยืนยันแล้ว"}
+            </span>
+            <a className="btn btn-sm" href={UNIT4_PDPA_EXTERNAL_DATA.articleUrl} target="_blank" rel="noopener noreferrer">
+              บทความ PDPA (OJA) ↗
+            </a>
+            <a className="btn btn-sm" href={UNIT4_PDPA_EXTERNAL_DATA.remedyUrl} target="_blank" rel="noopener noreferrer">
+              อายุความ & บทลงโทษ ↗
+            </a>
+            <a className="btn btn-sky btn-sm" href={UNIT4_PDPA_EXTERNAL_DATA.pdpcUrl} target="_blank" rel="noopener noreferrer">
+              เว็บไซต์ สคส. (PDPC) ↗
+            </a>
+          </div>
+        </div>
+
+        <div className="row between" style={{ gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+          <div className="row" style={{ gap: 6, flexWrap: "wrap" }} role="tablist" aria-label="หมวดหมู่อินโฟกราฟิก PDPA">
+            {PDPA_FILTERS.map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                role="tab"
+                aria-selected={cat === key}
+                className={`btn btn-sm ${cat === key ? "btn-primary" : ""}`}
+                onClick={() => setCat(key)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className={`btn btn-sm ${showRights ? "btn-navy" : ""}`}
+            onClick={() => setShowRights((v) => !v)}
+          >
+            {showRights ? "ซ่อนตารางสิทธิ 8 ประการ ▲" : "เปิดดูรายละเอียดสิทธิเจ้าของข้อมูล 8 ประการ ▼"}
+          </button>
+        </div>
+
+        {showRights && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10, marginTop: 12 }}>
+            {UNIT4_PDPA_EXTERNAL_DATA.rights.map((r) => (
+              <div key={r.no} className="legal-box" style={{ margin: 0, background: "#FFFFFF" }}>
+                <span className="seal-badge seal-info num" style={{ marginBottom: 4 }}>สิทธิที่ {r.no}</span>
+                <strong style={{ display: "block", fontSize: "0.9rem", marginBottom: 4 }}>{r.title}</strong>
+                <p className="small" style={{ margin: 0, color: "var(--ink-2)" }}>{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(255px, 1fr))", gap: 12 }}>
+        {items.map((item) => (
+          <div key={item.id} className="legal-box" style={{ padding: 12, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 8 }}>
+            <div>
+              <div className="row between" style={{ gap: 6, marginBottom: 8 }}>
+                <span className="seal-badge seal-info num">{item.code}</span>
+                <span className="seal-badge seal-alert">{item.badge}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelected(item)}
+                title="คลิกเพื่อขยายดูภาพอินโฟกราฟิก PDPA ขนาดใหญ่"
+                style={{
+                  display: "block",
+                  width: "100%",
+                  padding: 0,
+                  border: "1px solid var(--line)",
+                  borderRadius: 8,
+                  overflow: "hidden",
+                  background: "#FFFFFF",
+                  cursor: "zoom-in",
+                  marginBottom: 8
+                }}
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  loading="lazy"
+                  style={{ width: "100%", height: 195, objectFit: "contain", display: "block", background: "#FFFFFF" }}
+                />
+              </button>
+              <strong style={{ display: "block", fontSize: "0.96rem", marginBottom: 4 }}>{item.title}</strong>
+              <p className="small" style={{ margin: 0, color: "var(--ink-2)" }}>{item.elements}</p>
+            </div>
+            <div className="small" style={{ borderTop: "1px dashed var(--line-strong)", paddingTop: 8, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span><strong>บทลงโทษ/อายุความ:</strong> {item.penalty}</span>
+              <div className="row" style={{ gap: 6 }}>
+                <button type="button" className="btn btn-sm" onClick={() => setSelected(item)}>ขยายภาพ</button>
+                <a className="btn btn-sm" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">ที่มา ↗</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {selected && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={selected.title}
+          onClick={() => setSelected(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1000,
+            background: "rgba(9, 9, 11, 0.78)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 16
+          }}
+        >
+          <div
+            className="editorial-panel"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: 860, width: "100%", maxHeight: "92vh", overflowY: "auto", margin: 0 }}
+          >
+            <div className="row between" style={{ marginBottom: 10, gap: 8 }}>
+              <div>
+                <span className="seal-badge seal-info num" style={{ marginRight: 6 }}>{selected.code}</span>
+                <span className="seal-badge seal-alert">{selected.badge}</span>
+                <h3 style={{ marginTop: 6, marginBottom: 0 }}>{selected.title}</h3>
+              </div>
+              <button type="button" className="btn btn-sm" onClick={() => setSelected(null)}>✕ ปิดหน้าต่าง</button>
+            </div>
+            <div style={{ background: "#FFFFFF", border: "1px solid var(--line)", borderRadius: 10, padding: 10, textAlign: "center", marginBottom: 12 }}>
+              <img
+                src={selected.imageUrl}
+                alt={selected.title}
+                style={{ maxWidth: "100%", maxHeight: "62vh", objectFit: "contain", margin: "0 auto", display: "block" }}
+              />
+            </div>
+            <div className="legal-box" style={{ marginBottom: 10 }}>
+              <p style={{ margin: "0 0 6px" }}><strong>สาระสำคัญตามกฎหมาย:</strong> {selected.elements}</p>
+              <p style={{ margin: 0 }}><strong>บทลงโทษและอายุความ:</strong> {selected.penalty}</p>
+            </div>
+            <div className="row between" style={{ flexWrap: "wrap", gap: 8 }}>
+              <span className="small muted">แหล่งข้อมูลภาพ: {UNIT4_PDPA_EXTERNAL_DATA.sourceName}</span>
+              <div className="row" style={{ gap: 8 }}>
+                <a className="btn btn-sm" href={selected.imageUrl} target="_blank" rel="noopener noreferrer">เปิดไฟล์ภาพต้นฉบับ ↗</a>
+                <a className="btn btn-primary btn-sm" href={selected.sourceUrl} target="_blank" rel="noopener noreferrer">อ่านบทความต้นทาง OJA ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function UnitVisuals({ unitId }) {
   return (
     <>
@@ -262,6 +472,15 @@ function Media({ unit }) {
             <span className="seal-badge seal-info">สำนักงานกิจการยุติธรรม (OJA)</span>
           </div>
           <PropertyOffensesExternalGallery />
+        </div>
+      )}
+      {Number(unit.id) === 4 && (
+        <div className="unit-section-block">
+          <div className="unit-section-header">
+            <h3>สื่ออินโฟกราฟิกภายนอก: กฎหมายคุ้มครองข้อมูลส่วนบุคคล (พ.ร.บ. PDPA พ.ศ. 2562)</h3>
+            <span className="seal-badge seal-info">สคส. (PDPC) & สำนักงานกิจการยุติธรรม (OJA)</span>
+          </div>
+          <PdpaExternalGallery />
         </div>
       )}
       {(unit.externalResources || []).map((res, rIdx) => {
@@ -535,8 +754,21 @@ export default function Unit() {
               {Number(unit.id) === 3 && (sec.id === "u3-s3" || sec.title?.includes("ความผิดต่อทรัพย์")) && (
                 <PropertyOffensesExternalGallery />
               )}
+              {Number(unit.id) === 4 && (sec.id === "u4-s4" || sec.title?.includes("PDPA") || sec.title?.includes("คุ้มครองข้อมูลส่วนบุคคล")) && (
+                <PdpaExternalGallery />
+              )}
             </article>
           ))}
+          {Number(unit.id) === 4 && !unit.sections.some((sec) => sec.id === "u4-s4" || sec.title?.includes("PDPA") || sec.title?.includes("คุ้มครองข้อมูลส่วนบุคคล")) && (
+            <article className="unit-section-block">
+              <div className="unit-section-header">
+                <h3>{UNIT4_PDPA_EXTERNAL_DATA.sectionTitle}</h3>
+                <span className="seal-badge seal-info num">{UNIT4_PDPA_EXTERNAL_DATA.sectionBadge}</span>
+              </div>
+              <Html className="legal-prose" html={UNIT4_PDPA_EXTERNAL_DATA.sectionHtml} />
+              <PdpaExternalGallery />
+            </article>
+          )}
           <UnitVisuals unitId={unit.id} />
           <Simulator unitId={unit.id} />
           <div className="row between editorial-panel">

@@ -593,6 +593,217 @@ export const UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS = {
   ]
 };
 
+export const UNIT4_PDPA_EXTERNAL_DATA = {
+  apiEndpoint: "https://justicechannel.org/wp-json/wp/v2/posts/2340",
+  remedyApiEndpoint: "https://justicechannel.org/wp-json/wp/v2/posts/9368",
+  articleUrl: "https://justicechannel.org/read/pdpa2565",
+  remedyUrl: "https://justicechannel.org/read/personaldata",
+  pdpcUrl: "https://www.pdpc.or.th",
+  mdesUrl: "https://www.mdes.go.th",
+  sourceName: "สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส. · PDPC) และสำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (Justice Channel · OJA)",
+  rights: [
+    {
+      no: 1,
+      title: "สิทธิได้รับการแจ้งให้ทราบ (Right to be Informed · ม.23)",
+      desc: "เจ้าของข้อมูลต้องได้รับแจ้งวัตถุประสงค์การเก็บรวบรวม ระยะเวลาจัดเก็บ ประเภทผู้ที่จะได้รับข้อมูล และช่องทางติดต่อผู้ควบคุมข้อมูล ก่อนหรือขณะเก็บรวบรวม (เช่น Privacy Notice)"
+    },
+    {
+      no: 2,
+      title: "สิทธิในการเพิกถอนความยินยอม (Right to Withdraw Consent · ม.19)",
+      desc: "ถอนความยินยอมที่ได้ให้ไว้เมื่อใดก็ได้โดยง่ายเช่นเดียวกับการให้ความยินยอม (ไม่กระทบต่อการประมวลผลที่ได้ทำไปแล้วโดยชอบด้วยกฎหมายก่อนถอนความยินยอม)"
+    },
+    {
+      no: 3,
+      title: "สิทธิขอเข้าถึงและขอรับสำเนาข้อมูล (Right of Access · ม.30)",
+      desc: "ขอเข้าถึงและขอรับสำเนาข้อมูลส่วนบุคคลของตนที่อยู่ในความรับผิดชอบของผู้ควบคุมข้อมูล หรือขอให้เปิดเผยถึงการได้มาซึ่งข้อมูลที่ตนไม่ได้ให้ความยินยอม"
+    },
+    {
+      no: 4,
+      title: "สิทธิขอให้โอนย้ายข้อมูล (Right to Data Portability · ม.31)",
+      desc: "ขอรับข้อมูลส่วนบุคคลของตนในรูปแบบที่อ่านหรือใช้งานโดยทั่วไปได้ด้วยเครื่องมืออัตโนมัติ และขอให้ส่งหรือโอนไปยังผู้ควบคุมข้อมูลอื่นโดยตรง"
+    },
+    {
+      no: 5,
+      title: "สิทธิคัดค้านการเก็บรวบรวม ใช้ หรือเปิดเผย (Right to Object · ม.32)",
+      desc: "คัดค้านการประมวลผลข้อมูลส่วนบุคคลเมื่อใดก็ได้ โดยเฉพาะกรณีเก็บรวบรวมเพื่อการตลาดแบบตรง (Direct Marketing) หรือการศึกษาวิจัย"
+    },
+    {
+      no: 6,
+      title: "สิทธิขอให้ลบหรือทำลายข้อมูล (Right to Erasure / Right to be Forgotten · ม.33)",
+      desc: "ขอให้ลบ ทำลาย หรือทำให้เป็นข้อมูลที่ไม่สามารถระบุตัวบุคคลได้ เมื่อหมดความจำเป็นตามวัตถุประสงค์ ถอนความยินยอม หรือเก็บโดยไม่ชอบด้วยกฎหมาย"
+    },
+    {
+      no: 7,
+      title: "สิทธิขอให้ระงับการใช้ข้อมูลชั่วคราว (Right to Restrict Processing · ม.34)",
+      desc: "ขอให้ระงับการใช้ข้อมูลส่วนบุคคลชั่วคราว เช่น ระหว่างรอตรวจสอบความถูกต้องของข้อมูล หรือกรณีข้อมูลต้องถูกลบแต่เจ้าของขอให้ระงับการใช้แทนเพื่อใช้สิทธิทางกฎหมาย"
+    },
+    {
+      no: 8,
+      title: "สิทธิขอให้แก้ไขข้อมูลให้ถูกต้องเป็นปัจจุบัน (Right to Rectification · ม.35)",
+      desc: "ขอให้ผู้ควบคุมข้อมูลดำเนินการแก้ไขข้อมูลส่วนบุคคลของตนให้ถูกต้อง เป็นปัจจุบัน สมบูรณ์ และไม่ก่อให้เกิดความเข้าใจผิด"
+    }
+  ],
+  items: [
+    {
+      id: "pdpa-overview",
+      code: "พ.ร.บ. PDPA พ.ศ. 2562",
+      title: "1. สาระสำคัญ พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)",
+      category: "overview",
+      badge: "บังคับใช้เต็มรูปแบบ 1 มิ.ย. 2565",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2022/05/PDPA2565-724x1024.png",
+      sourceUrl: "https://justicechannel.org/read/pdpa2565",
+      elements: "แยกประเภทข้อมูลส่วนบุคคลทั่วไป (ชื่อ เลขบัตรประชาชน เบอร์โทร อีเมล รูปภาพ IP/Cookies) กับข้อมูลส่วนบุคคลที่มีความอ่อนไหว (Sensitive Data ม.26: เชื้อชาติ ศาสนา การเมือง พฤติกรรมทางเพศ ประวัติอาชญากรรม สุขภาพ ชีวภาพ) และบทบาท 3 ฝ่าย (เจ้าของข้อมูล · ผู้ควบคุมข้อมูล · ผู้ประมวลผลข้อมูล)",
+      penalty: "โทษ 3 ด้าน: แพ่ง (สินไหม + ลงโทษ ≤ 2 เท่า) · อาญา (จำคุก ≤ 6 เดือน – 1 ปี / ปรับ ≤ 5 แสน – 1 ล้านบาท) · ปกครอง (ปรับ ≤ 1, 3 หรือ 5 ล้านบาท)"
+    },
+    {
+      id: "pdpa-remedy",
+      code: "มาตรา 77–90",
+      title: "2. ถูกละเมิดข้อมูลส่วนบุคคลต้องฟ้องภายในกี่ปี & บทลงโทษ",
+      category: "penalty",
+      badge: "อายุความแพ่ง 3 ปี / 10 ปี",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2023/11/personal-data-1024x1024.png",
+      sourceUrl: "https://justicechannel.org/read/personaldata",
+      elements: "อายุความฟ้องเรียกค่าสินไหมทดแทนทางแพ่ง (ม.78): ภายใน 3 ปีนับแต่วันที่ผู้เสียหายรู้ถึงความเสียหายและรู้ตัวผู้ต้องรับผิด หรือไม่เกิน 10 ปีนับแต่วันที่มีการละเมิดข้อมูลส่วนบุคคล พร้อมช่องทางยื่นคำร้องเรียนต่อสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส.)",
+      penalty: "ศาลสั่งให้จ่ายค่าสินไหมทดแทนเพื่อการลงโทษเพิ่มขึ้นได้ไม่เกิน 2 เท่าของค่าสินไหมที่แท้จริง (ม.77 วรรคสอง)"
+    },
+    {
+      id: "pdpa-customer",
+      code: "มาตรา 19, 24, 27, 79",
+      title: "3. ข้อควรระวังการละเมิดข้อมูลส่วนบุคคลของลูกค้าและประชาชน",
+      category: "practice",
+      badge: "3 พฤติกรรมเสี่ยงผิด ม.27",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2025/03/Customer-information-724x1024.png",
+      sourceUrl: "https://justicechannel.org/read/customer-information",
+      elements: "3 ลักษณะความผิดสำคัญตามมาตรา 27: (1) เก็บข้อมูลโดยไม่ได้รับอนุญาตและไม่เข้าข้อยกเว้น (2) นำข้อมูลไปใช้นอกเหนือวัตถุประสงค์ที่แจ้งไว้ (3) เผยแพร่ข้อมูลส่วนบุคคลของลูกค้าหรือผู้อื่นโดยไม่ปกปิดตัวตน",
+      penalty: "ม.79 ทำให้เสียหาย/เสียชื่อเสียง/อับอาย จำคุกไม่เกิน 6 เดือน หรือปรับไม่เกิน 500,000 บาท (หากเพื่อแสวงหาประโยชน์ที่มิควรได้ จำคุกไม่เกิน 1 ปี หรือปรับไม่เกิน 1,000,000 บาท)"
+    },
+    {
+      id: "pdpa-workplace",
+      code: "มาตรา 26, 27, 83, 84",
+      title: "4. การเปิดเผยข้อมูลส่วนบุคคลในที่ทำงานและการโพสต์ประจานออนไลน์",
+      category: "practice",
+      badge: "PDPA + หมิ่นประมาท ม.328",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2026/10/Post-attacking-an-employee-683x1024.png",
+      sourceUrl: "https://justicechannel.org/read/law-suggestion/post-attacking-an-employee",
+      elements: "รูปภาพ ชื่อ-นามสกุล ประวัติการทำงาน ใบเตือน และหนังสือเลิกจ้างถือเป็นข้อมูลส่วนบุคคล การนำไปโพสต์ประจานต่อสาธารณะโดยไม่มีฐานกฎหมายรองรับหรือเกินความจำเป็น ผิดทั้ง PDPA มาตรา 27 หมิ่นประมาทโดยการโฆษณา (ป.อ. ม.328) และละเมิด (ป.พ.พ. ม.420, 423)",
+      penalty: "โทษปรับทางปกครองไม่เกิน 3,000,000 บาท (ม.83) และหากเป็นข้อมูลอ่อนไหวตาม ม.26 ปรับทางปกครองไม่เกิน 5,000,000 บาท (ม.84)"
+    },
+    {
+      id: "pdpa-creator",
+      code: "PDPA ม.27, 79 & พ.ร.บ.คอมฯ ม.16",
+      title: "5. กฎหมาย PDPA สำหรับผู้ถ่ายคลิป ไลฟ์สด และใช้สื่อสังคมออนไลน์",
+      category: "practice",
+      badge: "รู้เท่าทันสื่อยุคดิจิทัล",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2026/02/Content-creators-should-know-this-724x1024.png",
+      sourceUrl: "https://justicechannel.org/read/content-creators-should-know-this",
+      elements: "การถ่ายคลิปหรือไลฟ์สดติดภาพใบหน้า ชื่อ หรือข้อมูลส่วนตัวของผู้อื่นแล้วนำไปเผยแพร่โดยเจ้าตัวไม่ยินยอมจนทำให้เกิดความเสียหายหรืออับอาย เข้าข่ายผิดทั้ง พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคลฯ มาตรา 27, 79 และ พ.ร.บ.คอมพิวเตอร์ฯ มาตรา 16",
+      penalty: "PDPA ม.79 จำคุกไม่เกิน 6 เดือน ปรับไม่เกิน 500,000 บาท · พ.ร.บ.คอมฯ ม.16 (ตัดต่อภาพให้เสียหาย) จำคุกไม่เกิน 3 ปี ปรับไม่เกิน 200,000 บาท"
+    },
+    {
+      id: "pdpa-medical",
+      code: "PDPA ม.26 & พ.ร.บ.สุขภาพฯ ม.7",
+      title: "6. การคุ้มครองข้อมูลสุขภาพและประวัติการรักษาพยาบาล (Sensitive Data)",
+      category: "overview",
+      badge: "ข้อมูลอ่อนไหว มาตรา 26",
+      imageUrl: "https://justicechannel.org/wp-content/uploads/2023/03/237-1024x1024.png",
+      sourceUrl: "https://justicechannel.org/read/law-suggestion/lawget237",
+      elements: "ประวัติการรักษาสุขภาพ ใบรับรองแพทย์ และผลตรวจร่างกาย เป็นข้อมูลส่วนบุคคลที่มีความอ่อนไหว (Sensitive Personal Data ตาม PDPA ม.26) และเป็นความลับตาม พ.ร.บ.สุขภาพแห่งชาติ พ.ศ. 2550 มาตรา 7 ห้ามเปิดเผยแก่บุคคลภายนอกโดยไม่ได้รับความยินยอมชัดแจ้งจากผู้ป่วย",
+      penalty: "ฝ่าฝืนเปิดเผยข้อมูลอ่อนไหวตาม ม.26 มีโทษปรับทางปกครองสูงสุด 5,000,000 บาท (ม.84) และโทษอาญาตาม ม.79"
+    }
+  ],
+  sectionTitle: "4. กฎหมายคุ้มครองข้อมูลส่วนบุคคลที่ควรรู้ (พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 — PDPA)",
+  sectionBadge: "พ.ร.บ. PDPA พ.ศ. 2562 · สคส. (PDPC)",
+  sectionHtml: `
+    <p><strong>พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (Personal Data Protection Act: PDPA)</strong> มีผลบังคับใช้เต็มรูปแบบตั้งแต่วันที่ <strong>1 มิถุนายน พ.ศ. 2565</strong> โดยมีวัตถุประสงค์เพื่อคุ้มครองสิทธิในความเป็นส่วนตัวของประชาชนไม่ให้ถูกเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคลโดยมิชอบ และมี <strong>สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส. หรือ PDPC)</strong> เป็นหน่วยงานหลักในการกำกับดูแล</p>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin:12px 0;">
+      <div class="legal-box">
+        <strong style="color:var(--sk-blue);">1) ข้อมูลส่วนบุคคลทั่วไป (มาตรา 6)</strong><br>
+        ข้อมูลเกี่ยวกับบุคคลซึ่งทำให้ระบุตัวบุคคลนั้นได้ไม่ว่าทางตรงหรือทางอ้อม (<strong>ไม่รวมข้อมูลของผู้ถึงแก่กรรมโดยเฉพาะ</strong> และไม่รวมข้อมูลนิติบุคคล) เช่น:<br>
+        • ชื่อ–นามสกุล เลขประจำตัวประชาชน ที่อยู่ เบอร์โทรศัพท์ อีเมล<br>
+        • เลขบัญชีธนาคาร รูปถ่ายใบหน้า คลิปวิดีโอเสียงสนทนา ทะเบียนรถ<br>
+        • ข้อมูลออนไลน์ที่ระบุตัวตนได้ เช่น IP Address, Cookie ID, Location
+      </div>
+      <div class="legal-box">
+        <strong style="color:var(--crimson-seal);">2) ข้อมูลส่วนบุคคลที่มีความอ่อนไหว (Sensitive Data · มาตรา 26)</strong><br>
+        ข้อมูลที่มีความเสี่ยงต่อการเลือกปฏิบัติอย่างไม่เป็นธรรม <strong>ห้ามเก็บรวบรวมโดยไม่ได้รับความยินยอมโดยชัดแจ้ง (Explicit Consent)</strong> เว้นแต่เข้าข้อยกเว้นตามกฎหมาย ได้แก่:<br>
+        • เชื้อชาติ เผ่าพันธุ์ ความคิดเห็นทางการเมือง ลัทธิ ความเชื่อ ศาสนาหรือปรัชญา<br>
+        • พฤติกรรมทางเพศ <strong>ประวัติอาชญากรรม ข้อมูลสุขภาพ ความพิการ</strong><br>
+        • ข้อมูลสหภาพแรงงาน ข้อมูลพันธุกรรม และ<strong>ข้อมูลชีวภาพ (Biometrics)</strong> เช่น ลายนิ้วมือ แบบจำลองใบหน้า ม่านตา
+      </div>
+    </div>
+
+    <h4>บุคคลที่เกี่ยวข้อง 3 ฝ่ายตาม พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562</h4>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th style="width:24%">บทบาท</th>
+          <th style="width:46%">ความหมายและอำนาจหน้าที่ตามกฎหมาย</th>
+          <th style="width:30%">ตัวอย่างในชีวิตประจำวัน</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. เจ้าของข้อมูลส่วนบุคคล<br>(Data Subject)</strong></td>
+          <td>บุคคลธรรมดาที่ยังมีชีวิตอยู่ซึ่งเป็นเจ้าของข้อมูลส่วนบุคคลนั้น และได้รับความคุ้มครองตามสิทธิทั้ง 8 ประการ</td>
+          <td>นักเรียน ประชาชน ลูกค้า ผู้ป่วย พนักงานลูกจ้าง ผู้ใช้งานแอปพลิเคชัน</td>
+        </tr>
+        <tr>
+          <td><strong>2. ผู้ควบคุมข้อมูลส่วนบุคคล<br>(Data Controller)</strong></td>
+          <td>บุคคลหรือนิติบุคคลซึ่งมีอำนาจหน้าที่ <strong>ตัดสินใจ</strong> เกี่ยวกับการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคล</td>
+          <td>โรงเรียน มหาวิทยาลัย โรงพยาบาล ธนาคาร ร้านค้าออนไลน์ นายจ้าง หน่วยงานรัฐ</td>
+        </tr>
+        <tr>
+          <td><strong>3. ผู้ประมวลผลข้อมูลส่วนบุคคล<br>(Data Processor)</strong></td>
+          <td>บุคคลหรือนิติบุคคลซึ่งดำเนินการเกี่ยวกับการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคล <strong>ตามคำสั่งหรือในนามของผู้ควบคุมข้อมูล</strong></td>
+          <td>ผู้ให้บริการระบบ Cloud, บริษัทรับทำบัญชีเงินเดือน (Outsource Payroll), บริษัทขนส่งที่รับคำสั่งจัดส่ง</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="legal-box" style="margin:12px 0;">
+      <strong>ฐานทางกฎหมายในการประมวลผลข้อมูลส่วนบุคคล 6 ฐานหลัก (Lawful Basis · มาตรา 24):</strong> การเก็บ ใช้ หรือเปิดเผยข้อมูลส่วนบุคคล<strong>ไม่จำเป็นต้องขอความยินยอมเสมอไป</strong> หากเข้าฐานกฎหมายอื่นข้อใดข้อหนึ่ง ได้แก่:<br>
+      1. <strong>ฐานความยินยอม (Consent · ม.19):</strong> ต้องขอโดยชัดแจ้ง แยกส่วนชัดเจน ไม่หลอกลวง และถอนความยินยอมได้ง่าย (เช่น ขอส่ง SMS โฆษณาการตลาด)<br>
+      2. <strong>ฐานสัญญา (Contract):</strong> จำเป็นเพื่อปฏิบัติตามสัญญาที่เจ้าของข้อมูลเป็นคู่สัญญา (เช่น ร้านค้าออนไลน์ขอชื่อ-ที่อยู่-เบอร์โทรเพื่อจัดส่งสินค้า)<br>
+      3. <strong>ฐานระงับอันตรายต่อชีวิต (Vital Interest):</strong> เพื่อป้องกันหรือระงับอันตรายต่อชีวิต ร่างกาย หรือสุขภาพของบุคคล (เช่น ส่งข้อมูลผู้ป่วยหมดสติให้ห้องฉุกเฉิน)<br>
+      4. <strong>ฐานภารกิจของรัฐ / ประโยชน์สาธารณะ (Public Task):</strong> จำเป็นเพื่อการปฏิบัติหน้าที่ในการดำเนินภารกิจเพื่อประโยชน์สาธารณะหรือใช้อำนาจรัฐ<br>
+      5. <strong>ฐานประโยชน์อันชอบธรรม (Legitimate Interest):</strong> จำเป็นเพื่อประโยชน์โดยชอบด้วยกฎหมายของผู้ควบคุมข้อมูล โดยไม่เกินขอบเขตที่เจ้าของข้อมูลคาดหมายได้ (เช่น ติดกล้องวงจรปิด CCTV รักษาความปลอดภัยอาคารพร้อมป้ายแจ้งเตือน)<br>
+      6. <strong>ฐานปฏิบัติตามกฎหมาย (Legal Obligation):</strong> เพื่อปฏิบัติตามกฎหมายของผู้ควบคุมข้อมูล (เช่น นายจ้างนำส่งข้อมูลภาษีให้กรมสรรพากร หรือส่งข้อมูลประกันสังคม)<br>
+      <em>หมายเหตุ (ข้อยกเว้นการใช้ส่วนตน · มาตรา 4 (1)):</em> การเก็บภาพหรือข้อมูลเพื่อประโยชน์ส่วนตนหรือกิจกรรมในครอบครัวได้รับยกเว้นตามกฎหมาย PDPA <strong>แต่หากนำไปโพสต์ประจานหรือเผยแพร่ต่อสาธารณะในโซเชียลมีเดียจนผู้อื่นเสียหาย</strong> ย่อมเกินขอบเขตประโยชน์ส่วนตนและมีความผิดตามกฎหมาย
+    </div>
+
+    <h4>สรุปสิทธิของเจ้าของข้อมูลส่วนบุคคล 8 ประการ และความรับผิด 3 ด้าน (แพ่ง · อาญา · ปกครอง)</h4>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th style="width:48%">สิทธิของเจ้าของข้อมูลส่วนบุคคล 8 ประการ (มาตรา 19, 23, 30–35)</th>
+          <th style="width:52%">ความรับผิด บทลงโทษ และอายุความ (มาตรา 77–90)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            1. <strong>สิทธิได้รับการแจ้งให้ทราบ (Right to be Informed · ม.23):</strong> ทราบวัตถุประสงค์ ระยะเวลาเก็บ และผู้ควบคุมข้อมูลผ่านคำประกาศความเป็นส่วนตัว (Privacy Notice)<br>
+            2. <strong>สิทธิเพิกถอนความยินยอม (Right to Withdraw Consent · ม.19):</strong> ถอนความยินยอมเมื่อใดก็ได้โดยง่ายเหมือนตอนให้ความยินยอม<br>
+            3. <strong>สิทธิขอเข้าถึงข้อมูล (Right of Access · ม.30):</strong> ขอเข้าถึงและขอรับสำเนาข้อมูลของตน หรือขอให้เปิดเผยถึงการได้มาซึ่งข้อมูล<br>
+            4. <strong>สิทธิขอให้โอนย้ายข้อมูล (Right to Data Portability · ม.31):</strong> ขอรับข้อมูลในรูปแบบที่อ่านได้ด้วยเครื่องมืออัตโนมัติเพื่อโอนไปยังผู้ควบคุมอื่น<br>
+            5. <strong>สิทธิคัดค้าน (Right to Object · ม.32):</strong> คัดค้านการเก็บ ใช้ หรือเปิดเผยข้อมูล เช่น เพื่อการตลาดแบบตรง (Direct Marketing)<br>
+            6. <strong>สิทธิขอให้ลบหรือทำลาย (Right to Erasure · ม.33):</strong> ขอให้ลบ ทำลาย หรือทำให้ไม่สามารถระบุตัวบุคคลได้เมื่อหมดความจำเป็น<br>
+            7. <strong>สิทธิขอให้ระงับการใช้ชั่วคราว (Right to Restrict Processing · ม.34):</strong> ขอให้ระงับการใช้ข้อมูลระหว่างรอตรวจสอบความถูกต้อง<br>
+            8. <strong>สิทธิขอให้แก้ไขให้ถูกต้อง (Right to Rectification · ม.35):</strong> ขอแก้ไขข้อมูลให้ถูกต้อง เป็นปัจจุบัน และไม่ก่อให้เกิดความเข้าใจผิด
+          </td>
+          <td>
+            • <strong>ความรับผิดทางแพ่ง (มาตรา 77–78):</strong> ชดใช้ค่าสินไหมทดแทนความเสียหายที่เกิดขึ้นจริง และศาลมีอำนาจสั่งให้จ่าย <strong>ค่าสินไหมทดแทนเพื่อการลงโทษเพิ่มขึ้นได้อีกไม่เกิน 2 เท่า</strong> ของค่าสินไหมที่แท้จริง<br>
+            • <strong>อายุความฟ้องคดีแพ่ง (มาตรา 78):</strong> ต้องฟ้องภายใน <strong>3 ปี</strong> นับแต่วันที่ผู้เสียหายรู้ถึงความเสียหายและรู้ตัวผู้ต้องรับผิด หรือ <strong>ไม่เกิน 10 ปี</strong> นับแต่วันที่มีการละเมิดข้อมูลส่วนบุคคล<br>
+            • <strong>ความรับผิดทางอาญา (มาตรา 79–81):</strong> ใช้หรือเปิดเผยข้อมูลโดยฝ่าฝืนกฎหมายจนผู้อื่นเสียหาย เสียชื่อเสียง ถูกดูหมิ่น หรืออับอาย ต้องระวางโทษ <strong>จำคุกไม่เกิน 6 เดือน หรือปรับไม่เกิน 500,000 บาท</strong> (หากกระทำเพื่อแสวงหาประโยชน์ที่มิควรได้โดยชอบด้วยกฎหมาย <strong>จำคุกไม่เกิน 1 ปี หรือปรับไม่เกิน 1,000,000 บาท</strong> · ยอมความได้)<br>
+            • <strong>ความรับผิดทางปกครอง (มาตรา 82–90):</strong> คณะกรรมการผู้เชี่ยวชาญ (สคส.) มีอำนาจสั่งปรับทางปกครองสูงสุดไม่เกิน <strong>1,000,000 / 3,000,000 / 5,000,000 บาท</strong> ตามความร้ายแรงของฐานความผิด
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  `
+};
+
 export function getUnitInfographicSvg(unitId) {
   if (unitId === 1) {
     return `
@@ -779,6 +990,26 @@ export function getUnitInfographicSvg(unitId) {
     `;
   }
   if (unitId === 4) {
+    const pdpaCardsHtml = UNIT4_PDPA_EXTERNAL_DATA.items.map((item) => `
+      <div class="legal-box" style="padding:12px; display:flex; flex-direction:column; justify-content:space-between; gap:8px;">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">
+            <span class="seal-badge seal-info num">${item.code}</span>
+            <span class="seal-badge seal-alert">${item.badge}</span>
+          </div>
+          <a href="${item.imageUrl}" target="_blank" rel="noopener noreferrer" title="คลิกเพื่อเปิดภาพอินโฟกราฟิก PDPA ขนาดเต็ม" style="display:block; border-radius:8px; overflow:hidden; border:1px solid var(--line); background:#FFFFFF; margin-bottom:8px;">
+            <img src="${item.imageUrl}" alt="${item.title}" loading="lazy" style="width:100%; height:190px; object-fit:contain; display:block; background:#FFFFFF;" />
+          </a>
+          <strong style="display:block; font-size:0.95rem; margin-bottom:4px;">${item.title}</strong>
+          <p style="font-size:0.84rem; margin:0 0 6px; color:var(--ink-2);">${item.elements}</p>
+        </div>
+        <div style="font-size:0.8rem; border-top:1px dashed var(--line-strong); padding-top:6px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span><strong>บทลงโทษ/อายุความ:</strong> ${item.penalty}</span>
+          <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" style="font-weight:700; white-space:nowrap;">ดูต้นฉบับ OJA ↗</a>
+        </div>
+      </div>
+    `).join("");
+
     return `
       <h4 style="color:var(--crimson-seal); margin-bottom:12px;">1) ภาพประกอบการใช้อำนาจอธิปไตย 3 ฝ่ายตามรัฐธรรมนูญ พ.ศ. 2560 และสิทธิผู้บริโภค 5 ประการ</h4>
       <div style="background:#FFFFFF; border:1px solid var(--pastel-purple-border); border-radius:10px; padding:16px; margin-bottom:16px;">
@@ -807,14 +1038,61 @@ export function getUnitInfographicSvg(unitId) {
           <text x="625" y="166" text-anchor="middle" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="12.5">• ศาลปกครอง · ศาลทหาร</text>
         </svg>
       </div>
-      <h4 style="color:var(--crimson-seal); margin-bottom:12px;">2) แผนผังสรุปสิทธิผู้บริโภค 5 ประการ และหน้าที่ชายไทยตามกฎหมายรับราชการทหาร</h4>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+
+      <h4 style="color:var(--crimson-seal); margin-bottom:12px;">2) แผนผังสรุปสิทธิผู้บริโภค 5 ประการ ภาษีเงินได้ขั้นบันได กฎหมายทหาร (สด.9) และกฎหมายเด็ก</h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:16px;">
         <div class="legal-box"><strong>สิทธิผู้บริโภค 5 ประการ (สคบ.)</strong><br>1. สิทธิได้รับข่าวสารที่ถูกต้อง<br>2. สิทธิมีอิสระในการเลือกหาสินค้า<br>3. สิทธิได้รับความปลอดภัย<br>4. สิทธิได้รับความเป็นธรรมในการทำสัญญา<br>5. สิทธิได้รับการชดเชยความเสียหาย</div>
         <div class="legal-box"><strong>สูตรคำนวณภาษีเงินได้บุคคลธรรมดา</strong><br><code>เงินได้สุทธิ = เงินได้พึงประเมิน – ค่าใช้จ่าย – ค่าลดหย่อน</code><br>• 0–150,000 บาทแรก = ยกเว้นภาษี<br>• เกิน 150,000 บาท คิดขั้นบันได 5% ถึง 35%</div>
         <div class="legal-box"><strong>กฎหมายทหาร & กฎหมายเด็ก</strong><br>• ชายไทยอายุครบ 17 ปีบริบูรณ์ ต้องลงบัญชีทหารกองเกิน (รับใบสำคัญ สด.9)<br>• เด็กตาม พ.ร.บ.คุ้มครองเด็กฯ = บุคคลอายุต่ำกว่า 18 ปีบริบูรณ์ (ไม่รวมผู้สมรสแล้ว)</div>
       </div>
+
+      <h4 style="color:var(--crimson-seal); margin-bottom:12px;">3) แผนผังโครงสร้าง พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) ที่ประชาชนควรรู้</h4>
+      <div style="background:#FFFFFF; border:1px solid var(--pastel-blue-border); border-radius:10px; padding:16px; margin-bottom:16px;">
+        <svg viewBox="0 0 760 250" width="100%" height="238" role="img" aria-label="แผนผังโครงสร้างกฎหมายคุ้มครองข้อมูลส่วนบุคคล PDPA พ.ศ. 2562">
+          <rect x="180" y="8" width="400" height="36" rx="8" fill="#EDE9FE" stroke="#A78BFA" stroke-width="2"/>
+          <text x="380" y="31" text-anchor="middle" fill="#1E293B" font-family="Prompt, Sarabun, sans-serif" font-size="13.5" font-weight="700">พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA · บังคับใช้ 1 มิ.ย. 2565)</text>
+
+          <line x1="380" y1="44" x2="380" y2="62" stroke="#64748B" stroke-width="2"/>
+          <line x1="130" y1="62" x2="630" y2="62" stroke="#64748B" stroke-width="2"/>
+          <line x1="130" y1="62" x2="130" y2="78" stroke="#64748B" stroke-width="2"/>
+          <line x1="380" y1="62" x2="380" y2="78" stroke="#64748B" stroke-width="2"/>
+          <line x1="630" y1="62" x2="630" y2="78" stroke="#64748B" stroke-width="2"/>
+
+          <rect x="16" y="78" width="228" height="160" rx="10" fill="#E0F2FE" stroke="#38BDF8" stroke-width="2"/>
+          <text x="130" y="101" text-anchor="middle" fill="#0C4A6E" font-family="Prompt, Sarabun, sans-serif" font-size="13" font-weight="700">1. ประเภทข้อมูล & บุคคล 3 ฝ่าย</text>
+          <text x="28" y="123" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">ข้อมูลทั่วไป:</tspan> ชื่อ เลขบัตร เบอร์โทร รูปภาพ</text>
+          <text x="28" y="144" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">ข้อมูลอ่อนไหว (ม.26):</tspan> สุขภาพ ศาสนา</text>
+          <text x="36" y="162" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">ประวัติอาชญากรรม ชีวภาพ (ต้องยินยอมชัดแจ้ง)</text>
+          <text x="28" y="183" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">3 บทบาท:</tspan> เจ้าของข้อมูล (Data Subject)</text>
+          <text x="36" y="201" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">ผู้ควบคุม (Controller) · ผู้ประมวลผล (Processor)</text>
+          <text x="28" y="222" fill="#0C4A6E" font-family="Sarabun, sans-serif" font-size="11.3" font-weight="700">*ไม่รวมข้อมูลของผู้ถึงแก่กรรมโดยเฉพาะ</text>
+
+          <rect x="266" y="78" width="228" height="160" rx="10" fill="#FCE7F3" stroke="#F472B6" stroke-width="2"/>
+          <text x="380" y="101" text-anchor="middle" fill="#831843" font-family="Prompt, Sarabun, sans-serif" font-size="13" font-weight="700">2. สิทธิเจ้าของข้อมูล & ฐานกฎหมาย</text>
+          <text x="278" y="123" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">6 ฐานประมวลผล (ม.24):</tspan> ความยินยอม,</text>
+          <text x="286" y="141" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">สัญญา, ระงับอันตรายชีวิต, ภารกิจรัฐ, ประโยชน์</text>
+          <text x="286" y="159" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">อันชอบธรรม, ปฏิบัติตามกฎหมาย</text>
+          <text x="278" y="180" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">สิทธิ 8 ประการ:</tspan> รับแจ้ง · ถอนยินยอม ·</text>
+          <text x="286" y="198" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">เข้าถึง · โอนย้าย · คัดค้าน · ลบ/ทำลาย ·</text>
+          <text x="286" y="216" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">ระงับใช้ · แก้ไขให้ถูกต้องเป็นปัจจุบัน</text>
+
+          <rect x="516" y="78" width="228" height="160" rx="10" fill="#FEF3C7" stroke="#FBBF24" stroke-width="2"/>
+          <text x="630" y="101" text-anchor="middle" fill="#78350F" font-family="Prompt, Sarabun, sans-serif" font-size="13" font-weight="700">3. ความรับผิด 3 ด้าน & อายุความ</text>
+          <text x="528" y="123" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">ทางแพ่ง (ม.77–78):</tspan> สินไหมทดแทน +</text>
+          <text x="536" y="141" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">สินไหมเพื่อการลงโทษเพิ่มได้ไม่เกิน 2 เท่า</text>
+          <text x="528" y="162" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">ทางอาญา (ม.79):</tspan> จำคุก ≤ 6 เดือน – 1 ปี</text>
+          <text x="536" y="180" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.5">หรือปรับ ≤ 500,000 – 1,000,000 บาท</text>
+          <text x="528" y="201" fill="#1E293B" font-family="Sarabun, sans-serif" font-size="11.8">• <tspan font-weight="700">ทางปกครอง (ม.82–84):</tspan> ปรับสูงสุด 5 ล้าน</text>
+          <text x="528" y="222" fill="#78350F" font-family="Sarabun, sans-serif" font-size="11.3" font-weight="700">*อายุความแพ่ง: 3 ปีนับแต่รู้ / ไม่เกิน 10 ปี</text>
+        </svg>
+      </div>
+
+      <h4 style="color:var(--crimson-seal); margin-bottom:12px;">4) ชุดอินโฟกราฟิกกฎหมาย PDPA จากแหล่งข้อมูลภายนอก (สำนักงานกิจการยุติธรรม · Justice Channel & สคส.)</h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(235px, 1fr)); gap:12px;">
+        ${pdpaCardsHtml}
+      </div>
       <p style="margin-top:10px; font-size:0.86rem; color:var(--ink-secondary);">
-        <strong>แหล่งอ้างอิงแผนผัง:</strong> กรมสรรพากร (<code>rd.go.th</code>) และสำนักงานคณะกรรมการคุ้มครองผู้บริโภค (<code>ocpb.go.th</code>)
+        <strong>แหล่งอ้างอิงแผนผังและภาพประกอบ:</strong> กรมสรรพากร (<code>rd.go.th</code>), สำนักงานคณะกรรมการคุ้มครองผู้บริโภค (<code>ocpb.go.th</code>), สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (<code>pdpc.or.th</code>) และสำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (<code>justicechannel.org</code>)
       </p>
     `;
   }
@@ -914,6 +1192,14 @@ export function getUnitExternalCasesHtml(unitId) {
         source: "สำนักงานคณะกรรมการคุ้มครองผู้บริโภค (สคบ. สายด่วน 1166)",
         url: "https://www.ocpb.go.th",
         license: "อ้างอิงประกาศคณะกรรมการว่าด้วยสัญญา สคบ. ตาม พ.ร.บ.ลิขสิทธิ์ พ.ศ. 2537 มาตรา 7"
+      },
+      {
+        title: "กรณีศึกษาที่ 4.3: การนำข้อมูลส่วนบุคคลของลูกค้าหรือลูกจ้างไปเปิดเผยออนไลน์โดยไม่ยินยอม (พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 — PDPA)",
+        facts: "ร้านค้าแห่งหนึ่งนำชื่อ-นามสกุล เบอร์โทรศัพท์ รูปถ่าย และประวัติการรักษาพยาบาลของลูกค้า/อดีตพนักงานไปโพสต์ประจานบนเพจเฟซบุ๊กสาธารณะโดยไม่ได้รับความยินยอม และมีบริษัทอีกแห่งส่งข้อความโฆษณาการตลาดแบบตรง (Direct Marketing) ให้ลูกค้าแม้ลูกค้าแจ้งขอเพิกถอนความยินยอมและคัดค้านแล้ว",
+        analysis: "1) การนำข้อมูลส่วนบุคคลทั่วไปและข้อมูลอ่อนไหว (ประวัติสุขภาพตามมาตรา 26) ไปเปิดเผยต่อสาธารณะโดยไม่มีฐานทางกฎหมายรองรับ เป็นการฝ่าฝืนมาตรา 27 และมาตรา 26 ผู้ควบคุมข้อมูลต้องรับผิดชดใช้ค่าสินไหมทดแทนทางแพ่ง (ศาลสั่งเพิ่มค่าสินไหมเพื่อการลงโทษได้ไม่เกิน 2 เท่าตามมาตรา 77 โดยมีอายุความฟ้อง 3 ปีนับแต่รู้ตัวผู้ทำผิดและรู้ถึงความเสียหาย หรือไม่เกิน 10 ปีตามมาตรา 78) มีโทษอาญาตามมาตรา 79 (จำคุกไม่เกิน 6 เดือน – 1 ปี หรือปรับไม่เกิน 500,000 – 1,000,000 บาท) และโทษปรับทางปกครองสูงสุด 3–5 ล้านบาท (มาตรา 83–84) 2) เจ้าของข้อมูลมีสิทธิเพิกถอนความยินยอม (มาตรา 19) คัดค้านการตลาดแบบตรง (มาตรา 32) และขอให้ลบทำลายข้อมูล (มาตรา 33) หากผู้ควบคุมเพิกเฉยสามารถยื่นร้องเรียนต่อสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส.)",
+        source: "สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส.) และสำนักงานกิจการยุติธรรม (Justice Channel)",
+        url: "https://justicechannel.org/read/personaldata",
+        license: "อ้างอิง พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 มาตรา 19, 26, 27, 32, 33, 77–84 ตาม พ.ร.บ.ลิขสิทธิ์ พ.ศ. 2537 มาตรา 7"
       }
     ],
     5: [
