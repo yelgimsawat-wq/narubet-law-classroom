@@ -205,7 +205,56 @@ const PDPA_FILTERS = [
   ["penalty", "บทลงโทษ & อายุความฟ้องคดี"]
 ];
 
-export function PdpaExternalGallery() {
+export function PdpaYoutubeVideoCard() {
+  const yt = UNIT4_PDPA_EXTERNAL_DATA.youtubeVideo;
+  if (!yt) return null;
+  return (
+    <div className="legal-box" style={{ marginBottom: 14 }}>
+      <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
+        <div>
+          <div className="row" style={{ gap: 6, marginBottom: 4, flexWrap: "wrap" }}>
+            <span className="seal-badge seal-alert">สื่อวิดีโอ YouTube</span>
+            <span className="seal-badge seal-info">{yt.shortTitle}</span>
+          </div>
+          <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>{yt.title}</h4>
+          <p className="small muted" style={{ margin: "4px 0 0" }}>
+            ช่องผู้จัดทำ: <strong>{yt.channelName}</strong> · {yt.summary}
+          </p>
+        </div>
+        <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
+          <a className="btn btn-primary btn-sm" href={yt.watchUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="play" size={14} /> เปิดดูบน YouTube ↗
+          </a>
+        </div>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          maxWidth: 780,
+          margin: "0 auto",
+          aspectRatio: "16 / 9",
+          borderRadius: 10,
+          overflow: "hidden",
+          border: "1px solid var(--line)",
+          background: "#09090B"
+        }}
+      >
+        <iframe
+          src={yt.embedUrl}
+          title={yt.title}
+          loading="lazy"
+          style={{ width: "100%", height: "100%", border: 0, display: "block" }}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
+    </div>
+  );
+}
+
+export function PdpaExternalGallery({ showVideo = true }) {
   const [cat, setCat] = useState("all");
   const [selected, setSelected] = useState(null);
   const [showRights, setShowRights] = useState(false);
@@ -244,6 +293,7 @@ export function PdpaExternalGallery() {
 
   return (
     <div className="pdpa-external-gallery" style={{ marginTop: 18 }}>
+      {showVideo && <PdpaYoutubeVideoCard />}
       <div className="legal-box" style={{ marginBottom: 14 }}>
         <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
           <div>
@@ -475,15 +525,26 @@ function Media({ unit }) {
         </div>
       )}
       {Number(unit.id) === 4 && (
-        <div className="unit-section-block">
-          <div className="unit-section-header">
-            <h3>สื่ออินโฟกราฟิกภายนอก: กฎหมายคุ้มครองข้อมูลส่วนบุคคล (พ.ร.บ. PDPA พ.ศ. 2562)</h3>
-            <span className="seal-badge seal-info">สคส. (PDPC) & สำนักงานกิจการยุติธรรม (OJA)</span>
+        <>
+          <div className="unit-section-block">
+            <div className="unit-section-header">
+              <h3>สื่อวิดีโอ: PDPA น่ารู้ (PDPA ใกล้ตัวกว่าที่คิด — เคารพสิทธิ์ ข้อมูลของกันและกัน)</h3>
+              <span className="seal-badge seal-alert">YouTube · Interesting Facts with Narubet</span>
+            </div>
+            <PdpaYoutubeVideoCard />
           </div>
-          <PdpaExternalGallery />
-        </div>
+          <div className="unit-section-block">
+            <div className="unit-section-header">
+              <h3>สื่ออินโฟกราฟิกภายนอก: กฎหมายคุ้มครองข้อมูลส่วนบุคคล (พ.ร.บ. PDPA พ.ศ. 2562)</h3>
+              <span className="seal-badge seal-info">สคส. (PDPC) & สำนักงานกิจการยุติธรรม (OJA)</span>
+            </div>
+            <PdpaExternalGallery showVideo={false} />
+          </div>
+        </>
       )}
-      {(unit.externalResources || []).map((res, rIdx) => {
+      {(unit.externalResources || [])
+        .filter((res) => !(Number(unit.id) === 4 && (res.embedUrl?.includes("iu9D7HEnpKE") || res.url?.includes("iu9D7HEnpKE"))))
+        .map((res, rIdx) => {
         if (res.type === "video" && Array.isArray(res.slides) && res.slides.length) {
           const n = res.slides.length;
           const i = Math.min(n - 1, idx);
@@ -533,6 +594,19 @@ function Media({ unit }) {
               <span className="seal-badge seal-info">{res.source}</span>
             </div>
             <p>{res.summary}</p>
+            {res.embedUrl && (
+              <div style={{ position: "relative", width: "100%", maxWidth: 780, margin: "12px auto", aspectRatio: "16 / 9", borderRadius: 10, overflow: "hidden", border: "1px solid var(--line)", background: "#09090B" }}>
+                <iframe
+                  src={res.embedUrl}
+                  title={res.title}
+                  loading="lazy"
+                  style={{ width: "100%", height: "100%", border: 0, display: "block" }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            )}
             {res.imageUrl && (
               <div style={{ margin: "12px 0", background: "#FFFFFF", border: "1px solid var(--line)", borderRadius: 10, padding: 10, textAlign: "center" }}>
                 <img src={res.imageUrl} alt={res.title} loading="lazy" style={{ maxWidth: "100%", maxHeight: 320, objectFit: "contain", margin: "0 auto" }} />

@@ -601,6 +601,17 @@ export const UNIT4_PDPA_EXTERNAL_DATA = {
   pdpcUrl: "https://www.pdpc.or.th",
   mdesUrl: "https://www.mdes.go.th",
   sourceName: "สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส. · PDPC) และสำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (Justice Channel · OJA)",
+  youtubeVideo: {
+    id: "iu9D7HEnpKE",
+    shortTitle: "PDPA น่ารู้",
+    title: "สื่อวิดีโอ: PDPA น่ารู้ (PDPA ใกล้ตัวกว่าที่คิด — เคารพสิทธิ์ ข้อมูลของกันและกัน)",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    channelUrl: "https://www.youtube.com/@Narubet0310",
+    watchUrl: "https://youtu.be/iu9D7HEnpKE?si=ffTIYxuBE7sRkSa3",
+    embedUrl: "https://www.youtube.com/embed/iu9D7HEnpKE",
+    thumbnailUrl: "https://i.ytimg.com/vi/iu9D7HEnpKE/hqdefault.jpg",
+    summary: "สื่อวิดีโอเสริมความรู้เรื่อง พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) อธิบายความสำคัญของข้อมูลส่วนบุคคลที่ใกล้ตัวกว่าที่คิด สิทธิของเจ้าของข้อมูล และการเคารพสิทธิในข้อมูลส่วนบุคคลของกันและกันในสังคมยุคดิจิทัล"
+  },
   rights: [
     {
       no: 1,

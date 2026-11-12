@@ -630,6 +630,14 @@ window.UNITS_PART2 = [
         ]
       },
       {
+        type: "youtube",
+        title: "สื่อวิดีโอ: PDPA น่ารู้ (PDPA ใกล้ตัวกว่าที่คิด — เคารพสิทธิ์ ข้อมูลของกันและกัน)",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "สื่อวิดีโอเสริมความรู้เรื่อง พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) อธิบายความสำคัญของข้อมูลส่วนบุคคลที่ใกล้ตัวกว่าที่คิด สิทธิของเจ้าของข้อมูล และการเคารพสิทธิในข้อมูลส่วนบุคคลของกันและกัน",
+        embedUrl: "https://www.youtube.com/embed/iu9D7HEnpKE",
+        url: "https://youtu.be/iu9D7HEnpKE?si=ffTIYxuBE7sRkSa3"
+      },
+      {
         type: "infographic",
         title: "ชุดอินโฟกราฟิกความรู้กฎหมาย พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)",
         source: "สำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (Justice Channel · OJA)",
