@@ -37,10 +37,10 @@ function StudentForm({ initial, onSave, onCancel }) {
           <label htmlFor="s-class">ชั้นเรียน</label>
           <select id="s-class" className="form-select" value={f.studentClass} onChange={set("studentClass")}>
             {CLASSES.map((c) => {
-              const blocked = !isNew && c === "ครู" && initial?.studentClass !== "ครู";
+              const blocked = !isNew && (c === "ครู" || c === "บุคคลทั่วไป") && initial?.studentClass !== c;
               return (
                 <option key={c} value={c} disabled={blocked}>
-                  {blocked ? "ครู (ไม่อนุญาตให้ย้ายเข้ากลุ่มครู)" : c}
+                  {blocked ? `${c} (ไม่อนุญาตให้ย้ายเข้ากลุ่ม${c})` : c}
                 </option>
               );
             })}
