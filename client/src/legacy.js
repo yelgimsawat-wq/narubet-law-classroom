@@ -837,7 +837,7 @@ export function getUnitInfographicSvg(unitId) {
           <text x="380" y="211" text-anchor="middle" fill="#1E293B" font-family="Prompt, Sarabun, sans-serif" font-size="12.5" font-weight="600">ชั้นที่ 5: ประกาศกระทรวง · ระเบียบ · ข้อบังคับ · คำสั่ง</text>
 
           <polygon points="90,228 670,228 710,262 50,262" fill="#FCE7F3" stroke="#F9A8D4" stroke-width="2"/>
-          <text x="380" y="250" text-anchor="middle" fill="#1E293B" font-family="Prompt, Sarabun, sans-serif" font-size="12.5" font-weight="600">ชั้นที่ 6: ข้อบัญญัติท้องถิ่น (เทศบัญญัติ · ข้อบัญญัติ กทม. / อบจ. / อบต.)</text>
+          <text x="380" y="250" text-anchor="middle" fill="#1E293B" font-family="Prompt, Sarabun, sans-serif" font-size="12" font-weight="600">ชั้นที่ 6: ข้อบัญญัติท้องถิ่น (เทศบัญญัติ · ข้อบัญญัติ กทม. / อบจ. / อบต./ข้อบัญญัติเมืองพัทยา)</text>
         </svg>
       </div>
       <h4 style="color:var(--crimson-seal); margin-bottom:12px;">2) แผนผังสรุปกระบวนการตราพระราชบัญญัติ 4 ขั้นตอน (อ้างอิงรัฐธรรมนูญ พ.ศ. 2560 มาตรา 133–148)</h4>

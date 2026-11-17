@@ -40,7 +40,7 @@ function StudentForm({ initial, onSave, onCancel }) {
           </select>
         </div>
         <div className="form-field">
-          <label htmlFor="s-id">รหัสประจำตัว (ใช้เข้าสู่ระบบ)</label>
+          <label htmlFor="s-id">รหัสประจำตัว (กรณี ครู หรือ บุคคลทั่วไป ใช้ตัวเลข 00000)</label>
           <input id="s-id" className="form-input num" value={f.studentId} onChange={set("studentId")} required />
         </div>
         <div className="form-field">

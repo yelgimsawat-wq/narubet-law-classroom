@@ -56,13 +56,27 @@ export default function AuthPage({ mode }) {
               <div className="form-grid" style={{ margin: 0 }}>
                 <div className="form-field">
                   <label htmlFor="r-class">ชั้นเรียน</label>
-                  <select id="r-class" className="form-select" value={f.studentClass} onChange={set("studentClass")}>
+                  <select
+                    id="r-class"
+                    className="form-select"
+                    value={f.studentClass}
+                    onChange={(e) => {
+                      const nextClass = e.target.value;
+                      const isNonStudent = nextClass === "ครู" || nextClass === "บุคคลทั่วไป";
+                      setF({
+                        ...f,
+                        studentClass: nextClass,
+                        studentId: isNonStudent && !f.studentId ? "00000" : !isNonStudent && f.studentId === "00000" ? "" : f.studentId
+                      });
+                    }}
+                  >
                     {CLASSES.map((c) => <option key={c}>{c}</option>)}
                   </select>
                 </div>
                 <div className="form-field">
-                  <label htmlFor="r-id">รหัสประจำตัวนักเรียน</label>
-                  <input id="r-id" className="form-input num" value={f.studentId} onChange={set("studentId")} placeholder="เช่น 69115" required autoComplete="username" />
+                  <label htmlFor="r-id">รหัสประจำตัวนักเรียน (กรณี ครู หรือ บุคคลทั่วไป ใช้ตัวเลข 00000)</label>
+                  <input id="r-id" className="form-input num" value={f.studentId} onChange={set("studentId")} placeholder="เช่น 69115 หรือ 00000" required autoComplete="username" />
+                  <small className="small muted" style={{ display: "block", marginTop: 4 }}>กรณี ครู หรือ บุคคลทั่วไป ใช้ตัวเลข 00000</small>
                 </div>
               </div>
               <div className="form-field">

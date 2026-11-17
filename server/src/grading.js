@@ -1,5 +1,5 @@
 // Scoring rules ported from the original app.js; answers never leave the server for students.
-export const CLASSES = Array.from({ length: 16 }, (_, i) => `ม.6/${i + 1}`);
+export const CLASSES = [...Array.from({ length: 16 }, (_, i) => `ม.6/${i + 1}`), "ครู", "บุคคลทั่วไป"];
 export const UNIT_IDS = [1, 2, 3, 4, 5];
 
 export function emptyProgress() {

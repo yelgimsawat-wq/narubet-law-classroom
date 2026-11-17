@@ -18,8 +18,12 @@ r.post("/students", async (req, res) => {
   const err = studentFieldsError(req.body);
   if (err) return res.status(400).json({ error: err });
   const { name, studentClass, studentId, password } = req.body;
+  let username = studentId.trim();
+  if (username === "00000" && (await User.exists({ username: "00000" }))) {
+    username = `00000#${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`;
+  }
   const user = await User.create({
-    username: studentId.trim(),
+    username,
     name: name.trim(),
     studentClass,
     passwordHash: await bcrypt.hash(password, 10)
@@ -34,7 +38,18 @@ r.patch("/students/:id", async (req, res) => {
   if (err) return res.status(400).json({ error: err });
   user.name = req.body.name.trim();
   user.studentClass = req.body.studentClass;
-  if (req.body.studentId) user.username = req.body.studentId.trim();
+  if (req.body.studentId) {
+    const nextId = req.body.studentId.trim();
+    if (nextId === "00000") {
+      if (!user.username.startsWith("00000")) {
+        user.username = (await User.exists({ username: "00000", _id: { $ne: user._id } }))
+          ? `00000#${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`
+          : "00000";
+      }
+    } else {
+      user.username = nextId;
+    }
+  }
   if (req.body.password) user.passwordHash = await bcrypt.hash(req.body.password, 10);
   await user.save();
   res.json(user);

@@ -21,8 +21,12 @@ r.post("/auth/register", async (req, res) => {
   const err = studentFieldsError(req.body);
   if (err) return res.status(400).json({ error: err });
   const { name, studentClass, studentId, password } = req.body;
+  let username = str(studentId, 20);
+  if (username === "00000" && (await User.exists({ username: "00000" }))) {
+    username = `00000#${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`;
+  }
   const user = await User.create({
-    username: str(studentId, 20),
+    username,
     name: str(name),
     studentClass,
     passwordHash: await bcrypt.hash(password, 10)
@@ -31,8 +35,20 @@ r.post("/auth/register", async (req, res) => {
 });
 
 r.post("/auth/login", async (req, res) => {
-  const user = await User.findOne({ username: str(req.body.username, 50) });
-  if (!user || !(await bcrypt.compare(String(req.body.password || ""), user.passwordHash)))
+  const rawUsername = str(req.body.username, 100);
+  const rawPassword = String(req.body.password || "");
+  const candidates =
+    rawUsername === "00000"
+      ? await User.find({ username: /^00000(#|$)/ })
+      : await User.find({ $or: [{ username: rawUsername }, { name: rawUsername }] });
+  let user = null;
+  for (const candidate of candidates) {
+    if (await bcrypt.compare(rawPassword, candidate.passwordHash)) {
+      user = candidate;
+      break;
+    }
+  }
+  if (!user)
     return res.status(401).json({ error: "รหัสประจำตัวหรือรหัสผ่านไม่ถูกต้อง" });
   res.json({ token: signToken(user), user });
 });

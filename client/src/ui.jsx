@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-export const CLASSES = Array.from({ length: 16 }, (_, i) => `ม.6/${i + 1}`);
+export const CLASSES = [...Array.from({ length: 16 }, (_, i) => `ม.6/${i + 1}`), "ครู", "บุคคลทั่วไป"];
 export const LETTERS = ["ก", "ข", "ค", "ง"];
 export const UNIT_IDS = [1, 2, 3, 4, 5];
 export const UNIT_SHORT = ["กฎหมายเบื้องต้น", "กฎหมายแพ่ง", "กฎหมายอาญา", "กฎหมายสำคัญ", "กระบวนการยุติธรรม"];

@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema(
 
 userSchema.set("toJSON", {
   transform: (_doc, ret) => {
+    if (typeof ret.username === "string" && ret.username.startsWith("00000#")) {
+      ret.username = "00000";
+    }
     delete ret.passwordHash;
     delete ret.__v;
     return ret;
