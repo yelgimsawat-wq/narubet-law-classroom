@@ -36,6 +36,9 @@ r.patch("/students/:id", async (req, res) => {
   if (!user) return res.status(404).json({ error: "ไม่พบนักเรียน" });
   const err = studentFieldsError(req.body, { requirePassword: false });
   if (err) return res.status(400).json({ error: err });
+  if (user.studentClass !== "ครู" && req.body.studentClass === "ครู") {
+    return res.status(400).json({ error: "ไม่อนุญาตให้สมาชิกกลุ่มนักเรียนที่ลงทะเบียนแล้ว ย้ายไปอยู่กลุ่มครู เพื่อความเป็นระเบียบของระบบ" });
+  }
   user.name = req.body.name.trim();
   user.studentClass = req.body.studentClass;
   if (req.body.studentId) {

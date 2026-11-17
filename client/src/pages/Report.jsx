@@ -88,8 +88,20 @@ export default function Report() {
                 <div className="form-field">
                   <label htmlFor="p-class">ชั้นเรียน</label>
                   <select id="p-class" className="form-select" value={f.studentClass} onChange={(e) => setF({ ...f, studentClass: e.target.value })}>
-                    {CLASSES.map((c) => <option key={c}>{c}</option>)}
+                    {CLASSES.map((c) => {
+                      const blocked = c === "ครู" && user.studentClass !== "ครู";
+                      return (
+                        <option key={c} value={c} disabled={blocked}>
+                          {blocked ? "ครู (ไม่อนุญาตให้ย้ายเข้ากลุ่มครู)" : c}
+                        </option>
+                      );
+                    })}
                   </select>
+                  {user.studentClass !== "ครู" && (
+                    <small className="small muted" style={{ display: "block", marginTop: 4 }}>
+                      *สมาชิกกลุ่มนักเรียนที่ลงทะเบียนแล้ว ไม่สามารถย้ายไปอยู่กลุ่มครูได้
+                    </small>
+                  )}
                 </div>
                 <div className="form-field">
                   <label>รหัสประจำตัว (แก้ไขได้โดยครู)</label>

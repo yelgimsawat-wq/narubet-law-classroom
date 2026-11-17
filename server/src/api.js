@@ -71,6 +71,9 @@ r.patch("/me", async (req, res) => {
   if (!user) return;
   const err = studentFieldsError({ name: req.body.name, studentClass: req.body.studentClass }, { requirePassword: false });
   if (err && user.role === "student") return res.status(400).json({ error: err });
+  if (user.studentClass !== "ครู" && req.body.studentClass === "ครู") {
+    return res.status(400).json({ error: "ไม่อนุญาตให้สมาชิกกลุ่มนักเรียนที่ลงทะเบียนแล้ว ย้ายไปอยู่กลุ่มครู เพื่อความเป็นระเบียบของระบบ" });
+  }
   if (str(req.body.name)) user.name = str(req.body.name);
   if (CLASSES.includes(req.body.studentClass)) user.studentClass = req.body.studentClass;
   await user.save();
