@@ -49,3 +49,20 @@ test("student content has no answers", () => {
 test("thai timestamp format", () => {
   assert.match(thaiTimestamp(new Date("2026-11-07T08:30:00Z")), /^2569-11-07 15:30$/);
 });
+
+test("teacher score edits: valid edits apply, bad input changes nothing", async () => {
+  const { applyScoreEdits, emptyProgress } = await import("./grading.js");
+  const quizzes = { 3: Array(20).fill({}) };
+  const p = emptyProgress();
+  assert.equal(applyScoreEdits(p, { 3: { postScore: 15, gameScore: 80 } }, quizzes), null);
+  assert.equal(p.unitProgress[3].postScore, 15);
+  assert.equal(p.unitProgress[3].gameScore, 80);
+  assert.equal(applyScoreEdits(p, { 3: { postScore: null } }, quizzes), null);
+  assert.equal(p.unitProgress[3].postScore, null);
+  // over max, wrong type, unknown field/unit: rejected and nothing half-applied
+  for (const bad of [{ 3: { preScore: 21 } }, { 3: { preScore: "5" } }, { 3: { preScore: 1.5 } }, { 3: { bonus: 1 } }, { 9: { preScore: 1 } }, { 3: { gameScore: 50, preScore: -1 } }]) {
+    assert.ok(applyScoreEdits(p, bad, quizzes), JSON.stringify(bad));
+  }
+  assert.equal(p.unitProgress[3].gameScore, 80);
+  assert.equal(p.unitProgress[3].preScore, null);
+});

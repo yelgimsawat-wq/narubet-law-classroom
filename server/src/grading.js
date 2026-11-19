@@ -111,3 +111,26 @@ export function gradeGame(mg, body = {}) {
     key: cases.map((c) => ({ answer: c.correct, explanation: c.reason }))
   };
 }
+
+const SCORE_FIELDS = ["preScore", "postScore", "gameScore"];
+
+// Teacher score edits: { [unit]: { preScore|postScore|gameScore: int | null } }; null = "not done".
+// Validates everything first, then applies, so a bad field never leaves a half-applied edit.
+export function applyScoreEdits(progress, edits, quizzes = {}) {
+  const changes = [];
+  for (const [u, fields] of Object.entries(edits && typeof edits === "object" ? edits : {})) {
+    const unit = Number(u);
+    if (!UNIT_IDS.includes(unit)) return `ไม่มีหน่วยที่ ${u}`;
+    for (const [field, v] of Object.entries(fields && typeof fields === "object" ? fields : {})) {
+      if (!SCORE_FIELDS.includes(field)) return `ไม่รู้จักช่องคะแนน ${field}`;
+      const max = field === "gameScore" ? 100 : quizzes[unit]?.length || 20;
+      if (v !== null && !(Number.isInteger(v) && v >= 0 && v <= max)) return `หน่วย ${unit}: คะแนนต้องเป็นจำนวนเต็ม 0–${max}`;
+      changes.push([unit, field, v]);
+    }
+  }
+  for (const [unit, field, v] of changes) {
+    progress.unitProgress[unit] ??= { preScore: null, postScore: null, gameScore: null };
+    progress.unitProgress[unit][field] = v;
+  }
+  return null;
+}

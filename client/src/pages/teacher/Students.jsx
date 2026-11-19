@@ -64,6 +64,86 @@ function StudentForm({ initial, onSave, onCancel }) {
   );
 }
 
+const UNITS = [1, 2, 3, 4, 5];
+const FIELDS = [["preScore", "ก่อนเรียน"], ["postScore", "หลังเรียน"], ["gameScore", "มินิเกม"]];
+
+// Work-status filter: key -> [label, (student) => bool]
+const missing = (s, u, f) => !has(s.progress.unitProgress[u]?.[f]);
+const allDone = (s) => s.progress.diagnostic.completed && UNITS.every((u) => FIELDS.every(([f]) => !missing(s, u, f)));
+const TODO = {
+  all: ["ทุกสถานะ", () => true],
+  pending: ["ยังมีงานค้าง", (s) => !allDone(s)],
+  done: ["ทำครบทุกงานแล้ว", allDone],
+  diag: ["ยังไม่ทำแบบประเมินแรกเข้า", (s) => !s.progress.diagnostic.completed],
+  ...Object.fromEntries(UNITS.flatMap((u) => FIELDS.map(([f, label]) => [`${f}-${u}`, [`หน่วย ${u}: ยังไม่ทำ${label}`, (s) => missing(s, u, f)]])))
+};
+
+// Teacher edits unit scores; blank = "not done yet".
+function ScoreForm({ s, quizzes, onSave, onCancel }) {
+  const up = s.progress.unitProgress;
+  const [f, setF] = useState(() => Object.fromEntries(UNITS.flatMap((u) => FIELDS.map(([k]) => [`${u}.${k}`, has(up[u]?.[k]) ? String(up[u][k]) : ""]))));
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const max = (u, k) => (k === "gameScore" ? 100 : quizzes?.[u]?.length || 20);
+
+  async function submit(e) {
+    e.preventDefault();
+    const unitProgress = {};
+    for (const u of UNITS)
+      for (const [k] of FIELDS) {
+        const v = f[`${u}.${k}`].trim() === "" ? null : Number(f[`${u}.${k}`]);
+        if (v !== (has(up[u]?.[k]) ? up[u][k] : null)) (unitProgress[u] ??= {})[k] = v;
+      }
+    if (!Object.keys(unitProgress).length) return onCancel();
+    setBusy(true);
+    setErr("");
+    try {
+      await onSave({ unitProgress });
+    } catch (e2) {
+      setErr(e2.message);
+      setBusy(false);
+    }
+  }
+
+  return (
+    <form onSubmit={submit}>
+      <p className="small muted" style={{ marginTop: 0 }}>เว้นว่าง = ยังไม่ทำ · ก่อน/หลังเรียนเต็มตามจำนวนข้อของหน่วย · มินิเกมเต็ม 100%</p>
+      <div className="table-wrap">
+        <table className="legal-table">
+          <thead>
+            <tr><th>หน่วย</th>{FIELDS.map(([k, label]) => <th key={k}>{label}</th>)}</tr>
+          </thead>
+          <tbody>
+            {UNITS.map((u) => (
+              <tr key={u}>
+                <td><strong>หน่วย {u}</strong></td>
+                {FIELDS.map(([k, label]) => (
+                  <td key={k}>
+                    <div className="row" style={{ gap: 6, flexWrap: "nowrap", alignItems: "center" }}>
+                      <input
+                        type="number" inputMode="numeric" className="form-input num" style={{ width: 76 }}
+                        min={0} max={max(u, k)} step={1} placeholder="–"
+                        value={f[`${u}.${k}`]} onChange={(e) => setF({ ...f, [`${u}.${k}`]: e.target.value })}
+                        aria-label={`หน่วย ${u} ${label}`}
+                      />
+                      <span className="small muted">/{max(u, k)}{k === "gameScore" ? "%" : ""}</span>
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {err && <p className="form-error" style={{ marginBottom: 12 }}>{err}</p>}
+      <div className="row" style={{ justifyContent: "flex-end" }}>
+        <button type="button" className="btn" onClick={onCancel}>ยกเลิก</button>
+        <button className="btn btn-primary" disabled={busy} aria-busy={busy}><span>บันทึกคะแนน</span></button>
+      </div>
+    </form>
+  );
+}
+
 function exportCsv(list) {
   const header = ["ชื่อ-นามสกุล", "ชั้นเรียน", "รหัสประจำตัว", "ประเมินแรกเข้า(25)", "วันที่ประเมิน"];
   for (let u = 1; u <= 5; u++) header.push(`หน่วย${u}_ก่อนเรียน(20)`, `หน่วย${u}_หลังเรียน(20)`, `หน่วย${u}_มินิเกม(%)`);
@@ -132,14 +212,18 @@ export default function Students() {
   const { students, setStudents, error, reload } = useStudents();
   const [cls, setCls] = useState("all");
   const [q, setQ] = useState("");
-  const [modal, setModal] = useState(null); // {type: 'new'|'edit'|'report', s}
+  const [todo, setTodo] = useState("all");
+  const [modal, setModal] = useState(null); // {type: 'new'|'edit'|'scores'|'report', s}
   const [toast, setToast] = useToast();
   const [busy, run] = useBusy();
   if (error) return <ErrorState message={error} onRetry={reload} />;
   if (!students) return <PageSkeleton rows={6} />;
 
   const ql = q.trim().toLowerCase();
-  const list = students.filter((s) => (cls === "all" || s.studentClass === cls) && (!ql || `${s.name} ${s.username}`.toLowerCase().includes(ql)));
+  const base = students.filter((s) => (cls === "all" || s.studentClass === cls) && (!ql || `${s.name} ${s.username}`.toLowerCase().includes(ql)));
+  const list = base.filter(TODO[todo][1]);
+  const todoOption = (k) => <option key={k} value={k}>{TODO[k][0]} ({base.filter(TODO[k][1]).length})</option>;
+  const filtered = cls !== "all" || ql || todo !== "all";
   const replace = (u) => setStudents((all) => all.map((s) => (s._id === u._id ? u : s)));
   const close = () => setModal(null);
 
@@ -177,6 +261,11 @@ export default function Students() {
             <option value="all">ทุกห้อง ({students.length})</option>
             {CLASSES.map((c) => <option key={c} value={c}>{c} ({students.filter((s) => s.studentClass === c).length})</option>)}
           </select>
+          <select className="form-select" style={{ width: "auto" }} value={todo} onChange={(e) => setTodo(e.target.value)} aria-label="กรองสถานะงาน">
+            {["all", "pending", "done", "diag"].map(todoOption)}
+            {UNITS.map((u) => <optgroup key={u} label={`หน่วย ${u}`}>{FIELDS.map(([f]) => todoOption(`${f}-${u}`))}</optgroup>)}
+          </select>
+          {filtered && <button type="button" className="btn btn-sm" onClick={() => { setCls("all"); setQ(""); setTodo("all"); }}>ล้างตัวกรอง</button>}
         </div>
       </PageHead>
 
@@ -189,7 +278,7 @@ export default function Students() {
 
       <section className="editorial-panel">
         {list.length === 0 ? (
-          <p className="empty">ยังไม่มีนักเรียน{cls !== "all" ? `ในห้อง ${cls}` : ""} — นักเรียนสมัครเองได้ที่หน้าเข้าสู่ระบบ หรือกด “เพิ่มนักเรียน”</p>
+          <p className="empty">{filtered ? "ไม่มีนักเรียนที่ตรงกับตัวกรอง" : "ยังไม่มีนักเรียน — นักเรียนสมัครเองได้ที่หน้าเข้าสู่ระบบ หรือกด “เพิ่มนักเรียน”"}</p>
         ) : (
           <div className="table-wrap">
             <table className="legal-table stack-mobile">
@@ -215,6 +304,7 @@ export default function Students() {
                       <td className="cell-action">
                         <div className="row" style={{ gap: 4, flexWrap: "nowrap" }}>
                           <button type="button" className="btn btn-sky btn-sm" onClick={() => setModal({ type: "report", s })}>รายงาน</button>
+                          <button type="button" className="btn btn-sm" onClick={() => setModal({ type: "scores", s })}>แก้คะแนน</button>
                           <button type="button" className="btn btn-sm" onClick={() => setModal({ type: "edit", s })} aria-label={`แก้ไข ${s.name}`}><Icon name="edit" size={14} /></button>
                           <button type="button" className="btn btn-sm" aria-busy={busy === `reset-${s._id}`} disabled={!!busy} onClick={() => resetProgress(s)}><span>ล้างคะแนน</span></button>
                           <button type="button" className="btn btn-sm btn-danger" aria-busy={busy === `del-${s._id}`} disabled={!!busy} onClick={() => remove(s)} aria-label={`ลบ ${s.name}`}><Icon name="trash" size={14} /></button>
@@ -251,6 +341,20 @@ export default function Students() {
               replace(await api(`/admin/students/${modal.s._id}`, { method: "PATCH", body }));
               close();
               setToast("บันทึกแล้ว");
+            }}
+          />
+        </Modal>
+      )}
+      {modal?.type === "scores" && (
+        <Modal title={`แก้คะแนน: ${modal.s.name}`} onClose={close} wide>
+          <ScoreForm
+            s={modal.s}
+            quizzes={content.quizzes}
+            onCancel={close}
+            onSave={async (body) => {
+              replace(await api(`/admin/students/${modal.s._id}/scores`, { method: "PATCH", body }));
+              close();
+              setToast("บันทึกคะแนนแล้ว");
             }}
           />
         </Modal>

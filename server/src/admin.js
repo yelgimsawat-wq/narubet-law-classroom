@@ -1,8 +1,8 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
-import { User, Content, CONTENT_KEYS, clearContentCache } from "./models.js";
+import { User, Content, CONTENT_KEYS, clearContentCache, getContent } from "./models.js";
 import { auth, teacherOnly } from "./auth.js";
-import { emptyProgress } from "./grading.js";
+import { emptyProgress, applyScoreEdits } from "./grading.js";
 import { studentFieldsError } from "./api.js";
 
 const r = Router();
@@ -62,6 +62,16 @@ r.post("/students/:id/reset-progress", async (req, res) => {
   const user = await findStudent(req.params.id);
   if (!user) return res.status(404).json({ error: "ไม่พบนักเรียน" });
   user.progress = emptyProgress();
+  user.markModified("progress");
+  await user.save();
+  res.json(user);
+});
+
+r.patch("/students/:id/scores", async (req, res) => {
+  const user = await findStudent(req.params.id);
+  if (!user) return res.status(404).json({ error: "ไม่พบนักเรียน" });
+  const err = applyScoreEdits(user.progress, req.body.unitProgress, (await getContent()).quizzes);
+  if (err) return res.status(400).json({ error: err });
   user.markModified("progress");
   await user.save();
   res.json(user);
