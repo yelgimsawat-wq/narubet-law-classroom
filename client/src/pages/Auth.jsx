@@ -72,6 +72,9 @@ export default function AuthPage({ mode }) {
                   >
                     {CLASSES.map((c) => <option key={c}>{c}</option>)}
                   </select>
+                  {f.studentClass === "ครู" && (
+                    <small className="small muted" style={{ display: "block", marginTop: 4 }}>บัญชีครูต้องให้ครูในระบบยืนยันก่อน จึงจะเข้า Backoffice ได้</small>
+                  )}
                 </div>
                 <div className="form-field">
                   <label htmlFor="r-id">รหัสประจำตัวนักเรียน (กรณี ครู หรือ บุคคลทั่วไป ใช้ตัวเลข 00000)</label>

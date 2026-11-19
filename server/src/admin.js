@@ -73,7 +73,28 @@ r.delete("/students/:id", async (req, res) => {
   res.status(204).end();
 });
 
-const validKey = (req, res, next) => (CONTENT_KEYS.includes(req.params.key) ? next() : res.status(404).json({ error: "ไม่พบเนื้อหา" }));
+// Signing up with class "ครู" only creates a pending request (still role student);
+// any existing teacher can approve it, which grants Backoffice access.
+const PENDING_TEACHER = { role: "student", studentClass: "ครู" };
+
+r.get("/teacher-requests", async (_req, res) => {
+  res.json(await User.find(PENDING_TEACHER, { progress: 0 }).sort({ createdAt: 1 }));
+});
+
+r.post("/teacher-requests/:id/approve", async (req, res) => {
+  const user = await User.findOneAndUpdate({ _id: req.params.id, ...PENDING_TEACHER }, { role: "teacher" }, { new: true, projection: { progress: 0 } });
+  if (!user) return res.status(404).json({ error: "ไม่พบคำขอ (อาจถูกยืนยันไปแล้ว)" });
+  res.json(user);
+});
+
+// Reject keeps the account but moves it to "บุคคลทั่วไป" so it stops showing as a request.
+r.post("/teacher-requests/:id/reject", async (req, res) => {
+  const user = await User.findOneAndUpdate({ _id: req.params.id, ...PENDING_TEACHER }, { studentClass: "บุคคลทั่วไป" }, { new: true, projection: { progress: 0 } });
+  if (!user) return res.status(404).json({ error: "ไม่พบคำขอ (อาจถูกจัดการไปแล้ว)" });
+  res.json(user);
+});
+
+const validKey =(req, res, next) => (CONTENT_KEYS.includes(req.params.key) ? next() : res.status(404).json({ error: "ไม่พบเนื้อหา" }));
 
 r.get("/content/:key", validKey, async (req, res) => {
   const doc = await Content.findOne({ key: req.params.key }).lean();

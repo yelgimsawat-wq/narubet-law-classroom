@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../auth.jsx";
 import { api } from "../../api.js";
 import { CLASSES, ErrorState, Icon, Modal, PageHead, PageSkeleton, downloadFile, has, useBusy, useToast } from "../../ui.jsx";
@@ -77,6 +77,56 @@ function exportCsv(list) {
   downloadFile("﻿" + [header.map(q).join(","), ...rows].join("\r\n"), "รายงานผลผู้เรียน_ส33102_ครูนฤเบศ.csv", "text/csv;charset=utf-8");
 }
 
+// People who signed up as "ครู" wait here until any teacher approves them.
+function TeacherRequests({ onDone, setToast }) {
+  const [reqs, setReqs] = useState(null);
+  const [busy, setBusy] = useState("");
+  useEffect(() => {
+    api("/admin/teacher-requests").then(setReqs, (e) => setToast(`โหลดคำขอเป็นครูไม่ได้: ${e.message}`));
+  }, []);
+  if (!reqs?.length) return null;
+
+  async function act(u, action) {
+    const verb = action === "approve" ? "ยืนยันให้เป็นครู (เข้า Backoffice ได้)" : "ปฏิเสธ (ย้ายไปกลุ่มบุคคลทั่วไป)";
+    if (!window.confirm(`${verb}: ${u.name}?`)) return;
+    setBusy(u._id);
+    try {
+      const updated = await api(`/admin/teacher-requests/${u._id}/${action}`, { method: "POST" });
+      setReqs((all) => all.filter((x) => x._id !== u._id));
+      onDone(updated, action);
+      setToast(action === "approve" ? `ยืนยัน ${u.name} เป็นครูแล้ว` : "ปฏิเสธคำขอแล้ว");
+    } catch (e) {
+      setToast(e.message);
+    } finally {
+      setBusy("");
+    }
+  }
+
+  return (
+    <section className="editorial-panel" style={{ marginBottom: 16 }}>
+      <h3 style={{ marginTop: 0 }}>คำขอเป็นครู ({reqs.length})</h3>
+      <p className="small muted">ผู้ที่สมัครโดยเลือก “ครู” — ตรวจสอบว่าเป็นครูจริงก่อนกดยืนยัน ครูที่ยืนยันแล้วจะเข้า Backoffice ได้ทันที</p>
+      <div className="table-wrap">
+        <table className="legal-table">
+          <tbody>
+            {reqs.map((u) => (
+              <tr key={u._id} style={busy === u._id ? { opacity: 0.55 } : undefined}>
+                <td><strong>{u.name}</strong><div className="small muted">สมัครเมื่อ {new Date(u.createdAt).toLocaleString("th-TH")}</div></td>
+                <td className="cell-action">
+                  <div className="row" style={{ gap: 4, flexWrap: "nowrap", justifyContent: "flex-end" }}>
+                    <button type="button" className="btn btn-primary btn-sm" disabled={!!busy} onClick={() => act(u, "approve")}>ยืนยันเป็นครู</button>
+                    <button type="button" className="btn btn-sm btn-danger" disabled={!!busy} onClick={() => act(u, "reject")}>ปฏิเสธ</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
 export default function Students() {
   const { content } = useAuth();
   const { students, setStudents, error, reload } = useStudents();
@@ -125,10 +175,17 @@ export default function Students() {
           <input type="search" className="form-input" style={{ maxWidth: 280 }} placeholder="ค้นหาชื่อหรือรหัส" value={q} onChange={(e) => setQ(e.target.value)} aria-label="ค้นหานักเรียน" />
           <select className="form-select" style={{ width: "auto" }} value={cls} onChange={(e) => setCls(e.target.value)} aria-label="กรองห้อง">
             <option value="all">ทุกห้อง ({students.length})</option>
-            {CLASSES.map((c) => <option key={c}>{c} ({students.filter((s) => s.studentClass === c).length})</option>)}
+            {CLASSES.map((c) => <option key={c} value={c}>{c} ({students.filter((s) => s.studentClass === c).length})</option>)}
           </select>
         </div>
       </PageHead>
+
+      <TeacherRequests
+        setToast={setToast}
+        onDone={(u, action) =>
+          setStudents((all) => (action === "approve" ? all.filter((s) => s._id !== u._id) : all.map((s) => (s._id === u._id ? { ...s, studentClass: u.studentClass } : s))))
+        }
+      />
 
       <section className="editorial-panel">
         {list.length === 0 ? (
