@@ -110,6 +110,7 @@ export default function AuthPage({ mode }) {
           </button>
           {!isReg && <p className="small muted" style={{ marginTop: 14 }}>ลืมรหัสผ่าน? แจ้งครูผู้สอน</p>}
         </form>
+        <footer className="credit">พัฒนาโดย อัฑฒกร กิมสวัสดิ์ และ ชัชนก หนันเรือง</footer>
       </div>
     </div>
   );

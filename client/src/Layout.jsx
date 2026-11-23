@@ -133,6 +133,7 @@ export default function Layout() {
           <div key={pageKey} className="page-enter">
             <Outlet />
           </div>
+          <footer className="credit">พัฒนาโดย อัฑฒกร กิมสวัสดิ์ และ ชัชนก หนันเรือง</footer>
         </main>
       </div>
     </div>
