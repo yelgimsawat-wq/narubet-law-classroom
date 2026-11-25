@@ -639,6 +639,46 @@ window.UNITS_PART1 = [
         ]
       },
       {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 1: วงจรชีวิตของสถานะทางกฎหมาย (กฎหมายเกี่ยวกับบุคคล)",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "อธิบายการเริ่มและสิ้นสุดสภาพบุคคลธรรมดา (ป.พ.พ. มาตรา 15) การแจ้งเกิด-แจ้งตาย การสาบสูญ ภูมิลำเนา และความสามารถในการทำนิติกรรมของบุคคล",
+        embedUrl: "https://www.youtube.com/embed/QUZxD6aY5Uk",
+        url: "https://youtu.be/QUZxD6aY5Uk"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 2: กฎหมายเกี่ยวกับทรัพย์ (ทรัพย์ ทรัพย์สิน บุคคลสิทธิ และทรัพยสิทธิ)",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "สรุปความแตกต่างระหว่างทรัพย์กับทรัพย์สิน ประเภทของทรัพย์สิน (อสังหาริมทรัพย์ vs สังหาริมทรัพย์) และความแตกต่างระหว่างบุคคลสิทธิกับทรัพยสิทธิ",
+        embedUrl: "https://www.youtube.com/embed/0mCQcufYazw",
+        url: "https://youtu.be/0mCQcufYazw"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 3: กายวิภาคของนิติกรรม (ความสมบูรณ์ของนิติกรรม โมฆะ vs โมฆียะ)",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "เจาะลึกองค์ประกอบของนิติกรรม ความสมบูรณ์ของนิติกรรม สาเหตุที่ทำให้นิติกรรมตกเป็นโมฆะกรรมหรือโมฆียะกรรม การบอกล้าง และการให้สัตยาบัน",
+        embedUrl: "https://www.youtube.com/embed/cEp8sDYuDJA",
+        url: "https://youtu.be/cEp8sDYuDJA"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 4: สัญญาในชีวิตประจำวัน (เอกเทศสัญญาที่ควรรู้)",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "รวบรวมเอกเทศสัญญาที่พบบ่อยในชีวิตประจำวัน เช่น ซื้อขาย ขายฝาก เช่าทรัพย์ เช่าซื้อ กู้ยืมเงิน ค้ำประกัน จำนอง จำนำ พร้อมแบบของสัญญาและหลักฐานในการฟ้องร้อง",
+        embedUrl: "https://www.youtube.com/embed/f0hNlGr_i50",
+        url: "https://youtu.be/f0hNlGr_i50"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 5: กฎหมายครอบครัวและมรดก (สมรสเท่าเทียม ทายาทโดยธรรม 6 ลำดับ และพินัยกรรม)",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "สรุปหลักกฎหมายครอบครัว (การหมั้น สมรสเท่าเทียม สินส่วนตัว vs สินสมรส) และกฎหมายมรดก (ลำดับทายาทโดยธรรม 6 ลำดับ คู่สมรส และรูปแบบพินัยกรรม)",
+        embedUrl: "https://www.youtube.com/embed/TkxxSk0RVOE",
+        url: "https://youtu.be/TkxxSk0RVOE"
+      },
+      {
         type: "infographic",
         title: "อินโฟกราฟิก: อายุความนานแค่ไหน (2 ปี / 5 ปี / 10 ปี) & ไทม์ไลน์การบอกล้างโมฆียะกรรม",
         source: "สรุปสาระสำคัญอ้างอิงสำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (หน้า 33 และ 46 ของเอกสารประกอบการเรียน)",

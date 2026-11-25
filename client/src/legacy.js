@@ -436,6 +436,79 @@ export const complianceCard = `
     </div>
   `;
 
+export const UNIT2_YOUTUBE_VIDEOS = [
+  {
+    id: "QUZxD6aY5Uk",
+    order: 1,
+    sectionId: "u2-s1",
+    topicKey: "person",
+    topicBadge: "หัวข้อที่ 1 · กฎหมายเกี่ยวกับบุคคล",
+    shortTitle: "วงจรชีวิตของสถานะทางกฎหมาย",
+    title: "สื่อวิดีโอที่ 1: วงจรชีวิตของสถานะทางกฎหมาย",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/QUZxD6aY5Uk",
+    embedUrl: "https://www.youtube.com/embed/QUZxD6aY5Uk",
+    thumbnailUrl: "https://i.ytimg.com/vi/QUZxD6aY5Uk/hqdefault.jpg",
+    summary: "อธิบายการเริ่มและสิ้นสุดสภาพบุคคลธรรมดา (ป.พ.พ. มาตรา 15) การแจ้งเกิด-แจ้งตาย การสาบสูญ ภูมิลำเนา และบุคคลผู้ถูกจำกัดความสามารถในการทำนิติกรรม (ผู้เยาว์ คนไร้ความสามารถ คนเสมือนไร้ความสามารถ)"
+  },
+  {
+    id: "0mCQcufYazw",
+    order: 2,
+    sectionId: "u2-s2",
+    topicKey: "property",
+    topicBadge: "หัวข้อที่ 2 · ทรัพย์และทรัพย์สิน",
+    shortTitle: "กฎหมายเกี่ยวกับทรัพย์",
+    title: "สื่อวิดีโอที่ 2: กฎหมายเกี่ยวกับทรัพย์",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/0mCQcufYazw",
+    embedUrl: "https://www.youtube.com/embed/0mCQcufYazw",
+    thumbnailUrl: "https://i.ytimg.com/vi/0mCQcufYazw/hqdefault.jpg",
+    summary: "สรุปความแตกต่างระหว่างทรัพย์กับทรัพย์สิน ประเภทของทรัพย์สิน (อสังหาริมทรัพย์ vs สังหาริมทรัพย์) และความแตกต่างระหว่างบุคคลสิทธิกับทรัพยสิทธิ"
+  },
+  {
+    id: "cEp8sDYuDJA",
+    order: 3,
+    sectionId: "u2-s2",
+    topicKey: "juristic-act",
+    topicBadge: "หัวข้อที่ 2 · นิติกรรม (โมฆะ vs โมฆียะ)",
+    shortTitle: "กายวิภาคของนิติกรรม",
+    title: "สื่อวิดีโอที่ 3: กายวิภาคของนิติกรรม",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/cEp8sDYuDJA",
+    embedUrl: "https://www.youtube.com/embed/cEp8sDYuDJA",
+    thumbnailUrl: "https://i.ytimg.com/vi/cEp8sDYuDJA/hqdefault.jpg",
+    summary: "เจาะลึกองค์ประกอบของนิติกรรม ความสมบูรณ์ของนิติกรรม สาเหตุที่ทำให้นิติกรรมตกเป็นโมฆะกรรมหรือโมฆียะกรรม การบอกล้าง และการให้สัตยาบัน"
+  },
+  {
+    id: "f0hNlGr_i50",
+    order: 4,
+    sectionId: "u2-s3",
+    topicKey: "contract",
+    topicBadge: "หัวข้อที่ 3 · เอกเทศสัญญาและหนี้",
+    shortTitle: "สัญญาในชีวิตประจำวัน",
+    title: "สื่อวิดีโอที่ 4: สัญญาในชีวิตประจำวัน",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/f0hNlGr_i50",
+    embedUrl: "https://www.youtube.com/embed/f0hNlGr_i50",
+    thumbnailUrl: "https://i.ytimg.com/vi/f0hNlGr_i50/hqdefault.jpg",
+    summary: "รวบรวมเอกเทศสัญญาที่พบบ่อยในชีวิตประจำวัน เช่น ซื้อขาย ขายฝาก เช่าทรัพย์ เช่าซื้อ กู้ยืมเงิน ค้ำประกัน จำนอง จำนำ พร้อมแบบของสัญญาและหลักฐานในการฟ้องร้อง"
+  },
+  {
+    id: "TkxxSk0RVOE",
+    order: 5,
+    sectionId: "u2-s4",
+    topicKey: "family-inheritance",
+    topicBadge: "หัวข้อที่ 4 · ครอบครัวและมรดก",
+    shortTitle: "กฎหมายครอบครัวและมรดก",
+    title: "สื่อวิดีโอที่ 5: กฎหมายครอบครัวและมรดก",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/TkxxSk0RVOE",
+    embedUrl: "https://www.youtube.com/embed/TkxxSk0RVOE",
+    thumbnailUrl: "https://i.ytimg.com/vi/TkxxSk0RVOE/hqdefault.jpg",
+    summary: "สรุปหลักกฎหมายครอบครัว (การหมั้น สมรสเท่าเทียม สินส่วนตัว vs สินสมรส) และกฎหมายมรดก (ลำดับทายาทโดยธรรม 6 ลำดับ คู่สมรส และรูปแบบพินัยกรรม)"
+  }
+];
+
 export const UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS = {
   apiEndpoint: "https://justicechannel.org/wp-json/wp/v2/posts/2627",
   ebookApiEndpoint: "https://justicechannel.org/wp-json/wp/v2/e-book/13181",

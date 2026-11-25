@@ -4,9 +4,142 @@ import { useAuth } from "../auth.jsx";
 import { api } from "../api.js";
 import { Html, Icon, has } from "../ui.jsx";
 import { QuizRunner, shuffle } from "../Quiz.jsx";
-import { UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
+import { UNIT2_YOUTUBE_VIDEOS, UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
 
 const TABS = ["content", "interactive", "media", "pretest", "posttest", "minigame"];
+
+const UNIT2_VIDEO_FILTERS = [
+  ["all", "ทั้งหมด (5 วิดีโอ)"],
+  ["person", "1. บุคคล (สถานะทางกฎหมาย)"],
+  ["property", "2. ทรัพย์และทรัพย์สิน"],
+  ["juristic-act", "3. นิติกรรม (โมฆะ/โมฆียะ)"],
+  ["contract", "4. สัญญาในชีวิตประจำวัน"],
+  ["family-inheritance", "5. ครอบครัวและมรดก"]
+];
+
+function resolveUnit2SectionId(section) {
+  if (section?.id && /^u2-s[1-4]$/.test(section.id)) return section.id;
+  const t = section?.title || "";
+  if (t.startsWith("1.") || t.includes("บุคคล")) return "u2-s1";
+  if (t.startsWith("2.") || t.includes("ทรัพย์") || t.includes("นิติกรรม")) return "u2-s2";
+  if (t.startsWith("3.") || t.includes("เอกเทศสัญญา")) return "u2-s3";
+  if (t.startsWith("4.") || t.includes("ครอบครัว") || t.includes("มรดก")) return "u2-s4";
+  return "";
+}
+
+function Unit2VideoCard({ video, compact = false }) {
+  return (
+    <div className="legal-box" style={{ margin: 0, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 10 }}>
+      <div>
+        <div className="row between" style={{ gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+          <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
+            <span className="seal-badge seal-alert">สื่อวิดีโอ YouTube</span>
+            <span className="seal-badge seal-info">{video.topicBadge}</span>
+          </div>
+          <a className="btn btn-primary btn-sm" href={video.watchUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="play" size={14} /> เปิดดูบน YouTube ↗
+          </a>
+        </div>
+        <h4 style={{ margin: "0 0 4px", color: "var(--crimson-seal)" }}>{video.title}</h4>
+        <p className="small muted" style={{ margin: 0 }}>
+          ช่องผู้จัดทำ: <strong>{video.channelName}</strong> · {video.summary}
+        </p>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          maxWidth: compact ? "100%" : 780,
+          margin: "0 auto",
+          aspectRatio: "16 / 9",
+          borderRadius: 10,
+          overflow: "hidden",
+          border: "1px solid var(--line)",
+          background: "#09090B"
+        }}
+      >
+        <iframe
+          src={video.embedUrl}
+          title={video.title}
+          loading="lazy"
+          style={{ width: "100%", height: "100%", border: 0, display: "block" }}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
+    </div>
+  );
+}
+
+export function Unit2SectionVideos({ section }) {
+  const secId = resolveUnit2SectionId(section);
+  const videos = UNIT2_YOUTUBE_VIDEOS.filter((v) => v.sectionId === secId);
+  if (!videos.length) return null;
+  const multi = videos.length > 1;
+  return (
+    <div
+      className="unit2-section-videos"
+      style={{
+        marginTop: 16,
+        display: "grid",
+        gridTemplateColumns: multi ? "repeat(auto-fit, minmax(310px, 1fr))" : "1fr",
+        gap: 12
+      }}
+    >
+      {videos.map((v) => (
+        <Unit2VideoCard key={v.id} video={v} compact={multi} />
+      ))}
+    </div>
+  );
+}
+
+export function Unit2YoutubeGallery() {
+  const [topic, setTopic] = useState("all");
+  const videos = UNIT2_YOUTUBE_VIDEOS.filter((v) => topic === "all" || v.topicKey === topic);
+  return (
+    <div className="unit2-youtube-gallery" style={{ marginTop: 12 }}>
+      <div className="legal-box" style={{ marginBottom: 14 }}>
+        <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
+          <div>
+            <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
+              ชุดสื่อวิดีโอประกอบการเรียนรู้หน่วยที่ 2: กฎหมายแพ่งที่ควรรู้ (ครบทั้ง 5 หัวข้อ)
+            </h4>
+            <p className="small muted" style={{ margin: "4px 0 0" }}>
+              ช่องผู้จัดทำ: <strong>Interesting Facts with Narubet (@Narubet0310)</strong> · เลือกหัวข้อด้านล่างเพื่อรับชมวิดีโอแต่ละเรื่อง
+            </p>
+          </div>
+          <span className="seal-badge seal-pass">5 บทเรียนวิดีโอ YouTube</span>
+        </div>
+        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 8 }} role="tablist" aria-label="หมวดหมู่วิดีโอกฎหมายแพ่ง">
+          {UNIT2_VIDEO_FILTERS.map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={topic === key}
+              className={`btn btn-sm ${topic === key ? "btn-primary" : ""}`}
+              onClick={() => setTopic(key)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: videos.length > 1 ? "repeat(auto-fit, minmax(320px, 1fr))" : "1fr",
+          gap: 14
+        }}
+      >
+        {videos.map((v) => (
+          <Unit2VideoCard key={v.id} video={v} compact={videos.length > 1} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const PROPERTY_OFFENSE_FILTERS = [
   ["all", "ทั้งหมด (12 ภาพ)"],
@@ -515,6 +648,15 @@ function Media({ unit }) {
   return (
     <>
       <UnitVisuals unitId={unit.id} />
+      {Number(unit.id) === 2 && (
+        <div className="unit-section-block">
+          <div className="unit-section-header">
+            <h3>ชุดสื่อวิดีโอ: กฎหมายแพ่งที่ควรรู้ (บุคคล · ทรัพย์สิน · นิติกรรม · สัญญา · ครอบครัวและมรดก)</h3>
+            <span className="seal-badge seal-alert">YouTube · Interesting Facts with Narubet</span>
+          </div>
+          <Unit2YoutubeGallery />
+        </div>
+      )}
       {Number(unit.id) === 3 && (
         <div className="unit-section-block">
           <div className="unit-section-header">
@@ -543,7 +685,15 @@ function Media({ unit }) {
         </>
       )}
       {(unit.externalResources || [])
-        .filter((res) => !(Number(unit.id) === 4 && (res.embedUrl?.includes("iu9D7HEnpKE") || res.url?.includes("iu9D7HEnpKE"))))
+        .filter((res) => {
+          if (Number(unit.id) === 2 && UNIT2_YOUTUBE_VIDEOS.some((v) => res.embedUrl?.includes(v.id) || res.url?.includes(v.id))) {
+            return false;
+          }
+          if (Number(unit.id) === 4 && (res.embedUrl?.includes("iu9D7HEnpKE") || res.url?.includes("iu9D7HEnpKE"))) {
+            return false;
+          }
+          return true;
+        })
         .map((res, rIdx) => {
         if (res.type === "video" && Array.isArray(res.slides) && res.slides.length) {
           const n = res.slides.length;
@@ -825,6 +975,7 @@ export default function Unit() {
                 <span className="seal-badge seal-info num">{sec.badge}</span>
               </div>
               <Html className="legal-prose" html={sec.content} />
+              {Number(unit.id) === 2 && <Unit2SectionVideos section={sec} />}
               {Number(unit.id) === 3 && (sec.id === "u3-s3" || sec.title?.includes("ความผิดต่อทรัพย์")) && (
                 <PropertyOffensesExternalGallery />
               )}
