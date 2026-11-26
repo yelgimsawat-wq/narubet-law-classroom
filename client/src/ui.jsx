@@ -9,10 +9,10 @@ export const UNIT_SHORT = ["กฎหมายเบื้องต้น", "ก
 // Lesson HTML comes from the teacher-managed database (trusted author).
 export const Html = ({ html, as: Tag = "div", ...p }) => <Tag {...p} dangerouslySetInnerHTML={{ __html: html || "" }} />;
 
-export function levelLabel(pct) {
-  if (pct >= 80) return { text: "เชี่ยวชาญ (ดีเยี่ยม)", cls: "seal-pass" };
-  if (pct >= 60) return { text: "ผ่านเกณฑ์ (ควรเสริมบางจุด)", cls: "seal-info" };
-  return { text: "ควรเร่งทบทวนเป็นพิเศษ", cls: "seal-alert" };
+export function levelLabel(pct, lang = "th") {
+  if (pct >= 80) return { text: lang === "en" ? "Mastery (Excellent)" : "เชี่ยวชาญ (ดีเยี่ยม)", cls: "seal-pass" };
+  if (pct >= 60) return { text: lang === "en" ? "Passed (Review Minor Topics)" : "ผ่านเกณฑ์ (ควรเสริมบางจุด)", cls: "seal-info" };
+  return { text: lang === "en" ? "Needs Intensive Review" : "ควรเร่งทบทวนเป็นพิเศษ", cls: "seal-alert" };
 }
 
 export const has = (v) => v !== null && v !== undefined;
@@ -55,6 +55,7 @@ export function Icon({ name, size = 18, ...p }) {
 }
 
 export function QuestionCard({ badge, meta, title, options, picked, onPick, result, letters = true, explanationLabel = "คำอธิบาย" }) {
+  const letterList = Array.isArray(letters) ? letters : letters ? LETTERS : null;
   return (
     <article className="quiz-question-box">
       <div className="row between" style={{ marginBottom: 4 }}>
@@ -72,8 +73,8 @@ export function QuestionCard({ badge, meta, title, options, picked, onPick, resu
           }
           return (
             <button key={i} type="button" className={cls} onClick={() => onPick(i)} disabled={!!result} aria-pressed={picked === i}>
-              {letters && <span className="opt-letter">{LETTERS[i]}</span>}
-              <Html as="span" html={opt} />
+              {letterList && <span className="opt-letter">{letterList[i]}</span>}
+              {typeof opt === "string" ? <Html as="span" html={opt} /> : opt}
             </button>
           );
         })}
@@ -82,9 +83,9 @@ export function QuestionCard({ badge, meta, title, options, picked, onPick, resu
         <div className="quiz-explanation">
           <strong>
             {explanationLabel}
-            {letters && has(result.answer) ? ` (เฉลยข้อ ${LETTERS[result.answer]})` : ""}:
+            {letters === true && has(result.answer) ? ` (เฉลยข้อ ${LETTERS[result.answer]})` : ""}:
           </strong>{" "}
-          <Html as="span" html={result.explanation} />
+          {typeof result.explanation === "string" ? <Html as="span" html={result.explanation} /> : result.explanation}
         </div>
       )}
     </article>

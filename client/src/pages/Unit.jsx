@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useAuth } from "../auth.jsx";
 import { api } from "../api.js";
+import { BilingualHtml, LangToggle, translateDomNode, translateToEnglish, useLang, useLocalizedUnit } from "../i18n.jsx";
 import { Html, Icon, has } from "../ui.jsx";
 import { QuizRunner, shuffle } from "../Quiz.jsx";
 import { UNIT2_YOUTUBE_VIDEOS, UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
@@ -9,40 +10,41 @@ import { UNIT2_YOUTUBE_VIDEOS, UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT4_PDPA_E
 const TABS = ["content", "interactive", "media", "pretest", "posttest", "minigame"];
 
 const UNIT2_VIDEO_FILTERS = [
-  ["all", "ทั้งหมด (5 วิดีโอ)"],
-  ["person", "1. บุคคล (สถานะทางกฎหมาย)"],
-  ["property", "2. ทรัพย์และทรัพย์สิน"],
-  ["juristic-act", "3. นิติกรรม (โมฆะ/โมฆียะ)"],
-  ["contract", "4. สัญญาในชีวิตประจำวัน"],
-  ["family-inheritance", "5. ครอบครัวและมรดก"]
+  ["all", "ทั้งหมด (5 วิดีโอ)", "All (5 Videos)"],
+  ["person", "1. บุคคล (สถานะทางกฎหมาย)", "1. Persons (Legal Status)"],
+  ["property", "2. ทรัพย์และทรัพย์สิน", "2. Things & Property"],
+  ["juristic-act", "3. นิติกรรม (โมฆะ/โมฆียะ)", "3. Juristic Acts (Void/Voidable)"],
+  ["contract", "4. สัญญาในชีวิตประจำวัน", "4. Everyday Contracts"],
+  ["family-inheritance", "5. ครอบครัวและมรดก", "5. Family & Inheritance"]
 ];
 
 function resolveUnit2SectionId(section) {
   if (section?.id && /^u2-s[1-4]$/.test(section.id)) return section.id;
   const t = section?.title || "";
-  if (t.startsWith("1.") || t.includes("บุคคล")) return "u2-s1";
-  if (t.startsWith("2.") || t.includes("ทรัพย์") || t.includes("นิติกรรม")) return "u2-s2";
-  if (t.startsWith("3.") || t.includes("เอกเทศสัญญา")) return "u2-s3";
-  if (t.startsWith("4.") || t.includes("ครอบครัว") || t.includes("มรดก")) return "u2-s4";
+  if (t.startsWith("1.") || t.includes("บุคคล") || t.includes("Persons")) return "u2-s1";
+  if (t.startsWith("2.") || t.includes("ทรัพย์") || t.includes("นิติกรรม") || t.includes("Property")) return "u2-s2";
+  if (t.startsWith("3.") || t.includes("เอกเทศสัญญา") || t.includes("Contracts")) return "u2-s3";
+  if (t.startsWith("4.") || t.includes("ครอบครัว") || t.includes("มรดก") || t.includes("Family")) return "u2-s4";
   return "";
 }
 
 function Unit2VideoCard({ video, compact = false }) {
+  const { tx } = useLang();
   return (
     <div className="legal-box" style={{ margin: 0, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 10 }}>
       <div>
         <div className="row between" style={{ gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
           <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
-            <span className="seal-badge seal-alert">สื่อวิดีโอ YouTube</span>
-            <span className="seal-badge seal-info">{video.topicBadge}</span>
+            <span className="seal-badge seal-alert">{tx("สื่อวิดีโอ YouTube", "YouTube Video")}</span>
+            <BilingualHtml as="span" className="seal-badge seal-info" html={video.topicBadge} />
           </div>
           <a className="btn btn-primary btn-sm" href={video.watchUrl} target="_blank" rel="noopener noreferrer">
-            <Icon name="play" size={14} /> เปิดดูบน YouTube ↗
+            <Icon name="play" size={14} /> {tx("เปิดดูบน YouTube ↗", "Watch on YouTube ↗")}
           </a>
         </div>
-        <h4 style={{ margin: "0 0 4px", color: "var(--crimson-seal)" }}>{video.title}</h4>
+        <BilingualHtml as="h4" style={{ margin: "0 0 4px", color: "var(--crimson-seal)" }} html={video.title} />
         <p className="small muted" style={{ margin: 0 }}>
-          ช่องผู้จัดทำ: <strong>{video.channelName}</strong> · {video.summary}
+          {tx("ช่องผู้จัดทำ", "Channel")}: <strong>{video.channelName}</strong> · <BilingualHtml as="span" html={video.summary} />
         </p>
       </div>
       <div
@@ -95,6 +97,7 @@ export function Unit2SectionVideos({ section }) {
 }
 
 export function Unit2YoutubeGallery() {
+  const { lang, tx } = useLang();
   const [topic, setTopic] = useState("all");
   const videos = UNIT2_YOUTUBE_VIDEOS.filter((v) => topic === "all" || v.topicKey === topic);
   return (
@@ -103,16 +106,20 @@ export function Unit2YoutubeGallery() {
         <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
           <div>
             <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
-              ชุดสื่อวิดีโอประกอบการเรียนรู้หน่วยที่ 2: กฎหมายแพ่งที่ควรรู้ (ครบทั้ง 5 หัวข้อ)
+              {tx(
+                "ชุดสื่อวิดีโอประกอบการเรียนรู้หน่วยที่ 2: กฎหมายแพ่งที่ควรรู้ (ครบทั้ง 5 หัวข้อ)",
+                "Unit 2 Video Series: Essential Civil Law (All 5 Topics)"
+              )}
             </h4>
             <p className="small muted" style={{ margin: "4px 0 0" }}>
-              ช่องผู้จัดทำ: <strong>Interesting Facts with Narubet (@Narubet0310)</strong> · เลือกหัวข้อด้านล่างเพื่อรับชมวิดีโอแต่ละเรื่อง
+              {tx("ช่องผู้จัดทำ", "Channel")}: <strong>Interesting Facts with Narubet (@Narubet0310)</strong> ·{" "}
+              {tx("เลือกหัวข้อด้านล่างเพื่อรับชมวิดีโอแต่ละเรื่อง", "Select a topic tab below to filter videos")}
             </p>
           </div>
-          <span className="seal-badge seal-pass">5 บทเรียนวิดีโอ YouTube</span>
+          <span className="seal-badge seal-pass">{tx("5 บทเรียนวิดีโอ YouTube", "5 YouTube Video Lessons")}</span>
         </div>
-        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 8 }} role="tablist" aria-label="หมวดหมู่วิดีโอกฎหมายแพ่ง">
-          {UNIT2_VIDEO_FILTERS.map(([key, label]) => (
+        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 8 }} role="tablist" aria-label={tx("หมวดหมู่วิดีโอกฎหมายแพ่ง", "Civil Law Video Categories")}>
+          {UNIT2_VIDEO_FILTERS.map(([key, thLabel, enLabel]) => (
             <button
               key={key}
               type="button"
@@ -121,7 +128,7 @@ export function Unit2YoutubeGallery() {
               className={`btn btn-sm ${topic === key ? "btn-primary" : ""}`}
               onClick={() => setTopic(key)}
             >
-              {label}
+              {lang === "en" ? enLabel : thLabel}
             </button>
           ))}
         </div>
@@ -142,13 +149,14 @@ export function Unit2YoutubeGallery() {
 }
 
 const PROPERTY_OFFENSE_FILTERS = [
-  ["all", "ทั้งหมด (12 ภาพ)"],
-  ["taking", "แย่งการครอบครอง (ลัก·วิ่ง·ชิง·ปล้น)"],
-  ["coercion", "ข่มขู่ / หลอกลวง (กรรโชก·รีด·ฉ้อโกง)"],
-  ["possession", "ครอบครองอยู่ก่อน / อื่นๆ (ยักยอก·รับของโจร·เสียทรัพย์·บุกรุก)"]
+  ["all", "ทั้งหมด (12 ภาพ)", "All (12 Infographics)"],
+  ["taking", "แย่งการครอบครอง (ลัก·วิ่ง·ชิง·ปล้น)", "Taking Possession (Theft·Snatching·Robbery·Gang-Robbery)"],
+  ["coercion", "ข่มขู่ / หลอกลวง (กรรโชก·รีด·ฉ้อโกง)", "Coercion / Deception (Extortion·Blackmail·Fraud)"],
+  ["possession", "ครอบครองอยู่ก่อน / อื่นๆ (ยักยอก·รับของโจร·เสียทรัพย์·บุกรุก)", "Prior Possession / Others (Embezzlement·Stolen Goods·Mischief·Trespass)"]
 ];
 
 export function PropertyOffensesExternalGallery() {
+  const { lang, tx } = useLang();
   const [cat, setCat] = useState("all");
   const [selected, setSelected] = useState(null);
   const [extMeta, setExtMeta] = useState({
@@ -188,31 +196,36 @@ export function PropertyOffensesExternalGallery() {
         <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
           <div>
             <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
-              คลังภาพประกอบความผิดต่อทรัพย์จากแหล่งข้อมูลภายนอก ({extMeta.title})
+              {tx(
+                `คลังภาพประกอบความผิดต่อทรัพย์จากแหล่งข้อมูลภายนอก (${extMeta.title})`,
+                "External Infographic Gallery: Offenses Against Property (Criminal Code Sections 334–365)"
+              )}
             </h4>
             <p className="small muted" style={{ margin: "4px 0 0" }}>
-              ดึงข้อมูลจาก <strong>{UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.sourceName}</strong>
-              {extMeta.updatedAt ? ` · อัปเดตข้อมูลต้นทาง: ${extMeta.updatedAt}` : ""}
+              {tx("ดึงข้อมูลจาก", "Source:")} <strong>{UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.sourceName}</strong>
+              {extMeta.updatedAt ? ` · ${tx("อัปเดตข้อมูลต้นทาง", "Updated")}: ${extMeta.updatedAt}` : ""}
             </p>
           </div>
           <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
             <span className="seal-badge seal-pass">
-              {extMeta.status === "live" ? "เชื่อมต่อ API Justice Channel สำเร็จ" : "ข้อมูลภาพต้นฉบับ OJA ยืนยันแล้ว"}
+              {extMeta.status === "live"
+                ? tx("เชื่อมต่อ API Justice Channel สำเร็จ", "Justice Channel API Connected")
+                : tx("ข้อมูลภาพต้นฉบับ OJA ยืนยันแล้ว", "Verified OJA Infographics")}
             </span>
             <a className="btn btn-sm" href={UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.articleUrl} target="_blank" rel="noopener noreferrer">
-              บทความต้นฉบับ ↗
+              {tx("บทความต้นฉบับ ↗", "Original Article ↗")}
             </a>
             <a className="btn btn-sm" href={UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.ebookUrl} target="_blank" rel="noopener noreferrer">
               E-Book ↗
             </a>
             <a className="btn btn-sky btn-sm" href={UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.pdfUrl} target="_blank" rel="noopener noreferrer">
-              ดาวน์โหลด PDF ↗
+              {tx("ดาวน์โหลด PDF ↗", "Download PDF ↗")}
             </a>
           </div>
         </div>
 
-        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 10 }} role="tablist" aria-label="หมวดหมู่ความผิดต่อทรัพย์">
-          {PROPERTY_OFFENSE_FILTERS.map(([key, label]) => (
+        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 10 }} role="tablist" aria-label={tx("หมวดหมู่ความผิดต่อทรัพย์", "Property Offense Categories")}>
+          {PROPERTY_OFFENSE_FILTERS.map(([key, thLabel, enLabel]) => (
             <button
               key={key}
               type="button"
@@ -221,7 +234,7 @@ export function PropertyOffensesExternalGallery() {
               className={`btn btn-sm ${cat === key ? "btn-primary" : ""}`}
               onClick={() => setCat(key)}
             >
-              {label}
+              {lang === "en" ? enLabel : thLabel}
             </button>
           ))}
         </div>
@@ -232,15 +245,15 @@ export function PropertyOffensesExternalGallery() {
           <div key={item.id} className="legal-box" style={{ padding: 12, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 8 }}>
             <div>
               <div className="row between" style={{ gap: 6, marginBottom: 8 }}>
-                <span className="seal-badge seal-info num">{item.code}</span>
+                <BilingualHtml as="span" className="seal-badge seal-info num" html={item.code} />
                 <span className={`seal-badge ${item.compoundable ? "seal-pass" : "seal-alert"}`}>
-                  {item.compoundable ? "ยอมความได้" : "อาญาแผ่นดิน"}
+                  {item.compoundable ? tx("ยอมความได้", "Compoundable") : tx("อาญาแผ่นดิน", "Non-Compoundable")}
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setSelected(item)}
-                title="คลิกเพื่อขยายดูภาพอินโฟกราฟิกขนาดใหญ่"
+                title={tx("คลิกเพื่อขยายดูภาพอินโฟกราฟิกขนาดใหญ่", "Click to zoom infographic")}
                 style={{
                   display: "block",
                   width: "100%",
@@ -260,14 +273,14 @@ export function PropertyOffensesExternalGallery() {
                   style={{ width: "100%", height: 190, objectFit: "contain", display: "block", background: "#FFFFFF" }}
                 />
               </button>
-              <strong style={{ display: "block", fontSize: "0.96rem", marginBottom: 4 }}>{item.title}</strong>
-              <p className="small" style={{ margin: 0, color: "var(--ink-2)" }}>{item.elements}</p>
+              <BilingualHtml as="strong" style={{ display: "block", fontSize: "0.96rem", marginBottom: 4 }} html={item.title} />
+              <BilingualHtml as="p" className="small" style={{ margin: 0, color: "var(--ink-2)" }} html={item.elements} />
             </div>
             <div className="small" style={{ borderTop: "1px dashed var(--line-strong)", paddingTop: 8, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span><strong>โทษ:</strong> {item.penalty}</span>
+              <span><strong>{tx("โทษ:", "Penalty:")}</strong> <BilingualHtml as="span" html={item.penalty} /></span>
               <div className="row" style={{ gap: 6 }}>
-                <button type="button" className="btn btn-sm" onClick={() => setSelected(item)}>ขยายภาพ</button>
-                <a className="btn btn-sm" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">ที่มา ↗</a>
+                <button type="button" className="btn btn-sm" onClick={() => setSelected(item)}>{tx("ขยายภาพ", "Zoom")}</button>
+                <a className="btn btn-sm" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">{tx("ที่มา ↗", "Source ↗")}</a>
               </div>
             </div>
           </div>
@@ -298,13 +311,13 @@ export function PropertyOffensesExternalGallery() {
           >
             <div className="row between" style={{ marginBottom: 10, gap: 8 }}>
               <div>
-                <span className="seal-badge seal-info num" style={{ marginRight: 6 }}>{selected.code}</span>
+                <BilingualHtml as="span" className="seal-badge seal-info num" style={{ marginRight: 6 }} html={selected.code} />
                 <span className={`seal-badge ${selected.compoundable ? "seal-pass" : "seal-alert"}`}>
-                  {selected.compoundable ? "ความผิดอันยอมความได้" : "ความผิดอาญาแผ่นดิน (ยอมความไม่ได้)"}
+                  {selected.compoundable ? tx("ความผิดอันยอมความได้", "Compoundable Offense") : tx("ความผิดอาญาแผ่นดิน (ยอมความไม่ได้)", "Non-Compoundable Public Offense")}
                 </span>
-                <h3 style={{ marginTop: 6, marginBottom: 0 }}>{selected.title}</h3>
+                <BilingualHtml as="h3" style={{ marginTop: 6, marginBottom: 0 }} html={selected.title} />
               </div>
-              <button type="button" className="btn btn-sm" onClick={() => setSelected(null)}>✕ ปิดหน้าต่าง</button>
+              <button type="button" className="btn btn-sm" onClick={() => setSelected(null)}>✕ {tx("ปิดหน้าต่าง", "Close")}</button>
             </div>
             <div style={{ background: "#FFFFFF", border: "1px solid var(--line)", borderRadius: 10, padding: 10, textAlign: "center", marginBottom: 12 }}>
               <img
@@ -314,14 +327,14 @@ export function PropertyOffensesExternalGallery() {
               />
             </div>
             <div className="legal-box" style={{ marginBottom: 10 }}>
-              <p style={{ margin: "0 0 6px" }}><strong>องค์ประกอบความผิด:</strong> {selected.elements}</p>
-              <p style={{ margin: 0 }}><strong>อัตราโทษตามกฎหมาย:</strong> {selected.penalty}</p>
+              <p style={{ margin: "0 0 6px" }}><strong>{tx("องค์ประกอบความผิด:", "Elements of Offense:")}</strong> <BilingualHtml as="span" html={selected.elements} /></p>
+              <p style={{ margin: 0 }}><strong>{tx("อัตราโทษตามกฎหมาย:", "Legal Penalty:")}</strong> <BilingualHtml as="span" html={selected.penalty} /></p>
             </div>
             <div className="row between" style={{ flexWrap: "wrap", gap: 8 }}>
-              <span className="small muted">แหล่งข้อมูลภาพ: {UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.sourceName}</span>
+              <span className="small muted">{tx("แหล่งข้อมูลภาพ:", "Image Source:")} {UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS.sourceName}</span>
               <div className="row" style={{ gap: 8 }}>
-                <a className="btn btn-sm" href={selected.imageUrl} target="_blank" rel="noopener noreferrer">เปิดไฟล์ภาพต้นฉบับ ↗</a>
-                <a className="btn btn-primary btn-sm" href={selected.sourceUrl} target="_blank" rel="noopener noreferrer">อ่านบทความต้นทาง OJA ↗</a>
+                <a className="btn btn-sm" href={selected.imageUrl} target="_blank" rel="noopener noreferrer">{tx("เปิดไฟล์ภาพต้นฉบับ ↗", "Open Original Image ↗")}</a>
+                <a className="btn btn-primary btn-sm" href={selected.sourceUrl} target="_blank" rel="noopener noreferrer">{tx("อ่านบทความต้นทาง OJA ↗", "Read OJA Article ↗")}</a>
               </div>
             </div>
           </div>
@@ -332,13 +345,14 @@ export function PropertyOffensesExternalGallery() {
 }
 
 const PDPA_FILTERS = [
-  ["all", "ทั้งหมด (6 ภาพ)"],
-  ["overview", "หลักการ & ข้อมูลอ่อนไหว ม.26"],
-  ["practice", "ข้อควรระวังในชีวิตประจำวัน & โซเชียล"],
-  ["penalty", "บทลงโทษ & อายุความฟ้องคดี"]
+  ["all", "ทั้งหมด (6 ภาพ)", "All (6 Infographics)"],
+  ["overview", "หลักการ & ข้อมูลอ่อนไหว ม.26", "Core Principles & Sensitive Data (Sec. 26)"],
+  ["practice", "ข้อควรระวังในชีวิตประจำวัน & โซเชียล", "Everyday & Social Media Precautions"],
+  ["penalty", "บทลงโทษ & อายุความฟ้องคดี", "Penalties & Prescription Period"]
 ];
 
 export function PdpaYoutubeVideoCard() {
+  const { tx } = useLang();
   const yt = UNIT4_PDPA_EXTERNAL_DATA.youtubeVideo;
   if (!yt) return null;
   return (
@@ -346,17 +360,17 @@ export function PdpaYoutubeVideoCard() {
       <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 10 }}>
         <div>
           <div className="row" style={{ gap: 6, marginBottom: 4, flexWrap: "wrap" }}>
-            <span className="seal-badge seal-alert">สื่อวิดีโอ YouTube</span>
-            <span className="seal-badge seal-info">{yt.shortTitle}</span>
+            <span className="seal-badge seal-alert">{tx("สื่อวิดีโอ YouTube", "YouTube Video")}</span>
+            <BilingualHtml as="span" className="seal-badge seal-info" html={yt.shortTitle} />
           </div>
-          <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>{yt.title}</h4>
+          <BilingualHtml as="h4" style={{ margin: 0, color: "var(--crimson-seal)" }} html={yt.title} />
           <p className="small muted" style={{ margin: "4px 0 0" }}>
-            ช่องผู้จัดทำ: <strong>{yt.channelName}</strong> · {yt.summary}
+            {tx("ช่องผู้จัดทำ", "Channel")}: <strong>{yt.channelName}</strong> · <BilingualHtml as="span" html={yt.summary} />
           </p>
         </div>
         <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
           <a className="btn btn-primary btn-sm" href={yt.watchUrl} target="_blank" rel="noopener noreferrer">
-            <Icon name="play" size={14} /> เปิดดูบน YouTube ↗
+            <Icon name="play" size={14} /> {tx("เปิดดูบน YouTube ↗", "Watch on YouTube ↗")}
           </a>
         </div>
       </div>
@@ -388,6 +402,7 @@ export function PdpaYoutubeVideoCard() {
 }
 
 export function PdpaExternalGallery({ showVideo = true }) {
+  const { lang, tx } = useLang();
   const [cat, setCat] = useState("all");
   const [selected, setSelected] = useState(null);
   const [showRights, setShowRights] = useState(false);
@@ -431,32 +446,37 @@ export function PdpaExternalGallery({ showVideo = true }) {
         <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
           <div>
             <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
-              คลังสื่ออินโฟกราฟิกกฎหมาย PDPA จากแหล่งข้อมูลภายนอก ({extMeta.title})
+              {tx(
+                `คลังสื่ออินโฟกราฟิกกฎหมาย PDPA จากแหล่งข้อมูลภายนอก (${extMeta.title})`,
+                "External PDPA Infographic Gallery (Personal Data Protection Act B.E. 2562)"
+              )}
             </h4>
             <p className="small muted" style={{ margin: "4px 0 0" }}>
-              ดึงข้อมูลจาก <strong>{UNIT4_PDPA_EXTERNAL_DATA.sourceName}</strong>
-              {extMeta.updatedAt ? ` · อัปเดตข้อมูลต้นทาง: ${extMeta.updatedAt}` : ""}
+              {tx("ดึงข้อมูลจาก", "Source:")} <strong>{UNIT4_PDPA_EXTERNAL_DATA.sourceName}</strong>
+              {extMeta.updatedAt ? ` · ${tx("อัปเดตข้อมูลต้นทาง", "Updated")}: ${extMeta.updatedAt}` : ""}
             </p>
           </div>
           <div className="row" style={{ gap: 6, flexWrap: "wrap" }}>
             <span className="seal-badge seal-pass">
-              {extMeta.status === "live" ? "เชื่อมต่อ API Justice Channel สำเร็จ" : "ข้อมูลต้นฉบับ สคส. & OJA ยืนยันแล้ว"}
+              {extMeta.status === "live"
+                ? tx("เชื่อมต่อ API Justice Channel สำเร็จ", "Justice Channel API Connected")
+                : tx("ข้อมูลต้นฉบับ สคส. & OJA ยืนยันแล้ว", "Verified PDPC & OJA Data")}
             </span>
             <a className="btn btn-sm" href={UNIT4_PDPA_EXTERNAL_DATA.articleUrl} target="_blank" rel="noopener noreferrer">
-              บทความ PDPA (OJA) ↗
+              {tx("บทความ PDPA (OJA) ↗", "PDPA Article (OJA) ↗")}
             </a>
             <a className="btn btn-sm" href={UNIT4_PDPA_EXTERNAL_DATA.remedyUrl} target="_blank" rel="noopener noreferrer">
-              อายุความ & บทลงโทษ ↗
+              {tx("อายุความ & บทลงโทษ ↗", "Prescription & Penalties ↗")}
             </a>
             <a className="btn btn-sky btn-sm" href={UNIT4_PDPA_EXTERNAL_DATA.pdpcUrl} target="_blank" rel="noopener noreferrer">
-              เว็บไซต์ สคส. (PDPC) ↗
+              {tx("เว็บไซต์ สคส. (PDPC) ↗", "PDPC Official Site ↗")}
             </a>
           </div>
         </div>
 
         <div className="row between" style={{ gap: 8, flexWrap: "wrap", marginTop: 10 }}>
-          <div className="row" style={{ gap: 6, flexWrap: "wrap" }} role="tablist" aria-label="หมวดหมู่อินโฟกราฟิก PDPA">
-            {PDPA_FILTERS.map(([key, label]) => (
+          <div className="row" style={{ gap: 6, flexWrap: "wrap" }} role="tablist" aria-label={tx("หมวดหมู่อินโฟกราฟิก PDPA", "PDPA Infographic Categories")}>
+            {PDPA_FILTERS.map(([key, thLabel, enLabel]) => (
               <button
                 key={key}
                 type="button"
@@ -465,7 +485,7 @@ export function PdpaExternalGallery({ showVideo = true }) {
                 className={`btn btn-sm ${cat === key ? "btn-primary" : ""}`}
                 onClick={() => setCat(key)}
               >
-                {label}
+                {lang === "en" ? enLabel : thLabel}
               </button>
             ))}
           </div>
@@ -474,7 +494,9 @@ export function PdpaExternalGallery({ showVideo = true }) {
             className={`btn btn-sm ${showRights ? "btn-navy" : ""}`}
             onClick={() => setShowRights((v) => !v)}
           >
-            {showRights ? "ซ่อนตารางสิทธิ 8 ประการ ▲" : "เปิดดูรายละเอียดสิทธิเจ้าของข้อมูล 8 ประการ ▼"}
+            {showRights
+              ? tx("ซ่อนตารางสิทธิ 8 ประการ ▲", "Hide 8 Data Subject Rights ▲")
+              : tx("เปิดดูรายละเอียดสิทธิเจ้าของข้อมูล 8 ประการ ▼", "View 8 Data Subject Rights ▼")}
           </button>
         </div>
 
@@ -482,9 +504,9 @@ export function PdpaExternalGallery({ showVideo = true }) {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10, marginTop: 12 }}>
             {UNIT4_PDPA_EXTERNAL_DATA.rights.map((r) => (
               <div key={r.no} className="legal-box" style={{ margin: 0, background: "#FFFFFF" }}>
-                <span className="seal-badge seal-info num" style={{ marginBottom: 4 }}>สิทธิที่ {r.no}</span>
-                <strong style={{ display: "block", fontSize: "0.9rem", marginBottom: 4 }}>{r.title}</strong>
-                <p className="small" style={{ margin: 0, color: "var(--ink-2)" }}>{r.desc}</p>
+                <span className="seal-badge seal-info num" style={{ marginBottom: 4 }}>{tx(`สิทธิที่ ${r.no}`, `Right #${r.no}`)}</span>
+                <BilingualHtml as="strong" style={{ display: "block", fontSize: "0.9rem", marginBottom: 4 }} html={r.title} />
+                <BilingualHtml as="p" className="small" style={{ margin: 0, color: "var(--ink-2)" }} html={r.desc} />
               </div>
             ))}
           </div>
@@ -496,13 +518,13 @@ export function PdpaExternalGallery({ showVideo = true }) {
           <div key={item.id} className="legal-box" style={{ padding: 12, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 8 }}>
             <div>
               <div className="row between" style={{ gap: 6, marginBottom: 8 }}>
-                <span className="seal-badge seal-info num">{item.code}</span>
-                <span className="seal-badge seal-alert">{item.badge}</span>
+                <BilingualHtml as="span" className="seal-badge seal-info num" html={item.code} />
+                <BilingualHtml as="span" className="seal-badge seal-alert" html={item.badge} />
               </div>
               <button
                 type="button"
                 onClick={() => setSelected(item)}
-                title="คลิกเพื่อขยายดูภาพอินโฟกราฟิก PDPA ขนาดใหญ่"
+                title={tx("คลิกเพื่อขยายดูภาพอินโฟกราฟิก PDPA ขนาดใหญ่", "Click to zoom PDPA infographic")}
                 style={{
                   display: "block",
                   width: "100%",
@@ -522,14 +544,14 @@ export function PdpaExternalGallery({ showVideo = true }) {
                   style={{ width: "100%", height: 195, objectFit: "contain", display: "block", background: "#FFFFFF" }}
                 />
               </button>
-              <strong style={{ display: "block", fontSize: "0.96rem", marginBottom: 4 }}>{item.title}</strong>
-              <p className="small" style={{ margin: 0, color: "var(--ink-2)" }}>{item.elements}</p>
+              <BilingualHtml as="strong" style={{ display: "block", fontSize: "0.96rem", marginBottom: 4 }} html={item.title} />
+              <BilingualHtml as="p" className="small" style={{ margin: 0, color: "var(--ink-2)" }} html={item.elements} />
             </div>
             <div className="small" style={{ borderTop: "1px dashed var(--line-strong)", paddingTop: 8, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span><strong>บทลงโทษ/อายุความ:</strong> {item.penalty}</span>
+              <span><strong>{tx("บทลงโทษ/อายุความ:", "Penalties/Prescription:")}</strong> <BilingualHtml as="span" html={item.penalty} /></span>
               <div className="row" style={{ gap: 6 }}>
-                <button type="button" className="btn btn-sm" onClick={() => setSelected(item)}>ขยายภาพ</button>
-                <a className="btn btn-sm" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">ที่มา ↗</a>
+                <button type="button" className="btn btn-sm" onClick={() => setSelected(item)}>{tx("ขยายภาพ", "Zoom")}</button>
+                <a className="btn btn-sm" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">{tx("ที่มา ↗", "Source ↗")}</a>
               </div>
             </div>
           </div>
@@ -560,11 +582,11 @@ export function PdpaExternalGallery({ showVideo = true }) {
           >
             <div className="row between" style={{ marginBottom: 10, gap: 8 }}>
               <div>
-                <span className="seal-badge seal-info num" style={{ marginRight: 6 }}>{selected.code}</span>
-                <span className="seal-badge seal-alert">{selected.badge}</span>
-                <h3 style={{ marginTop: 6, marginBottom: 0 }}>{selected.title}</h3>
+                <BilingualHtml as="span" className="seal-badge seal-info num" style={{ marginRight: 6 }} html={selected.code} />
+                <BilingualHtml as="span" className="seal-badge seal-alert" html={selected.badge} />
+                <BilingualHtml as="h3" style={{ marginTop: 6, marginBottom: 0 }} html={selected.title} />
               </div>
-              <button type="button" className="btn btn-sm" onClick={() => setSelected(null)}>✕ ปิดหน้าต่าง</button>
+              <button type="button" className="btn btn-sm" onClick={() => setSelected(null)}>✕ {tx("ปิดหน้าต่าง", "Close")}</button>
             </div>
             <div style={{ background: "#FFFFFF", border: "1px solid var(--line)", borderRadius: 10, padding: 10, textAlign: "center", marginBottom: 12 }}>
               <img
@@ -574,14 +596,14 @@ export function PdpaExternalGallery({ showVideo = true }) {
               />
             </div>
             <div className="legal-box" style={{ marginBottom: 10 }}>
-              <p style={{ margin: "0 0 6px" }}><strong>สาระสำคัญตามกฎหมาย:</strong> {selected.elements}</p>
-              <p style={{ margin: 0 }}><strong>บทลงโทษและอายุความ:</strong> {selected.penalty}</p>
+              <p style={{ margin: "0 0 6px" }}><strong>{tx("สาระสำคัญตามกฎหมาย:", "Key Legal Principles:")}</strong> <BilingualHtml as="span" html={selected.elements} /></p>
+              <p style={{ margin: 0 }}><strong>{tx("บทลงโทษและอายุความ:", "Penalties & Prescription:")}</strong> <BilingualHtml as="span" html={selected.penalty} /></p>
             </div>
             <div className="row between" style={{ flexWrap: "wrap", gap: 8 }}>
-              <span className="small muted">แหล่งข้อมูลภาพ: {UNIT4_PDPA_EXTERNAL_DATA.sourceName}</span>
+              <span className="small muted">{tx("แหล่งข้อมูลภาพ:", "Image Source:")} {UNIT4_PDPA_EXTERNAL_DATA.sourceName}</span>
               <div className="row" style={{ gap: 8 }}>
-                <a className="btn btn-sm" href={selected.imageUrl} target="_blank" rel="noopener noreferrer">เปิดไฟล์ภาพต้นฉบับ ↗</a>
-                <a className="btn btn-primary btn-sm" href={selected.sourceUrl} target="_blank" rel="noopener noreferrer">อ่านบทความต้นทาง OJA ↗</a>
+                <a className="btn btn-sm" href={selected.imageUrl} target="_blank" rel="noopener noreferrer">{tx("เปิดไฟล์ภาพต้นฉบับ ↗", "Open Original Image ↗")}</a>
+                <a className="btn btn-primary btn-sm" href={selected.sourceUrl} target="_blank" rel="noopener noreferrer">{tx("อ่านบทความต้นทาง OJA ↗", "Read OJA Article ↗")}</a>
               </div>
             </div>
           </div>
@@ -592,19 +614,20 @@ export function PdpaExternalGallery({ showVideo = true }) {
 }
 
 export function UnitVisuals({ unitId }) {
+  const { tx } = useLang();
   return (
     <>
       <article className="unit-section-block">
         <div className="unit-section-header">
-          <h3>แผนผังสรุป</h3>
+          <h3>{tx("แผนผังสรุป", "Summary Infographics & Diagrams")}</h3>
         </div>
-        <Html html={getUnitInfographicSvg(unitId)} />
+        <BilingualHtml html={getUnitInfographicSvg(unitId)} />
       </article>
       <article className="unit-section-block">
         <div className="unit-section-header">
-          <h3>กรณีศึกษาจากเรื่องจริง</h3>
+          <h3>{tx("กรณีศึกษาจากเรื่องจริง", "Real-World Legal Case Studies")}</h3>
         </div>
-        <Html html={getUnitExternalCasesHtml(unitId)} />
+        <BilingualHtml html={getUnitExternalCasesHtml(unitId)} />
       </article>
     </>
   );
@@ -612,11 +635,16 @@ export function UnitVisuals({ unitId }) {
 
 // The simulator markup + calculators come from the original site; they read/write the DOM by id.
 function Simulator({ unitId }) {
+  const { lang } = useLang();
   const ref = useRef(null);
   useEffect(() => {
-    const run = updateSimulator[unitId];
+    const baseRun = updateSimulator[unitId];
     const el = ref.current;
-    if (!run || !el) return;
+    if (!baseRun || !el) return;
+    const run = () => {
+      baseRun();
+      if (lang === "en") translateDomNode(el);
+    };
     run();
     el.addEventListener("input", run);
     el.addEventListener("change", run);
@@ -624,21 +652,24 @@ function Simulator({ unitId }) {
       el.removeEventListener("input", run);
       el.removeEventListener("change", run);
     };
-  }, [unitId]);
-  return <div key={unitId} ref={ref} dangerouslySetInnerHTML={{ __html: renderInteractiveSimulator(unitId) }} />;
+  }, [unitId, lang]);
+  return <div key={`${unitId}-${lang}`} ref={ref} dangerouslySetInnerHTML={{ __html: renderInteractiveSimulator(unitId) }} />;
 }
 
 function Media({ unit }) {
+  const { lang, tx } = useLang();
   const [idx, setIdx] = useState(0);
   const [speaking, setSpeaking] = useState(false);
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
   const stop = () => (window.speechSynthesis?.cancel(), setSpeaking(false));
   const go = (i) => (stop(), setIdx(i));
-  const speak = (slide) => {
+  const speak = async (slide) => {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(`${slide.heading}. ${slide.narration}`);
-    u.lang = "th-TH";
+    const rawText = `${slide.heading}. ${slide.narration}`;
+    const textToSpeak = lang === "en" ? await translateToEnglish(rawText) : rawText;
+    const u = new SpeechSynthesisUtterance(textToSpeak);
+    u.lang = lang === "en" ? "en-US" : "th-TH";
     u.onstart = () => setSpeaking(true);
     u.onend = u.onerror = () => setSpeaking(false);
     setSpeaking(true);
@@ -651,7 +682,7 @@ function Media({ unit }) {
       {Number(unit.id) === 2 && (
         <div className="unit-section-block">
           <div className="unit-section-header">
-            <h3>ชุดสื่อวิดีโอ: กฎหมายแพ่งที่ควรรู้ (บุคคล · ทรัพย์สิน · นิติกรรม · สัญญา · ครอบครัวและมรดก)</h3>
+            <h3>{tx("ชุดสื่อวิดีโอ: กฎหมายแพ่งที่ควรรู้ (บุคคล · ทรัพย์สิน · นิติกรรม · สัญญา · ครอบครัวและมรดก)", "Video Series: Essential Civil Law (Persons · Property · Juristic Acts · Contracts · Family & Inheritance)")}</h3>
             <span className="seal-badge seal-alert">YouTube · Interesting Facts with Narubet</span>
           </div>
           <Unit2YoutubeGallery />
@@ -660,8 +691,8 @@ function Media({ unit }) {
       {Number(unit.id) === 3 && (
         <div className="unit-section-block">
           <div className="unit-section-header">
-            <h3>สื่ออินโฟกราฟิกภายนอก: ความผิดเกี่ยวกับทรัพย์ (ป.อ. มาตรา 334–365)</h3>
-            <span className="seal-badge seal-info">สำนักงานกิจการยุติธรรม (OJA)</span>
+            <h3>{tx("สื่ออินโฟกราฟิกภายนอก: ความผิดเกี่ยวกับทรัพย์ (ป.อ. มาตรา 334–365)", "External Infographics: Offenses Against Property (Criminal Code Sec. 334–365)")}</h3>
+            <span className="seal-badge seal-info">{tx("สำนักงานกิจการยุติธรรม (OJA)", "Office of Justice Affairs (OJA)")}</span>
           </div>
           <PropertyOffensesExternalGallery />
         </div>
@@ -670,15 +701,15 @@ function Media({ unit }) {
         <>
           <div className="unit-section-block">
             <div className="unit-section-header">
-              <h3>สื่อวิดีโอ: PDPA น่ารู้ (PDPA ใกล้ตัวกว่าที่คิด — เคารพสิทธิ์ ข้อมูลของกันและกัน)</h3>
+              <h3>{tx("สื่อวิดีโอ: PDPA น่ารู้ (PDPA ใกล้ตัวกว่าที่คิด — เคารพสิทธิ์ ข้อมูลของกันและกัน)", "Video Lesson: Essential PDPA (Personal Data Protection in Everyday Life)")}</h3>
               <span className="seal-badge seal-alert">YouTube · Interesting Facts with Narubet</span>
             </div>
             <PdpaYoutubeVideoCard />
           </div>
           <div className="unit-section-block">
             <div className="unit-section-header">
-              <h3>สื่ออินโฟกราฟิกภายนอก: กฎหมายคุ้มครองข้อมูลส่วนบุคคล (พ.ร.บ. PDPA พ.ศ. 2562)</h3>
-              <span className="seal-badge seal-info">สคส. (PDPC) & สำนักงานกิจการยุติธรรม (OJA)</span>
+              <h3>{tx("สื่ออินโฟกราฟิกภายนอก: กฎหมายคุ้มครองข้อมูลส่วนบุคคล (พ.ร.บ. PDPA พ.ศ. 2562)", "External Infographics: Personal Data Protection Act B.E. 2562 (PDPA)")}</h3>
+              <span className="seal-badge seal-info">{tx("สคส. (PDPC) & สำนักงานกิจการยุติธรรม (OJA)", "PDPC & Office of Justice Affairs (OJA)")}</span>
             </div>
             <PdpaExternalGallery showVideo={false} />
           </div>
@@ -702,25 +733,25 @@ function Media({ unit }) {
           return (
             <div key={rIdx} className="unit-section-block">
               <div className="unit-section-header">
-                <h3>{res.title}</h3>
-                <span className="seal-badge seal-info num">{res.duration}</span>
+                <BilingualHtml as="h3" html={res.title} />
+                <BilingualHtml as="span" className="seal-badge seal-info num" html={res.duration} />
               </div>
-              <p>{res.summary} <span className="muted">({res.source})</span></p>
+              <p><BilingualHtml as="span" html={res.summary} /> <span className="muted">(<BilingualHtml as="span" html={res.source} />)</span></p>
               <div className="slide-card" style={{ marginTop: 12 }}>
                 <div className="row between" style={{ marginBottom: 12 }}>
-                  <span className="seal-badge seal-pass">{s.step}</span>
+                  <BilingualHtml as="span" className="seal-badge seal-pass" html={s.step} />
                   <div className="row">
                     <button type="button" className="btn btn-primary btn-sm" onClick={() => (speaking ? stop() : speak(s))} aria-pressed={speaking} style={{ minWidth: 132 }}>
-                      {speaking ? <><span className="eq" aria-hidden="true"><i /><i /><i /></span> กำลังบรรยาย</> : <><Icon name="play" size={14} /> ฟังเสียงบรรยาย</>}
+                      {speaking ? <><span className="eq" aria-hidden="true"><i /><i /><i /></span> {tx("กำลังบรรยาย", "Narrating")}</> : <><Icon name="play" size={14} /> {tx("ฟังเสียงบรรยาย", "Listen to Audio")}</>}
                     </button>
-                    <button type="button" className="btn btn-sm" onClick={stop} disabled={!speaking}><Icon name="stop" size={14} /> หยุด</button>
+                    <button type="button" className="btn btn-sm" onClick={stop} disabled={!speaking}><Icon name="stop" size={14} /> {tx("หยุด", "Stop")}</button>
                   </div>
                 </div>
-                <h4 key={i} className="tab-enter" style={{ color: "var(--primary)", marginBottom: 8 }}>{s.heading}</h4>
+                <BilingualHtml as="h4" key={i} className="tab-enter" style={{ color: "var(--primary)", marginBottom: 8 }} html={s.heading} />
                 <ul style={{ marginLeft: "1.3rem", marginBottom: 12 }}>
-                  {s.points.map((pt, k) => <Html as="li" key={k} html={pt} style={{ marginBottom: 4 }} />)}
+                  {s.points.map((pt, k) => <BilingualHtml as="li" key={k} html={pt} style={{ marginBottom: 4 }} />)}
                 </ul>
-                <div className="legal-box small muted"><strong>บทบรรยาย:</strong> “{s.narration}”</div>
+                <div className="legal-box small muted"><strong>{tx("บทบรรยาย:", "Transcript:")}</strong> “<BilingualHtml as="span" html={s.narration} />”</div>
                 <div className="row between" style={{ marginTop: 12 }}>
                   <div className="row" style={{ gap: 6 }}>
                     {res.slides.map((sl, k) => (
@@ -728,22 +759,22 @@ function Media({ unit }) {
                     ))}
                   </div>
                   <div className="row">
-                    <button type="button" className="btn btn-sm" onClick={() => go((i - 1 + n) % n)}>◀ ก่อนหน้า</button>
-                    <button type="button" className="btn btn-sky btn-sm" onClick={() => go((i + 1) % n)}>ถัดไป ▶</button>
+                    <button type="button" className="btn btn-sm" onClick={() => go((i - 1 + n) % n)}>◀ {tx("ก่อนหน้า", "Prev")}</button>
+                    <button type="button" className="btn btn-sky btn-sm" onClick={() => go((i + 1) % n)}>{tx("ถัดไป", "Next")} ▶</button>
                   </div>
                 </div>
               </div>
-              {res.url && <p style={{ marginTop: 12 }}><a className="btn btn-sm" href={res.url} target="_blank" rel="noopener noreferrer">ค้นคว้าเพิ่มเติมจากหน่วยงานภาครัฐ ↗</a></p>}
+              {res.url && <p style={{ marginTop: 12 }}><a className="btn btn-sm" href={res.url} target="_blank" rel="noopener noreferrer">{tx("ค้นคว้าเพิ่มเติมจากหน่วยงานภาครัฐ ↗", "Explore Official Government Source ↗")}</a></p>}
             </div>
           );
         }
         return (
           <div key={rIdx} className="unit-section-block">
             <div className="unit-section-header">
-              <h3>{res.title}</h3>
-              <span className="seal-badge seal-info">{res.source}</span>
+              <BilingualHtml as="h3" html={res.title} />
+              <BilingualHtml as="span" className="seal-badge seal-info" html={res.source} />
             </div>
-            <p>{res.summary}</p>
+            <BilingualHtml as="p" html={res.summary} />
             {res.embedUrl && (
               <div style={{ position: "relative", width: "100%", maxWidth: 780, margin: "12px auto", aspectRatio: "16 / 9", borderRadius: 10, overflow: "hidden", border: "1px solid var(--line)", background: "#09090B" }}>
                 <iframe
@@ -762,17 +793,18 @@ function Media({ unit }) {
                 <img src={res.imageUrl} alt={res.title} loading="lazy" style={{ maxWidth: "100%", maxHeight: 320, objectFit: "contain", margin: "0 auto" }} />
               </div>
             )}
-            {res.url && <p style={{ marginTop: 10 }}><a className="btn btn-sm" href={res.url} target="_blank" rel="noopener noreferrer">เปิดแหล่งเรียนรู้ภายนอก ↗</a></p>}
+            {res.url && <p style={{ marginTop: 10 }}><a className="btn btn-sm" href={res.url} target="_blank" rel="noopener noreferrer">{tx("เปิดแหล่งเรียนรู้ภายนอก ↗", "Open External Resource ↗")}</a></p>}
           </div>
         );
       })}
-      <Html html={complianceCard} />
+      <BilingualHtml html={complianceCard} />
     </>
   );
 }
 
 function UnitQuiz({ unit, mode }) {
   const { content, setProgress } = useAuth();
+  const { tx } = useLang();
   const isPost = mode === "posttest";
   const raw = content.quizzes[unit.id] || [];
   const list = isPost ? raw.slice().reverse() : raw;
@@ -786,18 +818,28 @@ function UnitQuiz({ unit, mode }) {
   return (
     <>
       <div className="editorial-panel">
-        <h2>{isPost ? "แบบทดสอบหลังเรียน (Post-test)" : "แบบทดสอบก่อนเรียน (Pre-test)"} — หน่วยที่ {unit.id}</h2>
-        <p className="small muted">{list.length} ข้อ · ตัวชี้วัด {unit.indicators.join(", ")}</p>
+        <h2>
+          {isPost
+            ? tx(`แบบทดสอบหลังเรียน (Post-test) — หน่วยที่ ${unit.id}`, `Post-test Assessment — Unit ${unit.id}`)
+            : tx(`แบบทดสอบก่อนเรียน (Pre-test) — หน่วยที่ ${unit.id}`, `Pre-test Assessment — Unit ${unit.id}`)}
+        </h2>
+        <p className="small muted">
+          {tx(`${list.length} ข้อ · ตัวชี้วัด ${unit.indicators.join(", ")}`, `${list.length} Questions · Indicators: ${unit.indicators.join(", ")}`)}
+        </p>
       </div>
       <QuizRunner
         items={list.map((q) => ({
-          badge: (n, total) => <span className={`seal-badge ${isPost ? "seal-alert" : "seal-info"}`}>{isPost ? "หลังเรียน" : "ก่อนเรียน"} · ข้อ {n} / {total}</span>,
+          badge: (n, total) => (
+            <span className={`seal-badge ${isPost ? "seal-alert" : "seal-info"}`}>
+              {isPost ? tx("หลังเรียน", "Post-test") : tx("ก่อนเรียน", "Pre-test")} · {tx(`ข้อ ${n} / ${total}`, `Q ${n} / ${total}`)}
+            </span>
+          ),
           title: (n) => q.q.replace(/^\d+\.\s*/, `${n}. `),
           options: q.options
         }))}
         onSubmit={onSubmit}
-        submitLabel={`ส่งข้อสอบ${isPost ? "หลังเรียน" : "ก่อนเรียน"}`}
-        explanationLabel="คำอธิบายหลักกฎหมาย"
+        submitLabel={isPost ? tx("ส่งข้อสอบหลังเรียน", "Submit Post-test") : tx("ส่งข้อสอบก่อนเรียน", "Submit Pre-test")}
+        explanationLabel={tx("คำอธิบายหลักกฎหมาย", "Legal Explanation")}
       />
     </>
   );
@@ -805,6 +847,7 @@ function UnitQuiz({ unit, mode }) {
 
 function HierarchyGame({ mg }) {
   const { setProgress } = useAuth();
+  const { tx } = useLang();
   const [order, setOrder] = useState(mg.hierarchyItems.map((h) => h.name));
   const [hist, setHist] = useState({});
   const [choices] = useState(() => mg.historyScenarios.map((sc) => shuffle(sc.choices)));
@@ -838,44 +881,57 @@ function HierarchyGame({ mg }) {
   return (
     <div className="editorial-panel">
       <div className="panel-header">
-        <h2>{mg.title}</h2>
-        <span className="seal-badge seal-alert">{mg.badge}</span>
+        <BilingualHtml as="h2" html={mg.title} />
+        <BilingualHtml as="span" className="seal-badge seal-alert" html={mg.badge} />
       </div>
-      <p style={{ marginBottom: 16 }}>{mg.instructions}</p>
-      {res && <div className="form-ok" style={{ marginBottom: 14 }}>คะแนนมินิเกม: <strong>{res.gameScore}%</strong> (บันทึกแล้ว)</div>}
+      <BilingualHtml as="p" style={{ marginBottom: 16 }} html={mg.instructions} />
+      {res && (
+        <div className="form-ok" style={{ marginBottom: 14 }}>
+          {tx("คะแนนมินิเกม:", "Minigame Score:")} <strong>{res.gameScore}%</strong> ({tx("บันทึกแล้ว", "Saved")})
+        </div>
+      )}
 
-      <h3 style={{ marginBottom: 10 }}>ด่านที่ 1: เรียงลำดับศักดิ์ของกฎหมายไทย (สูงสุด → ต่ำสุด)</h3>
+      <h3 style={{ marginBottom: 10 }}>{tx("ด่านที่ 1: เรียงลำดับศักดิ์ของกฎหมายไทย (สูงสุด → ต่ำสุด)", "Stage 1: Rank the Hierarchy of Thai Laws (Highest → Lowest)")}</h3>
       {order.map((name, i) => {
         const ok = res && res.key.order[i] === name;
         return (
           <div key={moved?.name === name ? `${name}-${moved.n}` : name} className={`order-item ${res ? (ok ? "ok" : "bad") : moved?.name === name ? "moved" : ""}`}>
             <div>
-              <span className="seal-badge num">ลำดับที่ {i + 1}</span> <strong style={{ marginLeft: 6 }}>{name}</strong>
-              <div className="small muted">{byName[name]?.desc}</div>
+              <span className="seal-badge num">{tx(`ลำดับที่ ${i + 1}`, `Tier ${i + 1}`)}</span>{" "}
+              <BilingualHtml as="strong" style={{ marginLeft: 6 }} html={name} />
+              <BilingualHtml as="div" className="small muted" html={byName[name]?.desc} />
             </div>
             <div className="row" style={{ flexWrap: "nowrap", gap: 6 }}>
-              <button type="button" className="btn btn-sm" onClick={() => move(i, -1)} disabled={i === 0} aria-label="เลื่อนขึ้น"><Icon name="up" size={15} /></button>
-              <button type="button" className="btn btn-sm" onClick={() => move(i, 1)} disabled={i === order.length - 1} aria-label="เลื่อนลง"><Icon name="down" size={15} /></button>
+              <button type="button" className="btn btn-sm" onClick={() => move(i, -1)} disabled={i === 0} aria-label={tx("เลื่อนขึ้น", "Move Up")}><Icon name="up" size={15} /></button>
+              <button type="button" className="btn btn-sm" onClick={() => move(i, 1)} disabled={i === order.length - 1} aria-label={tx("เลื่อนลง", "Move Down")}><Icon name="down" size={15} /></button>
             </div>
           </div>
         );
       })}
 
-      <h3 style={{ margin: "22px 0 10px" }}>ด่านที่ 2: จับคู่ยุคสมัยวิวัฒนาการของกฎหมายไทย</h3>
+      <h3 style={{ margin: "22px 0 10px" }}>{tx("ด่านที่ 2: จับคู่ยุคสมัยวิวัฒนาการของกฎหมายไทย", "Stage 2: Match the Historical Eras of Thai Legal Evolution")}</h3>
       {mg.historyScenarios.map((sc, i) => (
         <div key={i} className="legal-box">
-          <p><strong>ภารกิจที่ {i + 1}:</strong> {sc.prompt}</p>
+          <p><strong>{tx(`ภารกิจที่ ${i + 1}:`, `Task ${i + 1}:`)}</strong> <BilingualHtml as="span" html={sc.prompt} /></p>
           <div className="row" style={{ marginTop: 8, gap: 8 }}>
             {choices[i].map((c) => (
-              <button key={c} type="button" className={`btn btn-sm ${hist[i] === c ? "btn-navy" : ""}`} onClick={() => (setHist({ ...hist, [i]: c }), setRes(null))}>{c}</button>
+              <button key={c} type="button" className={`btn btn-sm ${hist[i] === c ? "btn-navy" : ""}`} onClick={() => (setHist({ ...hist, [i]: c }), setRes(null))}>
+                <BilingualHtml as="span" html={c} />
+              </button>
             ))}
           </div>
-          {res && <p className="small" style={{ marginTop: 8, color: hist[i] === res.key.hist[i] ? "var(--green)" : "var(--rose)" }}><strong>เฉลย:</strong> {res.key.hist[i]}</p>}
+          {res && (
+            <p className="small" style={{ marginTop: 8, color: hist[i] === res.key.hist[i] ? "var(--green)" : "var(--rose)" }}>
+              <strong>{tx("เฉลย:", "Answer:")}</strong> <BilingualHtml as="span" html={res.key.hist[i]} />
+            </p>
+          )}
         </div>
       ))}
       {err && <p className="form-error" role="alert" style={{ marginTop: 12 }}>{err}</p>}
       <div className="row" style={{ marginTop: 16 }}>
-        <button type="button" className="btn btn-primary" onClick={submit} disabled={busy} aria-busy={busy}><span>ตรวจคำตอบและบันทึกคะแนน</span></button>
+        <button type="button" className="btn btn-primary" onClick={submit} disabled={busy} aria-busy={busy}>
+          <span>{tx("ตรวจคำตอบและบันทึกคะแนน", "Check Answers & Save Score")}</span>
+        </button>
       </div>
     </div>
   );
@@ -883,8 +939,9 @@ function HierarchyGame({ mg }) {
 
 function Minigame({ unitId }) {
   const { content, setProgress } = useAuth();
+  const { tx } = useLang();
   const mg = content.minigames[unitId];
-  if (!mg) return <div className="editorial-panel empty">ยังไม่มีมินิเกมสำหรับหน่วยนี้</div>;
+  if (!mg) return <div className="editorial-panel empty">{tx("ยังไม่มีมินิเกมสำหรับหน่วยนี้", "No minigame available for this unit")}</div>;
   if (mg.hierarchyItems) return <HierarchyGame mg={mg} />;
   const cases = mg.cases || [];
 
@@ -898,23 +955,23 @@ function Minigame({ unitId }) {
   return (
     <>
       <div className="editorial-panel">
-        <h2>{mg.title}</h2>
-        <p className="muted">{mg.instructions}</p>
+        <BilingualHtml as="h2" html={mg.title} />
+        <BilingualHtml as="p" className="muted" html={mg.instructions} />
       </div>
       <QuizRunner
         items={cases.map((c) => ({
-          badge: <span className="seal-badge seal-alert">{c.caseNo}</span>,
+          badge: <BilingualHtml as="span" className="seal-badge seal-alert" html={c.caseNo} />,
           title: (
             <>
-              <p style={{ margin: "8px 0" }}><strong>ข้อเท็จจริง:</strong> <Html as="span" html={c.scenario} /></p>
-              <Html as="p" html={c.question} style={{ fontWeight: 700 }} />
+              <p style={{ margin: "8px 0" }}><strong>{tx("ข้อเท็จจริง:", "Facts:")}</strong> <BilingualHtml as="span" html={c.scenario} /></p>
+              <BilingualHtml as="p" html={c.question} style={{ fontWeight: 700 }} />
             </>
           ),
           options: c.options
         }))}
         letters={false}
-        explanationLabel="คำวินิจฉัย"
-        submitLabel="ส่งคำตัดสินและบันทึกคะแนนเกม"
+        explanationLabel={tx("คำวินิจฉัย", "Legal Ruling")}
+        submitLabel={tx("ส่งคำตัดสินและบันทึกคะแนนเกม", "Submit Ruling & Save Game Score")}
         scoreLabel={(r) => `${r.gameScore}%`}
         onSubmit={onSubmit}
       />
@@ -925,7 +982,9 @@ function Minigame({ unitId }) {
 export default function Unit() {
   const { id, tab = "content" } = useParams();
   const { user, content } = useAuth();
-  const unit = content.units.find((u) => String(u.id) === id);
+  const { tx } = useLang();
+  const rawUnit = content.units.find((u) => String(u.id) === id);
+  const unit = useLocalizedUnit(rawUnit);
   useEffect(() => {
     document.querySelector(".mode-tab.active")?.scrollIntoView({ inline: "center", block: "nearest" });
   }, [id, tab]);
@@ -933,12 +992,12 @@ export default function Unit() {
   const up = user.progress.unitProgress[unit.id] || {};
   const score = (v, suffix) => (has(v) ? <span className="tab-score num">{v}{suffix}</span> : null);
   const labels = {
-    content: <>เนื้อหา & อินโฟกราฟิก</>,
-    interactive: <>สื่ออินเตอร์แอคทีฟ</>,
-    media: <>วิดีโอ & แหล่งเรียนรู้</>,
-    pretest: <>ก่อนเรียน {score(up.preScore, "/20")}</>,
-    posttest: <>หลังเรียน {score(up.postScore, "/20")}</>,
-    minigame: <>มินิเกม {score(up.gameScore, "%")}</>
+    content: <>{tx("เนื้อหา & อินโฟกราฟิก", "Content & Infographics")}</>,
+    interactive: <>{tx("สื่ออินเตอร์แอคทีฟ", "Interactive Simulator")}</>,
+    media: <>{tx("วิดีโอ & แหล่งเรียนรู้", "Videos & Resources")}</>,
+    pretest: <>{tx("ก่อนเรียน", "Pre-test")} {score(up.preScore, "/20")}</>,
+    posttest: <>{tx("หลังเรียน", "Post-test")} {score(up.postScore, "/20")}</>,
+    minigame: <>{tx("มินิเกม", "Minigame")} {score(up.gameScore, "%")}</>
   };
 
   return (
@@ -946,20 +1005,23 @@ export default function Unit() {
       <section className="gazette-banner">
         <div className="gazette-banner-top">
           <div>
-            <span className="small muted">หน่วยที่ {unit.id} · {unit.pages}</span>
+            <span className="small muted">{tx(`หน่วยที่ ${unit.id}`, `Unit ${unit.id}`)} · {unit.pages}</span>
             <h1 style={{ marginTop: 2 }}>{unit.title}</h1>
             <p className="muted" style={{ marginTop: 4 }}>{unit.subtitle}</p>
+          </div>
+          <div className="row no-print" style={{ gap: 8 }}>
+            <LangToggle />
           </div>
         </div>
         {tab === "content" && (
           <>
-            <Html as="p" html={unit.summary} />
-            <Html as="blockquote" className="gazette-quote" html={unit.heroQuote} />
+            <BilingualHtml as="p" html={unit.summary} />
+            <BilingualHtml as="blockquote" className="gazette-quote" html={unit.heroQuote} />
           </>
         )}
       </section>
 
-      <nav className="unit-mode-bar" aria-label="ส่วนของบทเรียน">
+      <nav className="unit-mode-bar" aria-label={tx("ส่วนของบทเรียน", "Unit Sections")}>
         {TABS.map((t) => (
           <Link key={t} to={`/units/${unit.id}/${t}`} className={`mode-tab ${t === tab ? "active" : ""}`}>{labels[t]}</Link>
         ))}
@@ -974,9 +1036,9 @@ export default function Unit() {
                 <h3>{sec.title}</h3>
                 <span className="seal-badge seal-info num">{sec.badge}</span>
               </div>
-              <Html className="legal-prose" html={sec.content} />
+              <BilingualHtml className="legal-prose" html={sec.content} />
               {Number(unit.id) === 2 && <Unit2SectionVideos section={sec} />}
-              {Number(unit.id) === 3 && (sec.id === "u3-s3" || sec.title?.includes("ความผิดต่อทรัพย์")) && (
+              {Number(unit.id) === 3 && (sec.id === "u3-s3" || sec.title?.includes("ความผิดต่อทรัพย์") || sec.title?.includes("Property")) && (
                 <PropertyOffensesExternalGallery />
               )}
               {Number(unit.id) === 4 && (sec.id === "u4-s4" || sec.title?.includes("PDPA") || sec.title?.includes("คุ้มครองข้อมูลส่วนบุคคล")) && (
@@ -987,20 +1049,20 @@ export default function Unit() {
           {Number(unit.id) === 4 && !unit.sections.some((sec) => sec.id === "u4-s4" || sec.title?.includes("PDPA") || sec.title?.includes("คุ้มครองข้อมูลส่วนบุคคล")) && (
             <article className="unit-section-block">
               <div className="unit-section-header">
-                <h3>{UNIT4_PDPA_EXTERNAL_DATA.sectionTitle}</h3>
-                <span className="seal-badge seal-info num">{UNIT4_PDPA_EXTERNAL_DATA.sectionBadge}</span>
+                <h3>{tx(UNIT4_PDPA_EXTERNAL_DATA.sectionTitle, "4. Essential Personal Data Protection Law (Personal Data Protection Act B.E. 2562 — PDPA)")}</h3>
+                <span className="seal-badge seal-info num">{tx(UNIT4_PDPA_EXTERNAL_DATA.sectionBadge, "PDPA B.E. 2562 · PDPC")}</span>
               </div>
-              <Html className="legal-prose" html={UNIT4_PDPA_EXTERNAL_DATA.sectionHtml} />
+              <BilingualHtml className="legal-prose" html={UNIT4_PDPA_EXTERNAL_DATA.sectionHtml} />
               <PdpaExternalGallery />
             </article>
           )}
           <UnitVisuals unitId={unit.id} />
           <Simulator unitId={unit.id} />
           <div className="row between editorial-panel">
-            <strong>อ่านจบแล้ว?</strong>
+            <strong>{tx("อ่านจบแล้ว?", "Finished reading?")}</strong>
             <div className="row">
-              <Link className="btn" to={`/units/${unit.id}/minigame`}><Icon name="game" /> เล่นมินิเกม</Link>
-              <Link className="btn btn-primary" to={`/units/${unit.id}/posttest`}>ทำแบบทดสอบหลังเรียน</Link>
+              <Link className="btn" to={`/units/${unit.id}/minigame`}><Icon name="game" /> {tx("เล่นมินิเกม", "Play Minigame")}</Link>
+              <Link className="btn btn-primary" to={`/units/${unit.id}/posttest`}>{tx("ทำแบบทดสอบหลังเรียน", "Take Post-test")}</Link>
             </div>
           </div>
         </>

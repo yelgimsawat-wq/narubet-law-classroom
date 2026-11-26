@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./styles.css";
 import { AuthProvider, useAuth } from "./auth.jsx";
+import { LanguageProvider } from "./i18n.jsx";
 import { PageSkeleton, ShellSkeleton } from "./ui.jsx";
 import Layout from "./Layout.jsx";
 import AuthPage from "./pages/Auth.jsx";
@@ -60,9 +61,11 @@ function App() {
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </LanguageProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

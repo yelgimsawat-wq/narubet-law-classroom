@@ -1346,6 +1346,11 @@ export function renderTermsView() {
       <p>
         เว็บไซต์นี้พัฒนาขึ้นเพื่อเป็นสื่อการเรียนรู้ดิจิทัลเชิงรุก (Active Learning) สำหรับนักเรียนระดับชั้นมัธยมศึกษาปีที่ 6 และผู้ที่สนใจโดยบูรณาการเนื้อหาตามเอกสารประกอบการเรียน เข้ากับระบบประเมินเส้นทางการเรียนรู้รายบุคคล สื่ออินเตอร์แอคทีฟจำลองสถานการณ์ มินิเกมทบทวนความรู้ และคลังข้อสอบวัดทักษะการคิดวิเคราะห์
       </p>
+      <div class="legal-box" style="margin-top:12px; display:inline-grid; grid-template-columns:auto auto; column-gap:0.5em; row-gap:2px; padding:10px 16px;">
+        <span>พัฒนาโดย</span><strong>นฤเบศ พานิชย์</strong>
+        <span></span><strong>อัฑฒกร กิมสวัสดิ์</strong>
+        <span></span><strong>ชัชนก หนันเรือง</strong>
+      </div>
     </section>
 
     <article class="unit-section-block">
