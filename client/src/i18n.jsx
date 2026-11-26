@@ -59,9 +59,10 @@ export const UNIT_EN_META = {
     heroQuote: "“A person shall be criminally punished only when they commit an act which the law in force at the time of commission provides to be an offense and defines a punishment therefor.” — Criminal Code, Section 2",
     summary: "Examine principles of the Criminal Code (strict interpretation, no retroactive punishment), 5 types of criminal penalties, 3-tier structure of criminal liability, principals, instigators, and supporters, age thresholds for children/youths (Sections 73–75 amended B.E. 2565), self-defense vs. necessity, offenses against life, body, and reputation, 11 property offenses (theft, snatching, robbery, gang-robbery, extortion, blackmail, fraud, embezzlement, receiving stolen property, mischief, trespass), petty offenses, and criminal prescription.",
     sections: {
-      "u3-s1": { title: "1. Characteristics of Criminal Law, 5 Penalties, and 3-Tier Criminal Liability", badge: "Pages 47–51" },
-      "u3-s2": { title: "2. Offenses Against Life, Body, Liberty, and Reputation (Defamation)", badge: "Pages 51–53" },
-      "u3-s3": { title: "3. Offenses Against Property, Petty Offenses, and Criminal Prescription", badge: "Pages 53–58" }
+      "u3-s1": { title: "1. Key Characteristics of Criminal Law and Structure of Criminal Liability", badge: "Pages 47–50" },
+      "u3-s2": { title: "2. Justifications, Excuses, Age Thresholds for Children, and Mitigating Circumstances", badge: "Pages 50–52" },
+      "u3-s3": { title: "3. 9 Offenses Against Property, Offenses Against Life, Body, and Sexual Offenses", badge: "Pages 52–56" },
+      "u3-s4": { title: "4. Petty Offenses, Termination of Criminal Cases, and Criminal Prescription", badge: "Pages 56–58" }
     }
   },
   4: {

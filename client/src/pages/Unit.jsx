@@ -5,7 +5,7 @@ import { api } from "../api.js";
 import { BilingualHtml, LangToggle, translateDomNode, translateToEnglish, useLang, useLocalizedUnit } from "../i18n.jsx";
 import { Html, Icon, has } from "../ui.jsx";
 import { QuizRunner, shuffle } from "../Quiz.jsx";
-import { UNIT2_YOUTUBE_VIDEOS, UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
+import { UNIT2_YOUTUBE_VIDEOS, UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT3_YOUTUBE_VIDEOS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
 
 const TABS = ["content", "interactive", "media", "pretest", "posttest", "minigame"];
 
@@ -120,6 +120,100 @@ export function Unit2YoutubeGallery() {
         </div>
         <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 8 }} role="tablist" aria-label={tx("หมวดหมู่วิดีโอกฎหมายแพ่ง", "Civil Law Video Categories")}>
           {UNIT2_VIDEO_FILTERS.map(([key, thLabel, enLabel]) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={topic === key}
+              className={`btn btn-sm ${topic === key ? "btn-primary" : ""}`}
+              onClick={() => setTopic(key)}
+            >
+              {lang === "en" ? enLabel : thLabel}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: videos.length > 1 ? "repeat(auto-fit, minmax(320px, 1fr))" : "1fr",
+          gap: 14
+        }}
+      >
+        {videos.map((v) => (
+          <Unit2VideoCard key={v.id} video={v} compact={videos.length > 1} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const UNIT3_VIDEO_FILTERS = [
+  ["all", "ทั้งหมด (6 วิดีโอ)", "All (6 Videos)"],
+  ["meaning", "1. ความหมาย & ลักษณะความผิด", "1. Definition & Nature of Offenses"],
+  ["elements", "2. องค์ประกอบ & บุคคลในคดีอาญา", "2. Elements & Parties to Crime"],
+  ["exemptions", "3. เหตุยกเว้น & ลดโทษ", "3. Justifications, Excuses & Mitigation"],
+  ["property-crime", "4. ความผิดต่อทรัพย์", "4. Offenses Against Property"],
+  ["life-body-sex", "5. ความผิดต่อชีวิต ร่างกาย & เพศ", "5. Life, Body & Sexual Offenses"],
+  ["petty-termination", "6. ลหุโทษ & วิธีระงับคดี", "6. Petty Offenses & Case Termination"]
+];
+
+function resolveUnit3SectionId(section) {
+  if (section?.id && /^u3-s[1-4]$/.test(section.id)) return section.id;
+  const t = section?.title || "";
+  if (t.startsWith("1.") || t.includes("โครงสร้างความรับผิด") || t.includes("Characteristics")) return "u3-s1";
+  if (t.startsWith("2.") || t.includes("เหตุยกเว้น") || t.includes("Justifications")) return "u3-s2";
+  if (t.startsWith("3.") || t.includes("ความผิดต่อทรัพย์") || t.includes("Property")) return "u3-s3";
+  if (t.startsWith("4.") || t.includes("ลหุโทษ") || t.includes("Petty")) return "u3-s4";
+  return "";
+}
+
+export function Unit3SectionVideos({ section }) {
+  const secId = resolveUnit3SectionId(section);
+  const videos = UNIT3_YOUTUBE_VIDEOS.filter((v) => v.sectionId === secId);
+  if (!videos.length) return null;
+  const multi = videos.length > 1;
+  return (
+    <div
+      className="unit3-section-videos"
+      style={{
+        marginTop: 16,
+        display: "grid",
+        gridTemplateColumns: multi ? "repeat(auto-fit, minmax(310px, 1fr))" : "1fr",
+        gap: 12
+      }}
+    >
+      {videos.map((v) => (
+        <Unit2VideoCard key={v.id} video={v} compact={multi} />
+      ))}
+    </div>
+  );
+}
+
+export function Unit3YoutubeGallery() {
+  const { lang, tx } = useLang();
+  const [topic, setTopic] = useState("all");
+  const videos = UNIT3_YOUTUBE_VIDEOS.filter((v) => topic === "all" || v.topicKey === topic);
+  return (
+    <div className="unit3-youtube-gallery" style={{ marginTop: 12 }}>
+      <div className="legal-box" style={{ marginBottom: 14 }}>
+        <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
+          <div>
+            <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
+              {tx(
+                "ชุดสื่อวิดีโอประกอบการเรียนรู้หน่วยที่ 3: กฎหมายอาญา (ครบทั้ง 6 เรื่อง)",
+                "Unit 3 Video Series: Essential Criminal Law (All 6 Topics)"
+              )}
+            </h4>
+            <p className="small muted" style={{ margin: "4px 0 0" }}>
+              {tx("ช่องผู้จัดทำ", "Channel")}: <strong>Interesting Facts with Narubet (@Narubet0310)</strong> ·{" "}
+              {tx("เลือกหัวข้อด้านล่างเพื่อรับชมวิดีโอแต่ละเรื่อง", "Select a topic tab below to filter videos")}
+            </p>
+          </div>
+          <span className="seal-badge seal-pass">{tx("6 บทเรียนวิดีโอ YouTube", "6 YouTube Video Lessons")}</span>
+        </div>
+        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 8 }} role="tablist" aria-label={tx("หมวดหมู่วิดีโอกฎหมายอาญา", "Criminal Law Video Categories")}>
+          {UNIT3_VIDEO_FILTERS.map(([key, thLabel, enLabel]) => (
             <button
               key={key}
               type="button"
@@ -689,13 +783,22 @@ function Media({ unit }) {
         </div>
       )}
       {Number(unit.id) === 3 && (
-        <div className="unit-section-block">
-          <div className="unit-section-header">
-            <h3>{tx("สื่ออินโฟกราฟิกภายนอก: ความผิดเกี่ยวกับทรัพย์ (ป.อ. มาตรา 334–365)", "External Infographics: Offenses Against Property (Criminal Code Sec. 334–365)")}</h3>
-            <span className="seal-badge seal-info">{tx("สำนักงานกิจการยุติธรรม (OJA)", "Office of Justice Affairs (OJA)")}</span>
+        <>
+          <div className="unit-section-block">
+            <div className="unit-section-header">
+              <h3>{tx("ชุดสื่อวิดีโอ: กฎหมายอาญาที่ควรรู้ (ลักษณะความผิด · องค์ประกอบ · เหตุยกเว้น/ลดโทษ · ความผิดต่อทรัพย์ · ชีวิต ร่างกาย เพศ · ลหุโทษและการระงับคดี)", "Video Series: Essential Criminal Law (Nature · Elements · Exemptions · Property · Life, Body & Sex · Petty Offenses)")}</h3>
+              <span className="seal-badge seal-alert">YouTube · Interesting Facts with Narubet</span>
+            </div>
+            <Unit3YoutubeGallery />
           </div>
-          <PropertyOffensesExternalGallery />
-        </div>
+          <div className="unit-section-block">
+            <div className="unit-section-header">
+              <h3>{tx("สื่ออินโฟกราฟิกภายนอก: ความผิดเกี่ยวกับทรัพย์ (ป.อ. มาตรา 334–365)", "External Infographics: Offenses Against Property (Criminal Code Sec. 334–365)")}</h3>
+              <span className="seal-badge seal-info">{tx("สำนักงานกิจการยุติธรรม (OJA)", "Office of Justice Affairs (OJA)")}</span>
+            </div>
+            <PropertyOffensesExternalGallery />
+          </div>
+        </>
       )}
       {Number(unit.id) === 4 && (
         <>
@@ -718,6 +821,9 @@ function Media({ unit }) {
       {(unit.externalResources || [])
         .filter((res) => {
           if (Number(unit.id) === 2 && UNIT2_YOUTUBE_VIDEOS.some((v) => res.embedUrl?.includes(v.id) || res.url?.includes(v.id))) {
+            return false;
+          }
+          if (Number(unit.id) === 3 && UNIT3_YOUTUBE_VIDEOS.some((v) => res.embedUrl?.includes(v.id) || res.url?.includes(v.id))) {
             return false;
           }
           if (Number(unit.id) === 4 && (res.embedUrl?.includes("iu9D7HEnpKE") || res.url?.includes("iu9D7HEnpKE"))) {
@@ -1038,6 +1144,7 @@ export default function Unit() {
               </div>
               <BilingualHtml className="legal-prose" html={sec.content} />
               {Number(unit.id) === 2 && <Unit2SectionVideos section={sec} />}
+              {Number(unit.id) === 3 && <Unit3SectionVideos section={sec} />}
               {Number(unit.id) === 3 && (sec.id === "u3-s3" || sec.title?.includes("ความผิดต่อทรัพย์") || sec.title?.includes("Property")) && (
                 <PropertyOffensesExternalGallery />
               )}

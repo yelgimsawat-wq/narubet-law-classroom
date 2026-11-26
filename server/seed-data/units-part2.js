@@ -279,6 +279,54 @@ window.UNITS_PART2 = [
         ]
       },
       {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 1: ความหมายของกฎหมายอาญาและลักษณะความผิด",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "อธิบายความหมายและลักษณะสำคัญของกฎหมายอาญา 4 ประการ และความแตกต่างระหว่างความผิดต่อแผ่นดินกับความผิดอันยอมความได้",
+        embedUrl: "https://www.youtube.com/embed/qRYwvMErmR0",
+        url: "https://youtu.be/qRYwvMErmR0"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 2: องค์ประกอบความผิดและบุคคลในคดีอาญา",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "เจาะลึกโครงสร้างความรับผิดทางอาญา 3 ชั้น องค์ประกอบภายนอกและภายใน การพยายามกระทำความผิด และบุคคลในคดีอาญา (ตัวการ ผู้ใช้ ผู้สนับสนุน)",
+        embedUrl: "https://www.youtube.com/embed/AqQmtBgYQK0",
+        url: "https://youtu.be/AqQmtBgYQK0"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 3: เหตุยกเว้นและลดโทษอาญา",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "เปรียบเทียบเหตุยกเว้นความผิด (ป้องกันโดยชอบด้วยกฎหมาย ม.68) กับเหตุยกเว้นโทษ (กระทำด้วยความจำเป็น ม.67) เกณฑ์อายุเด็กและเยาวชน (ม.73–76) และเหตุบรรเทาโทษ (ม.78)",
+        embedUrl: "https://www.youtube.com/embed/4iStq4CT3zI",
+        url: "https://youtu.be/4iStq4CT3zI"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 4: กฎหมายความผิดต่อทรัพย์",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "สรุปเทคนิคแยกแยะความผิดต่อทรัพย์ 9 ฐานสำคัญ: ลักทรัพย์ วิ่งราวทรัพย์ ชิงทรัพย์ ปล้นทรัพย์ กรรโชกทรัพย์ รีดเอาทรัพย์ ฉ้อโกง ยักยอกทรัพย์ และรับของโจร",
+        embedUrl: "https://www.youtube.com/embed/mIl8ZgxoXlQ",
+        url: "https://youtu.be/mIl8ZgxoXlQ"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 5: กฎหมายอาญาความผิดต่อชีวิต ร่างกาย และเพศ",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "อธิบายความผิดต่อชีวิต (ม.288–291) ความผิดต่อร่างกาย (ม.295–300) และความผิดเกี่ยวกับเพศและสื่อลามกอนาจารเด็ก",
+        embedUrl: "https://www.youtube.com/embed/Z0B52aXohcM",
+        url: "https://youtu.be/Z0B52aXohcM"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 6: ความผิดลหุโทษและวิธีระงับคดี",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "สรุปหลักเกณฑ์พิเศษของความผิดลหุโทษ เหตุแห่งการระงับคดีอาญา 7 ประการ และตารางอายุความคดีอาญาตามมาตรา 95",
+        embedUrl: "https://www.youtube.com/embed/AIHH9K_DC2A",
+        url: "https://youtu.be/AIHH9K_DC2A"
+      },
+      {
         type: "infographic",
         title: "ชุดภาพอินโฟกราฟิกและหนังสืออิเล็กทรอนิกส์: ความผิดเกี่ยวกับทรัพย์ (Offences Against Property)",
         source: "สำนักงานกิจการยุติธรรม กระทรวงยุติธรรม (Justice Channel · OJA)",

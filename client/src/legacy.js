@@ -509,6 +509,93 @@ export const UNIT2_YOUTUBE_VIDEOS = [
   }
 ];
 
+export const UNIT3_YOUTUBE_VIDEOS = [
+  {
+    id: "qRYwvMErmR0",
+    order: 1,
+    sectionId: "u3-s1",
+    topicKey: "meaning",
+    topicBadge: "หัวข้อที่ 1 · ลักษณะสำคัญของกฎหมายอาญา",
+    shortTitle: "ความหมายของกฎหมายอาญาและลักษณะความผิด",
+    title: "สื่อวิดีโอที่ 1: ความหมายของกฎหมายอาญาและลักษณะความผิด",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/qRYwvMErmR0",
+    embedUrl: "https://www.youtube.com/embed/qRYwvMErmR0",
+    thumbnailUrl: "https://i.ytimg.com/vi/qRYwvMErmR0/hqdefault.jpg",
+    summary: "อธิบายความหมายและลักษณะสำคัญของกฎหมายอาญา 4 ประการ (ลายลักษณ์อักษรชัดเจน ตีความเคร่งครัด ไม่มีผลย้อนหลังที่เป็นโทษ บังคับใช้ในราชอาณาจักร) และความแตกต่างระหว่างความผิดต่อแผ่นดินกับความผิดอันยอมความได้"
+  },
+  {
+    id: "AqQmtBgYQK0",
+    order: 2,
+    sectionId: "u3-s1",
+    topicKey: "elements",
+    topicBadge: "หัวข้อที่ 1 · โครงสร้างความรับผิด & ผู้ร่วมกระทำผิด",
+    shortTitle: "องค์ประกอบความผิดและบุคคลในคดีอาญา",
+    title: "สื่อวิดีโอที่ 2: องค์ประกอบความผิดและบุคคลในคดีอาญา",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/AqQmtBgYQK0",
+    embedUrl: "https://www.youtube.com/embed/AqQmtBgYQK0",
+    thumbnailUrl: "https://i.ytimg.com/vi/AqQmtBgYQK0/hqdefault.jpg",
+    summary: "เจาะลึกโครงสร้างความรับผิดทางอาญา 3 ชั้น องค์ประกอบภายนอกและภายใน (เจตนา ประมาท กระทำโดยพลาด สำคัญผิด) การพยายามกระทำความผิด (ม.80) และบุคคลในคดีอาญา (ตัวการ ม.83 · ผู้ใช้ ม.84 · ผู้สนับสนุน ม.86)"
+  },
+  {
+    id: "4iStq4CT3zI",
+    order: 3,
+    sectionId: "u3-s2",
+    topicKey: "exemptions",
+    topicBadge: "หัวข้อที่ 2 · เหตุยกเว้นความผิด/โทษ & เกณฑ์อายุเด็ก",
+    shortTitle: "เหตุยกเว้นและลดโทษอาญา",
+    title: "สื่อวิดีโอที่ 3: เหตุยกเว้นและลดโทษอาญา",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/4iStq4CT3zI",
+    embedUrl: "https://www.youtube.com/embed/4iStq4CT3zI",
+    thumbnailUrl: "https://i.ytimg.com/vi/4iStq4CT3zI/hqdefault.jpg",
+    summary: "เปรียบเทียบเหตุยกเว้นความผิด (ป้องกันโดยชอบด้วยกฎหมาย ม.68) กับเหตุยกเว้นโทษ (กระทำด้วยความจำเป็น ม.67 วิกลจริต มึนเมา สามีภริยาลักทรัพย์กัน ม.71) เกณฑ์อายุเด็กและเยาวชน (ม.73–76) และเหตุบรรเทาโทษ (ม.78)"
+  },
+  {
+    id: "mIl8ZgxoXlQ",
+    order: 4,
+    sectionId: "u3-s3",
+    topicKey: "property-crime",
+    topicBadge: "หัวข้อที่ 3 · ความผิดเกี่ยวกับทรัพย์ (ม.334–365)",
+    shortTitle: "กฎหมายความผิดต่อทรัพย์",
+    title: "สื่อวิดีโอที่ 4: กฎหมายความผิดต่อทรัพย์",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/mIl8ZgxoXlQ",
+    embedUrl: "https://www.youtube.com/embed/mIl8ZgxoXlQ",
+    thumbnailUrl: "https://i.ytimg.com/vi/mIl8ZgxoXlQ/hqdefault.jpg",
+    summary: "สรุปเทคนิคแยกแยะความผิดต่อทรัพย์ 9 ฐานสำคัญ: ลักทรัพย์ วิ่งราวทรัพย์ ชิงทรัพย์ ปล้นทรัพย์ กรรโชกทรัพย์ รีดเอาทรัพย์ ฉ้อโกง ยักยอกทรัพย์ รับของโจร ทำให้เสียทรัพย์ และบุกรุก"
+  },
+  {
+    id: "Z0B52aXohcM",
+    order: 5,
+    sectionId: "u3-s3",
+    topicKey: "life-body-sex",
+    topicBadge: "หัวข้อที่ 3 · ความผิดต่อชีวิต ร่างกาย และเพศ",
+    shortTitle: "กฎหมายอาญาความผิดต่อชีวิต ร่างกาย และเพศ",
+    title: "สื่อวิดีโอที่ 5: กฎหมายอาญาความผิดต่อชีวิต ร่างกาย และเพศ",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/Z0B52aXohcM",
+    embedUrl: "https://www.youtube.com/embed/Z0B52aXohcM",
+    thumbnailUrl: "https://i.ytimg.com/vi/Z0B52aXohcM/hqdefault.jpg",
+    summary: "อธิบายความผิดต่อชีวิต (ฆ่าโดยเจตนา ม.288 เหตุฉกรรจ์ ม.289 ฆ่าโดยไม่เจตนา ม.290 ประมาทเป็นเหตุให้ตาย ม.291) ความผิดต่อร่างกาย (ทำร้ายร่างกาย อันตรายสาหัส ม.297) และความผิดเกี่ยวกับเพศและสื่อลามกอนาจารเด็ก"
+  },
+  {
+    id: "AIHH9K_DC2A",
+    order: 6,
+    sectionId: "u3-s4",
+    topicKey: "petty-termination",
+    topicBadge: "หัวข้อที่ 4 · ความผิดลหุโทษ ระงับคดี & อายุความ",
+    shortTitle: "ความผิดลหุโทษและวิธีระงับคดี",
+    title: "สื่อวิดีโอที่ 6: ความผิดลหุโทษและวิธีระงับคดี",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/AIHH9K_DC2A",
+    embedUrl: "https://www.youtube.com/embed/AIHH9K_DC2A",
+    thumbnailUrl: "https://i.ytimg.com/vi/AIHH9K_DC2A/hqdefault.jpg",
+    summary: "สรุปหลักเกณฑ์พิเศษของความผิดลหุโทษ (จำคุกไม่เกิน 1 เดือน หรือปรับไม่เกิน 10,000 บาท พยายามและผู้สนับสนุนไม่ต้องรับโทษ) เหตุแห่งการระงับคดีอาญา 7 ประการ และตารางอายุความคดีอาญาตามมาตรา 95"
+  }
+];
+
 export const UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS = {
   apiEndpoint: "https://justicechannel.org/wp-json/wp/v2/posts/2627",
   ebookApiEndpoint: "https://justicechannel.org/wp-json/wp/v2/e-book/13181",
