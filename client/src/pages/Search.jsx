@@ -4,21 +4,102 @@ import { useAuth } from "../auth.jsx";
 import { BilingualHtml, LETTERS_EN, UNIT_EN_META, useLang } from "../i18n.jsx";
 import { LETTERS, PageHead, has } from "../ui.jsx";
 
-const POPULAR = ["ลำดับศักดิ์ของกฎหมาย", "พระราชกำหนด", "ราชกิจจานุเบกษา", "ผู้เยาว์", "โมฆะ", "โมฆียะ", "สมรสเท่าเทียม", "ทายาทโดยธรรม", "พินัยกรรม", "อายุความ", "ป้องกันโดยชอบด้วยกฎหมาย", "เด็กอายุไม่เกิน 12 ปี", "ลักทรัพย์", "ชิงทรัพย์", "ปล้นทรัพย์", "ความผิดลหุโทษ", "ภาษีเงินได้", "สิทธิผู้บริโภค", "PDPA", "ศาลแขวง", "อุทธรณ์"];
+const POPULAR_BILINGUAL = [
+  ["ลำดับศักดิ์ของกฎหมาย", "Hierarchy of Laws"],
+  ["พระราชกำหนด", "Emergency Decree"],
+  ["ราชกิจจานุเบกษา", "Royal Gazette"],
+  ["ผู้เยาว์", "Minors"],
+  ["โมฆะ", "Void"],
+  ["โมฆียะ", "Voidable"],
+  ["สมรสเท่าเทียม", "Marriage Equality"],
+  ["ทายาทโดยธรรม", "Statutory Heirs"],
+  ["พินัยกรรม", "Wills"],
+  ["อายุความ", "Prescription"],
+  ["ป้องกันโดยชอบด้วยกฎหมาย", "Self-Defense"],
+  ["เด็กอายุไม่เกิน 12 ปี", "Child Under 12"],
+  ["ลักทรัพย์", "Theft"],
+  ["ชิงทรัพย์", "Robbery"],
+  ["ปล้นทรัพย์", "Gang-Robbery"],
+  ["ความผิดลหุโทษ", "Petty Offense"],
+  ["ภาษีเงินได้", "Income Tax"],
+  ["สิทธิผู้บริโภค", "Consumer Rights"],
+  ["PDPA", "PDPA"],
+  ["ศาลแขวง", "Kwaeng Court"],
+  ["อุทธรณ์", "Appeal"]
+];
+
+// Maps common English search queries to Thai legal keywords so searching in English finds matching Thai sections & quiz items
+const EN_TO_TH_QUERY = [
+  ["hierarchy", "ลำดับศักดิ์ของกฎหมาย"],
+  ["emergency decree", "พระราชกำหนด"],
+  ["royal gazette", "ราชกิจจานุเบกษา"],
+  ["constitution", "รัฐธรรมนูญ"],
+  ["minor", "ผู้เยาว์"],
+  ["voidable", "โมฆียะ"],
+  ["void", "โมฆะ"],
+  ["marriage", "สมรส"],
+  ["inheritance", "มรดก"],
+  ["statutory heir", "ทายาทโดยธรรม"],
+  ["heir", "ทายาท"],
+  ["will", "พินัยกรรม"],
+  ["prescription", "อายุความ"],
+  ["self-defense", "ป้องกันโดยชอบด้วยกฎหมาย"],
+  ["child under 12", "เด็กอายุไม่เกิน 12 ปี"],
+  ["theft", "ลักทรัพย์"],
+  ["snatching", "วิ่งราวทรัพย์"],
+  ["robbery", "ชิงทรัพย์"],
+  ["gang-robbery", "ปล้นทรัพย์"],
+  ["extortion", "กรรโชก"],
+  ["blackmail", "รีดเอาทรัพย์"],
+  ["fraud", "ฉ้อโกง"],
+  ["embezzlement", "ยักยอก"],
+  ["petty offense", "ความผิดลหุโทษ"],
+  ["income tax", "ภาษีเงินได้"],
+  ["tax", "ภาษี"],
+  ["consumer", "ผู้บริโภค"],
+  ["personal data", "ข้อมูลส่วนบุคคล"],
+  ["pdpa", "ข้อมูลส่วนบุคคล"],
+  ["kwaeng court", "ศาลแขวง"],
+  ["court", "ศาล"],
+  ["appeal", "อุทธรณ์"],
+  ["contract", "สัญญา"],
+  ["property", "ทรัพย์"]
+];
+
+function resolveSearchTerms(kw) {
+  const low = kw.toLowerCase().trim();
+  if (!low) return [];
+  const terms = [low];
+  for (const [th, en] of POPULAR_BILINGUAL) {
+    if (en.toLowerCase().includes(low) || low.includes(en.toLowerCase())) terms.push(th.toLowerCase());
+  }
+  for (const [en, th] of EN_TO_TH_QUERY) {
+    if (low.includes(en)) terms.push(th.toLowerCase());
+  }
+  return Array.from(new Set(terms));
+}
 
 const strip = (html) => String(html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-// Text is escaped first so only our <mark> tags end up as HTML.
 const highlight = (text, kw) => {
   const safe = escapeHtml(String(text || ""));
   return kw ? safe.replace(new RegExp(`(${escapeRe(escapeHtml(kw))})`, "gi"), '<mark class="search-highlight">$1</mark>') : safe;
 };
-function snippet(plain, kw, r = 140) {
-  const i = kw ? plain.toLowerCase().indexOf(kw.toLowerCase()) : -1;
+function snippet(plain, terms, kw, r = 140) {
+  let i = -1;
+  let matchedLen = kw.length;
+  for (const t of terms) {
+    const idx = plain.toLowerCase().indexOf(t);
+    if (idx !== -1) {
+      i = idx;
+      matchedLen = t.length;
+      break;
+    }
+  }
   if (i === -1) return highlight(plain.slice(0, r * 2), kw) + (plain.length > r * 2 ? "..." : "");
-  const s = Math.max(0, i - r), e = Math.min(plain.length, i + kw.length + r);
-  return (s > 0 ? "..." : "") + highlight(plain.slice(s, e), kw) + (e < plain.length ? "..." : "");
+  const s = Math.max(0, i - r), e = Math.min(plain.length, i + matchedLen + r);
+  return (s > 0 ? "..." : "") + highlight(plain.slice(s, e), terms[0]) + (e < plain.length ? "..." : "");
 }
 
 export default function Search() {
@@ -31,8 +112,8 @@ export default function Search() {
   const setKw = (q) => (setInput(q), setParams(q ? { q } : {}));
   const activeLetters = lang === "en" ? LETTERS_EN : LETTERS;
 
-  const { sections, questions } = useMemo(() => {
-    const low = kw.toLowerCase();
+  const { sections, questions, terms } = useMemo(() => {
+    const terms = resolveSearchTerms(kw);
     const units = content.units.filter((u) => unit === "all" || String(u.id) === unit);
     const sections = units.flatMap((u) => {
       const meta = UNIT_EN_META[u.id];
@@ -42,18 +123,23 @@ export default function Search() {
           const secEn = meta?.sections?.[secKey];
           return { u, sec, secEn, meta, plain: strip(sec.content) };
         })
-        .filter(({ u, sec, secEn, meta, plain }) =>
-          !kw || `${u.title} ${u.subtitle} ${meta?.title || ""} ${meta?.subtitle || ""} ${sec.title} ${secEn?.title || ""} ${sec.badge} ${plain}`.toLowerCase().includes(low)
-        );
+        .filter(({ u, sec, secEn, meta, plain }) => {
+          if (!terms.length) return true;
+          const haystack = `${u.title} ${u.subtitle} ${meta?.title || ""} ${meta?.subtitle || ""} ${sec.title} ${secEn?.title || ""} ${sec.badge} ${plain}`.toLowerCase();
+          return terms.some((t) => haystack.includes(t));
+        });
     });
-    const questions = !kw
+    const questions = !terms.length
       ? []
       : units.flatMap((u) =>
           (content.quizzes[u.id] || [])
             .map((q, i) => ({ u, q, no: i + 1 }))
-            .filter(({ q }) => `${q.q} ${q.options.join(" ")} ${q.exp || ""}`.toLowerCase().includes(low))
+            .filter(({ q }) => {
+              const haystack = `${q.q} ${q.options.join(" ")} ${q.exp || ""}`.toLowerCase();
+              return terms.some((t) => haystack.includes(t));
+            })
         );
-    return { sections, questions };
+    return { sections, questions, terms };
   }, [content, kw, unit]);
 
   return (
@@ -61,8 +147,8 @@ export default function Search() {
       <PageHead
         title={tx("ค้นหาคำสำคัญและหลักกฎหมาย", "Search Legal Keywords & Principles")}
         subtitle={tx(
-          "ค้นหาคำศัพท์กฎหมาย หัวข้อบทเรียน มาตราสำคัญ และโจทย์วิเคราะห์จากทั้ง 5 หน่วย",
-          "Search legal terminology, lesson topics, key sections, and analytical quiz questions across all 5 units."
+          "ค้นหาคำศัพท์กฎหมาย หัวข้อบทเรียน มาตราสำคัญ และโจทย์วิเคราะห์จากทั้ง 5 หน่วย (รองรับทั้งภาษาไทยและภาษาอังกฤษ)",
+          "Search legal terminology, lesson topics, key sections, and analytical quiz questions across all 5 units in Thai or English."
         )}
         actions={
           <>
@@ -93,9 +179,15 @@ export default function Search() {
           ))}
         </div>
         <div className="row" style={{ gap: 6 }}>
-          {POPULAR.map((c) => (
-            <button key={c} type="button" className={`keyword-chip ${kw === c ? "active" : ""}`} onClick={() => setKw(c)}>#{c}</button>
-          ))}
+          {POPULAR_BILINGUAL.map(([th, en]) => {
+            const label = lang === "en" ? en : th;
+            const active = kw === th || kw.toLowerCase() === en.toLowerCase();
+            return (
+              <button key={th} type="button" className={`keyword-chip ${active ? "active" : ""}`} onClick={() => setKw(lang === "en" ? en : th)}>
+                #{label}
+              </button>
+            );
+          })}
         </div>
       </PageHead>
 
@@ -118,7 +210,7 @@ export default function Search() {
               <Link className="btn btn-primary btn-sm" to={`/units/${u.id}`}>{tx("เปิดอ่าน", "Read Unit")}</Link>
             </div>
           </div>
-          <BilingualHtml as="p" className="muted" html={snippet(plain, kw)} />
+          <BilingualHtml as="p" className="muted" html={snippet(plain, terms, kw)} />
         </article>
       ))}
 

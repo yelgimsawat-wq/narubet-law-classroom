@@ -124,7 +124,10 @@ export function ThemeToggle({ className = "" }) {
       localStorage.setItem("theme", next);
     } catch {}
   };
-  const label = theme === "dark" ? "เปลี่ยนเป็นธีมสว่าง" : "เปลี่ยนเป็นธีมมืด";
+  const isEn = document.documentElement.lang === "en";
+  const label = theme === "dark"
+    ? (isEn ? "Switch to light theme" : "เปลี่ยนเป็นธีมสว่าง")
+    : (isEn ? "Switch to dark theme" : "เปลี่ยนเป็นธีมมืด");
   return (
     <button type="button" className={`btn btn-ghost btn-sm theme-toggle ${className}`} onClick={toggle} aria-label={label} title={label}>
       <Icon name={theme === "dark" ? "sun" : "moon"} />
@@ -221,10 +224,11 @@ export function ShellSkeleton() {
 }
 
 export function ErrorState({ message, onRetry }) {
+  const isEn = document.documentElement.lang === "en";
   return (
     <div className="editorial-panel error-state" role="alert">
       <p>{message}</p>
-      {onRetry && <button type="button" className="btn btn-primary" onClick={onRetry}>ลองใหม่</button>}
+      {onRetry && <button type="button" className="btn btn-primary" onClick={onRetry}>{isEn ? "Retry" : "ลองใหม่"}</button>}
     </div>
   );
 }
