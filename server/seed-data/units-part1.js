@@ -302,6 +302,38 @@ window.UNITS_PART1 = [
         ]
       },
       {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 1: ความหมาย องค์ประกอบ ความสำคัญของกฎหมาย",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "อธิบายนิยามความหมายของกฎหมาย องค์ประกอบของกฎหมาย 5 ประการ และความสำคัญของกฎหมายต่อสังคมและประเทศชาติ 4 ประการ",
+        embedUrl: "https://www.youtube.com/embed/O_5D6Fd7ryk",
+        url: "https://youtu.be/O_5D6Fd7ryk?si=ZL6ASSmgA76ZCKz_"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 2: ที่มาของกฎหมาย ระบบกฎหมาย ประเภทของกฎหมาย ลำดับศักดิ์กฎหมาย",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "เปรียบเทียบระบบกฎหมาย Civil Law กับ Common Law ที่มาของกฎหมายไทย ประเภทของกฎหมาย และลำดับศักดิ์ของกฎหมายไทย 6 ชั้น",
+        embedUrl: "https://www.youtube.com/embed/g2D0JQd5xN0",
+        url: "https://youtu.be/g2D0JQd5xN0?si=1sOc20dolcJc6DPU"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 3: ขอบเขตการบังคับใช้กฎหมาย การตีความและการอุดช่องว่างของกฎหมาย",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "เจาะลึกการใช้กฎหมายเกี่ยวกับเวลา สถานที่ และบุคคล พร้อมหลักการตีความกฎหมายและการอุดช่องว่างของกฎหมาย",
+        embedUrl: "https://www.youtube.com/embed/5ZR3k0s7m9k",
+        url: "https://youtu.be/5ZR3k0s7m9k?si=xVkCabvn7eQ3eS9x"
+      },
+      {
+        type: "youtube",
+        title: "สื่อวิดีโอที่ 4: กระบวนการตรากฎหมายไทย",
+        source: "Interesting Facts with Narubet · YouTube (@Narubet0310)",
+        summary: "สรุปขั้นตอนการตรา พ.ร.ป., พ.ร.บ. (3 วาระในสภาผู้แทนราษฎรและวุฒิสภา จนถึงการประกาศในราชกิจจานุเบกษา) และ พ.ร.ก.",
+        embedUrl: "https://www.youtube.com/embed/KwaDZeKOTJ0",
+        url: "https://youtu.be/KwaDZeKOTJ0?si=CNbJVNzib0DYfcb_"
+      },
+      {
         type: "link",
         title: "เว็บไซต์ราชกิจจานุเบกษา (Ratchakitcha Official Portal)",
         source: "สำนักเลขาธิการคณะรัฐมนตรี (ข้อมูลสาธารณะของรัฐ ไม่ละเมิดลิขสิทธิ์ตาม พ.ร.บ.ลิขสิทธิ์ฯ มาตรา 7)",

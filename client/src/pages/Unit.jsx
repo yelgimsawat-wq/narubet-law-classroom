@@ -5,9 +5,101 @@ import { api } from "../api.js";
 import { BilingualHtml, LangToggle, translateDomNode, translateToEnglish, useLang, useLocalizedUnit } from "../i18n.jsx";
 import { Html, Icon, has } from "../ui.jsx";
 import { QuizRunner, shuffle } from "../Quiz.jsx";
-import { UNIT2_YOUTUBE_VIDEOS, UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT3_YOUTUBE_VIDEOS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
+import { UNIT1_YOUTUBE_VIDEOS, UNIT2_YOUTUBE_VIDEOS, UNIT3_PROPERTY_OFFENSE_INFOGRAPHICS, UNIT3_YOUTUBE_VIDEOS, UNIT4_PDPA_EXTERNAL_DATA, complianceCard, getUnitExternalCasesHtml, getUnitInfographicSvg, renderInteractiveSimulator, updateSimulator } from "../legacy.js";
 
 const TABS = ["content", "interactive", "media", "pretest", "posttest", "minigame"];
+
+const UNIT1_VIDEO_FILTERS = [
+  ["all", "ทั้งหมด (4 วิดีโอ)", "All (4 Videos)"],
+  ["meaning-elements", "1. ความหมาย องค์ประกอบ & ความสำคัญ", "1. Definition, Elements & Importance"],
+  ["sources-systems-hierarchy", "2. ที่มา ระบบ ประเภท & ลำดับศักดิ์", "2. Sources, Systems, Types & Hierarchy"],
+  ["scope-interpretation", "3. ขอบเขตบังคับใช้ การตีความ & อุดช่องว่าง", "3. Scope, Interpretation & Gap-Filling"],
+  ["legislative-process", "4. กระบวนการตรากฎหมายไทย", "4. Thai Legislative Process"]
+];
+
+function resolveUnit1SectionId(section) {
+  if (section?.id && /^u1-s[1-4]$/.test(section.id)) return section.id;
+  const t = section?.title || "";
+  if (t.startsWith("1.") || t.includes("ความหมาย") || t.includes("Definition")) return "u1-s1";
+  if (t.startsWith("2.") || t.includes("ที่มา") || t.includes("Sources")) return "u1-s2";
+  if (t.startsWith("3.") || t.includes("ลำดับศักดิ์") || t.includes("ขอบเขต") || t.includes("Hierarchy")) return "u1-s3";
+  if (t.startsWith("4.") || t.includes("กระบวนการตรา") || t.includes("วิวัฒนาการ") || t.includes("Legislative")) return "u1-s4";
+  return "";
+}
+
+export function Unit1SectionVideos({ section }) {
+  const secId = resolveUnit1SectionId(section);
+  const videos = UNIT1_YOUTUBE_VIDEOS.filter((v) => v.sectionId === secId);
+  if (!videos.length) return null;
+  const multi = videos.length > 1;
+  return (
+    <div
+      className="unit1-section-videos"
+      style={{
+        marginTop: 16,
+        display: "grid",
+        gridTemplateColumns: multi ? "repeat(auto-fit, minmax(310px, 1fr))" : "1fr",
+        gap: 12
+      }}
+    >
+      {videos.map((v) => (
+        <Unit2VideoCard key={v.id} video={v} compact={multi} />
+      ))}
+    </div>
+  );
+}
+
+export function Unit1YoutubeGallery() {
+  const { lang, tx } = useLang();
+  const [topic, setTopic] = useState("all");
+  const videos = UNIT1_YOUTUBE_VIDEOS.filter((v) => topic === "all" || v.topicKey === topic);
+  return (
+    <div className="unit1-youtube-gallery" style={{ marginTop: 12 }}>
+      <div className="legal-box" style={{ marginBottom: 14 }}>
+        <div className="row between" style={{ gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
+          <div>
+            <h4 style={{ margin: 0, color: "var(--crimson-seal)" }}>
+              {tx(
+                "ชุดสื่อวิดีโอประกอบการเรียนรู้หน่วยที่ 1: ความรู้เบื้องต้นเกี่ยวกับกฎหมาย (ครบทั้ง 4 เรื่อง)",
+                "Unit 1 Video Series: Introduction to Law (All 4 Topics)"
+              )}
+            </h4>
+            <p className="small muted" style={{ margin: "4px 0 0" }}>
+              {tx("ช่องผู้จัดทำ", "Channel")}: <strong>Interesting Facts with Narubet (@Narubet0310)</strong> ·{" "}
+              {tx("เลือกหัวข้อด้านล่างเพื่อรับชมวิดีโอแต่ละเรื่อง", "Select a topic tab below to filter videos")}
+            </p>
+          </div>
+          <span className="seal-badge seal-pass">{tx("4 บทเรียนวิดีโอ YouTube", "4 YouTube Video Lessons")}</span>
+        </div>
+        <div className="row" style={{ gap: 6, flexWrap: "wrap", marginTop: 8 }} role="tablist" aria-label={tx("หมวดหมู่วิดีโอความรู้เบื้องต้นเกี่ยวกับกฎหมาย", "Intro to Law Video Categories")}>
+          {UNIT1_VIDEO_FILTERS.map(([key, thLabel, enLabel]) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={topic === key}
+              className={`btn btn-sm ${topic === key ? "btn-primary" : ""}`}
+              onClick={() => setTopic(key)}
+            >
+              {lang === "en" ? enLabel : thLabel}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: videos.length > 1 ? "repeat(auto-fit, minmax(320px, 1fr))" : "1fr",
+          gap: 14
+        }}
+      >
+        {videos.map((v) => (
+          <Unit2VideoCard key={v.id} video={v} compact={videos.length > 1} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const UNIT2_VIDEO_FILTERS = [
   ["all", "ทั้งหมด (5 วิดีโอ)", "All (5 Videos)"],
@@ -773,6 +865,15 @@ function Media({ unit }) {
   return (
     <>
       <UnitVisuals unitId={unit.id} />
+      {Number(unit.id) === 1 && (
+        <div className="unit-section-block">
+          <div className="unit-section-header">
+            <h3>{tx("ชุดสื่อวิดีโอ: ความรู้เบื้องต้นเกี่ยวกับกฎหมาย (ความหมาย · ระบบและลำดับศักดิ์ · ขอบเขตและการตีความ · กระบวนการตรากฎหมายไทย)", "Video Series: Introduction to Law (Definition · Systems & Hierarchy · Scope & Interpretation · Legislative Process)")}</h3>
+            <span className="seal-badge seal-alert">YouTube · Interesting Facts with Narubet</span>
+          </div>
+          <Unit1YoutubeGallery />
+        </div>
+      )}
       {Number(unit.id) === 2 && (
         <div className="unit-section-block">
           <div className="unit-section-header">
@@ -820,6 +921,9 @@ function Media({ unit }) {
       )}
       {(unit.externalResources || [])
         .filter((res) => {
+          if (Number(unit.id) === 1 && UNIT1_YOUTUBE_VIDEOS.some((v) => res.embedUrl?.includes(v.id) || res.url?.includes(v.id))) {
+            return false;
+          }
           if (Number(unit.id) === 2 && UNIT2_YOUTUBE_VIDEOS.some((v) => res.embedUrl?.includes(v.id) || res.url?.includes(v.id))) {
             return false;
           }
@@ -1143,6 +1247,7 @@ export default function Unit() {
                 <span className="seal-badge seal-info num">{sec.badge}</span>
               </div>
               <BilingualHtml className="legal-prose" html={sec.content} />
+              {Number(unit.id) === 1 && <Unit1SectionVideos section={sec} />}
               {Number(unit.id) === 2 && <Unit2SectionVideos section={sec} />}
               {Number(unit.id) === 3 && <Unit3SectionVideos section={sec} />}
               {Number(unit.id) === 3 && (sec.id === "u3-s3" || sec.title?.includes("ความผิดต่อทรัพย์") || sec.title?.includes("Property")) && (

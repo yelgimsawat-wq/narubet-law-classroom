@@ -436,6 +436,65 @@ export const complianceCard = `
     </div>
   `;
 
+export const UNIT1_YOUTUBE_VIDEOS = [
+  {
+    id: "O_5D6Fd7ryk",
+    order: 1,
+    sectionId: "u1-s1",
+    topicKey: "meaning-elements",
+    topicBadge: "หัวข้อที่ 1 · ความหมาย องค์ประกอบ และความสำคัญของกฎหมาย",
+    shortTitle: "ความหมาย องค์ประกอบ ความสำคัญของกฎหมาย",
+    title: "สื่อวิดีโอที่ 1: ความหมาย องค์ประกอบ ความสำคัญของกฎหมาย",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/O_5D6Fd7ryk?si=ZL6ASSmgA76ZCKz_",
+    embedUrl: "https://www.youtube.com/embed/O_5D6Fd7ryk",
+    thumbnailUrl: "https://i.ytimg.com/vi/O_5D6Fd7ryk/hqdefault.jpg",
+    summary: "อธิบายนิยามความหมายของกฎหมายตามแนวคิดนิติศาสตร์ (กฎหมายตามเนื้อความ vs กฎหมายตามแบบพิธี) องค์ประกอบสำคัญของกฎหมาย 5 ประการ และความสำคัญของกฎหมายต่อสังคมและประเทศชาติ 4 ประการ"
+  },
+  {
+    id: "g2D0JQd5xN0",
+    order: 2,
+    sectionId: "u1-s2",
+    topicKey: "sources-systems-hierarchy",
+    topicBadge: "หัวข้อที่ 2 · ที่มา ระบบ ประเภท และลำดับศักดิ์กฎหมาย",
+    shortTitle: "ที่มาของกฎหมาย ระบบกฎหมาย ประเภทของกฎหมาย ลำดับศักดิ์กฎหมาย",
+    title: "สื่อวิดีโอที่ 2: ที่มาของกฎหมาย ระบบกฎหมาย ประเภทของกฎหมาย ลำดับศักดิ์กฎหมาย",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/g2D0JQd5xN0?si=1sOc20dolcJc6DPU",
+    embedUrl: "https://www.youtube.com/embed/g2D0JQd5xN0",
+    thumbnailUrl: "https://i.ytimg.com/vi/g2D0JQd5xN0/hqdefault.jpg",
+    summary: "เปรียบเทียบระบบกฎหมายสำคัญของโลก (Civil Law vs Common Law) ที่มาของกฎหมายไทย 3 ประการ การแบ่งประเภทกฎหมาย (สารบัญญัติ/วิธีสบัญญัติ และเอกชน/มหาชน/ระหว่างประเทศ) และพีระมิดลำดับศักดิ์ของกฎหมายไทย 6 ชั้น"
+  },
+  {
+    id: "5ZR3k0s7m9k",
+    order: 3,
+    sectionId: "u1-s3",
+    topicKey: "scope-interpretation",
+    topicBadge: "หัวข้อที่ 3 · ขอบเขตการบังคับใช้ การตีความ และการอุดช่องว่าง",
+    shortTitle: "ขอบเขตการบังคับใช้กฎหมาย การตีความและการอุดช่องว่างของกฎหมาย",
+    title: "สื่อวิดีโอที่ 3: ขอบเขตการบังคับใช้กฎหมาย การตีความและการอุดช่องว่างของกฎหมาย",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/5ZR3k0s7m9k?si=xVkCabvn7eQ3eS9x",
+    embedUrl: "https://www.youtube.com/embed/5ZR3k0s7m9k",
+    thumbnailUrl: "https://i.ytimg.com/vi/5ZR3k0s7m9k/hqdefault.jpg",
+    summary: "เจาะลึกขอบเขตการใช้บังคับกฎหมายเกี่ยวกับเวลา สถานที่ (หลักดินแดน เรือไทย อากาศยานไทย) และบุคคล พร้อมหลักการตีความกฎหมายแพ่ง vs กฎหมายอาญา และขั้นตอนการอุดช่องว่างของกฎหมายแพ่งตามลำดับ"
+  },
+  {
+    id: "KwaDZeKOTJ0",
+    order: 4,
+    sectionId: "u1-s4",
+    topicKey: "legislative-process",
+    topicBadge: "หัวข้อที่ 4 · กระบวนการตรากฎหมายไทย (พ.ร.ป. · พ.ร.บ. · พ.ร.ก.)",
+    shortTitle: "กระบวนการตรากฎหมายไทย",
+    title: "สื่อวิดีโอที่ 4: กระบวนการตรากฎหมายไทย",
+    channelName: "Interesting Facts with Narubet (@Narubet0310)",
+    watchUrl: "https://youtu.be/KwaDZeKOTJ0?si=CNbJVNzib0DYfcb_",
+    embedUrl: "https://www.youtube.com/embed/KwaDZeKOTJ0",
+    thumbnailUrl: "https://i.ytimg.com/vi/KwaDZeKOTJ0/hqdefault.jpg",
+    summary: "สรุปขั้นตอนการตราพระราชบัญญัติประกอบรัฐธรรมนูญ (พ.ร.ป.) พระราชบัญญัติ (พ.ร.บ. — ผู้มีสิทธิเสนอร่าง การพิจารณาสภาผู้แทนราษฎรและวุฒิสภา 3 วาระ การทูลเกล้าฯ และประกาศในราชกิจจานุเบกษา) และพระราชกำหนด (พ.ร.ก.)"
+  }
+];
+
 export const UNIT2_YOUTUBE_VIDEOS = [
   {
     id: "QUZxD6aY5Uk",
